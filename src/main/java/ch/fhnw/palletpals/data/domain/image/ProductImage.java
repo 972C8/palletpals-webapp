@@ -19,6 +19,7 @@ public class ProductImage extends AbstractImage {
 
     //One product holds many images
     @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIgnore
     private Product product;
 
     //TODO: Check that: Product removes reference of deleted ProductImage

@@ -9,6 +9,7 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.stream.Stream;
 
+import ch.fhnw.palletpals.data.domain.Product;
 import ch.fhnw.palletpals.data.domain.image.ProductImage;
 import ch.fhnw.palletpals.data.repository.ProductImageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,7 +78,7 @@ public class ImageService {
      * @param file
      * @return
      */
-    public ProductImage saveProductImage(MultipartFile file) {
+    public ProductImage saveProductImageByProductId(MultipartFile file, Product product) {
         try {
             //Check if root already exists
             rootExists();
@@ -89,8 +90,12 @@ public class ImageService {
             Path url = this.root.resolve(imageName);
             Files.copy(file.getInputStream(), url);
 
-            //store the image information in the database
+            //store the image information in the database and reference the product
             ProductImage image = new ProductImage(imageName, url.toString(), file.getContentType());
+
+            //Set referenced Product in ProductImage
+            image.setProduct(product);
+
             return productImageRepository.save(image);
         } catch (Exception e) {
             throw new RuntimeException("Could not store the file. Error: " + e.getMessage());

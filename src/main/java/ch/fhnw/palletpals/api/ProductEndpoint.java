@@ -90,10 +90,11 @@ public class ProductEndpoint {
      * Save the uploaded image as the image of the provided product id
      */
     @PostMapping("/products/{productId}/images")
-    public ResponseEntity<ProductImage> uploadProductImageByProductId(@RequestParam(value = "image") MultipartFile image) {
+    public ResponseEntity<ProductImage> uploadProductImageByProductId(@RequestParam(value = "image") MultipartFile image, @PathVariable(value = "productId") String productId) {
         try {
-            //TODO: saveProduct by product id
-            ProductImage item = imageService.saveProductImage(image);
+            Product product = productService.findProductById(Long.parseLong(productId));
+
+            ProductImage item = imageService.saveProductImageByProductId(image, product);
 
             return ResponseEntity.accepted().body(item);
         } catch (Exception e) {

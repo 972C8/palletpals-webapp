@@ -31,8 +31,7 @@ public class Product {
     private float minPalletSpace;
 
     //One product holds many images
-    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
-    @JsonIgnore
+    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
     private List<ProductImage> productImages;
 
     public Long getId() {
