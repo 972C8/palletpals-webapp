@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package ch.fhnw.acrm.config;
+package ch.fhnw.palletpals.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

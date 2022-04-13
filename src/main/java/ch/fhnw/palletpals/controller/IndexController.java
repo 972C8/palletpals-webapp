@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package ch.fhnw.acrm.controller;
+package ch.fhnw.palletpals.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

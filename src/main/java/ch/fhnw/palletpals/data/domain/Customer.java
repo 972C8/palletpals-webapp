@@ -1,4 +1,4 @@
-package ch.fhnw.acrm.data.domain;
+package ch.fhnw.palletpals.data.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

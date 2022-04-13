@@ -1,12 +1,12 @@
-package ch.fhnw.acrm;
+package ch.fhnw.palletpals;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ACRMWebApplication {
+public class PalletPalsWebApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ACRMWebApplication.class, args);
+        SpringApplication.run(PalletPalsWebApplication.class, args);
     }
 }

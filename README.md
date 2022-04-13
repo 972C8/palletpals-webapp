@@ -61,13 +61,13 @@ The assets (HTML, CSS, JavaScript, image and font files) has been exported and w
 
 ### Domain Design
 
-The `ch.fhnw.acrm.data.domain` package contains the following domain objects / entities including getters and setters:
+The `ch.fhnw.palletpals.data.domain` package contains the following domain objects / entities including getters and setters:
 
 ![](images/domain-model.png)
 
 ### Business Logic Design
 
-The `ch.fhnw.acrm.business.service` package contains classes of the following business services:
+The `ch.fhnw.palletpals.business.service` package contains classes of the following business services:
 
 ![](images/business-service.png)
 

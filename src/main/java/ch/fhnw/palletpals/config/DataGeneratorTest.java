@@ -1,7 +1,7 @@
-package ch.fhnw.acrm.config;
+package ch.fhnw.palletpals.config;
 
-import ch.fhnw.acrm.business.service.AgentService;
-import ch.fhnw.acrm.data.domain.Agent;
+import ch.fhnw.palletpals.business.service.AgentService;
+import ch.fhnw.palletpals.data.domain.Agent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;

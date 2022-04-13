@@ -3,9 +3,9 @@
  * All rights reserved.
  */
 
-package ch.fhnw.acrm.data.repository;
+package ch.fhnw.palletpals.data.repository;
 
-import ch.fhnw.acrm.data.domain.Agent;
+import ch.fhnw.palletpals.data.domain.Agent;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

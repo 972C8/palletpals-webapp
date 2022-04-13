@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package ch.fhnw.acrm.business.service;
+package ch.fhnw.palletpals.business.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -13,8 +13,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import ch.fhnw.acrm.data.domain.Agent;
-import ch.fhnw.acrm.data.repository.AgentRepository;
+import ch.fhnw.palletpals.data.domain.Agent;
+import ch.fhnw.palletpals.data.repository.AgentRepository;
 
 import java.util.ArrayList;
 import java.util.HashSet;

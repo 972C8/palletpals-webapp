@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package ch.fhnw.acrm.controller;
+package ch.fhnw.palletpals.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,16 +15,16 @@ public class CustomerController {
 
     @GetMapping
     public String getCustomerView(){
-        return "acrm/customer.html";
+        return "palletpals/customer.html";
     }
 
     @GetMapping("/create")
     public String getCustomerCreateView(){
-        return "../acrm/customerCreate.html";
+        return "../palletpals/customerCreate.html";
     }
 
     @GetMapping("/edit")
     public String getCustomerEditView(){
-        return "../acrm/customerEdit.html";
+        return "../palletpals/customerEdit.html";
     }
 }

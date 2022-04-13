@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package ch.fhnw.acrm.config;
+package ch.fhnw.palletpals.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -18,7 +18,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import ch.fhnw.acrm.business.service.UserDetailsServiceImpl;
+import ch.fhnw.palletpals.business.service.UserDetailsServiceImpl;
 import onl.mrtn.security.config.EnableTokenSecurity;
 import onl.mrtn.security.service.TokenService;
 import onl.mrtn.security.web.CSRFRequestMatcher;

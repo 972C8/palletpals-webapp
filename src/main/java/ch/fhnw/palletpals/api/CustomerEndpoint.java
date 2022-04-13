@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package ch.fhnw.acrm.api;
+package ch.fhnw.palletpals.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,8 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import ch.fhnw.acrm.business.service.CustomerService;
-import ch.fhnw.acrm.data.domain.Customer;
+import ch.fhnw.palletpals.business.service.CustomerService;
+import ch.fhnw.palletpals.data.domain.Customer;
 
 import javax.validation.ConstraintViolationException;
 import java.net.URI;
