@@ -4,6 +4,8 @@ import ch.fhnw.palletpals.data.domain.image.ProductImage;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Positive;
 import java.util.List;
 
 @Entity
@@ -12,20 +14,26 @@ public class Product {
     @Id
     @GeneratedValue
     private Long id;
+
+    @NotEmpty(message = "Please provide a name for the product")
     private String name;
+    @NotEmpty(message = "Please provide details for the product")
     private String details;
+    @NotEmpty(message = "Please provide a description for the product.")
     private String description;
 
+    //Float must be positive, so higher than 0 (zero is not allowed)
+    @Positive(message = "Please provide a price for the product.")
     private float price;
+    @Positive(message = "Please provide maxProducts for the product.")
     private float maxProducts;
+    @Positive(message = "Please provide minPalletSpace for the product.")
     private float minPalletSpace;
 
     //One product holds many images
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
     @JsonIgnore
     private List<ProductImage> productImages;
-
-    //TODO: Connection to order item. private OrderItem orderItem;
 
     public Long getId() {
         return id;
