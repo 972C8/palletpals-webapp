@@ -2,14 +2,16 @@ package ch.fhnw.palletpals.data.domain.image;
 
 import javax.persistence.*;
 
-/*
-Based on single table inheritance of JPA:
-https://en.wikibooks.org/wiki/Java_Persistence/Inheritance#Single_Table_Inheritance
-
-In single table inheritance a single table is used to store all of the instances of the entire inheritance hierarchy.
-The table will have a column for every attribute of every class in the hierarchy.
-A discriminator column is used to determine which class the particular row belongs to,
-each class in the hierarchy defines its own unique discriminator value.
+/**
+ * Code by: Tibor Haller
+ *
+ * Based on single table inheritance of JPA:
+ * https://en.wikibooks.org/wiki/Java_Persistence/Inheritance#Single_Table_Inheritance
+ * <p>
+ * In single table inheritance a single table is used to store all of the instances of the entire inheritance hierarchy.
+ * The table will have a column for every attribute of every class in the hierarchy.
+ * A discriminator column is used to determine which class the particular row belongs to,
+ * each class in the hierarchy defines its own unique discriminator value.
  */
 @Entity
 @Inheritance

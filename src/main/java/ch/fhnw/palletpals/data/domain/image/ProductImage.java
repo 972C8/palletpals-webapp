@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 
+/**
+ * Code by: Tibor Haller
+ */
 @Entity
 @DiscriminatorValue("PRODUCTIMAGE")
 public class ProductImage extends AbstractImage {
@@ -18,6 +21,8 @@ public class ProductImage extends AbstractImage {
     }
 
     /**
+     * Code by: Tibor Haller
+     * <p>
      * Bidirectional relation with Product. Changes are propagated to Product, meaning that deleting an instance of ProductImage will remove the reference in Product
      */
     @ManyToOne

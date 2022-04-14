@@ -19,6 +19,11 @@ public class ProductEndpoint {
     @Autowired
     private ProductService productService;
 
+    /**
+     * Code by: Tibor Haller
+     * <p>
+     * POST
+     */
     @PostMapping(path = "/products", consumes = "application/json", produces = "application/json")
     public ResponseEntity<Product> postProduct(@RequestBody Product product) {
         try {
@@ -36,8 +41,10 @@ public class ProductEndpoint {
         return ResponseEntity.created(location).body(product);
     }
 
-    /*
-    Find product by id and current avatar
+    /**
+     * Code by: Tibor Haller
+     * <p>
+     * GET product by id
      */
     @GetMapping(path = "/products/{productId}", produces = "application/json")
     public ResponseEntity<Product> getProduct(@PathVariable(value = "productId") String productId) {
@@ -50,6 +57,15 @@ public class ProductEndpoint {
         return ResponseEntity.ok(product);
     }
 
+    /**
+     * Code by: Tibor Haller
+     * <p>
+     * PUT product
+     *
+     * @param product   provided by user.
+     * @param productId to update.
+     * @return Product
+     */
     //TODO: Use PATCH instead of PUT!
     @PutMapping(path = "/products/{productId}", consumes = "application/json", produces = "application/json")
     public ResponseEntity<Product> putProduct(@RequestBody Product product, @PathVariable(value = "productId") String productId) {
@@ -62,6 +78,12 @@ public class ProductEndpoint {
         return ResponseEntity.accepted().body(product);
     }
 
+    /**
+     * Code by: Tibor Haller
+     *
+     * @param productId
+     * @return
+     */
     @DeleteMapping(path = "/products/{productId}")
     public ResponseEntity<Void> deleteProduct(@PathVariable(value = "productId") String productId) {
         try {
@@ -72,8 +94,10 @@ public class ProductEndpoint {
         return ResponseEntity.accepted().build();
     }
 
-    /*
-        Returns List<Product> of products assigned to the given avatar
+    /**
+     * Code by: Tibor Haller
+     * <p>
+     * Returns List<Product> of products assigned to the given avatar
      */
     @GetMapping(path = "/products", produces = "application/json")
     public List<Product> getProductItems() {

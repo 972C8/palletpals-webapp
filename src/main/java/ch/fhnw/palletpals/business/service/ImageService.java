@@ -19,6 +19,8 @@ import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
+ * Code by: Tibor Haller
+ *
  * Service to save and retrieve uploaded images ProductItemImage from file system.
  * <p>
  * https://www.bezkoder.com/spring-boot-file-upload/
@@ -31,6 +33,8 @@ public class ImageService {
     private final Path root = Paths.get("uploads");
 
     /**
+     * Code by: Tibor Haller
+     *
      * Create root directory if not exists yet
      */
     public void rootExists() {
@@ -44,6 +48,8 @@ public class ImageService {
     }
 
     /**
+     * Code by: Tibor Haller
+     *
      * Creates a randomized name for the image name
      *
      * @param name
@@ -71,6 +77,8 @@ public class ImageService {
     }
 
     /**
+     * Code by: Tibor Haller
+     *
      * Save the uploaded image as a ProductImage in the file system
      *
      * @param file
@@ -85,7 +93,7 @@ public class ImageService {
             String imageName;
             Path url;
 
-            int maxTries = 15;
+            int maxTries = 5;
             int i = 1;
             do {
                 imageName = createRandomName(Objects.requireNonNull(file.getOriginalFilename()));
@@ -113,6 +121,8 @@ public class ImageService {
     }
 
     /**
+     * Code by: Tibor Haller
+     *
      * Load ProductItemImage from productItemId
      *
      * @param imageId
@@ -128,6 +138,8 @@ public class ImageService {
     }
 
     /**
+     * Code by: Tibor Haller
+     *
      * Load the resource using the ProductImage. Resource is used to provide image through API.
      *
      * @param item
@@ -151,6 +163,8 @@ public class ImageService {
     }
 
     /**
+     * Code by: Tibor Haller
+     *
      * Delete image by provided id, both from directory and database
      *
      * @param imageId
@@ -172,10 +186,22 @@ public class ImageService {
         }
     }
 
+    /**
+     * Code by: Tibor Haller
+     *
+     * Delete all files in root.
+     */
     public void deleteAll() {
         FileSystemUtils.deleteRecursively(root.toFile());
     }
 
+    /**
+     * Code by: Tibor Haller
+     *
+     * Load all files in root
+     *
+     * @return
+     */
     public Stream<Path> loadAll() {
         try {
             return Files.walk(this.root, 1).filter(path -> !path.equals(this.root)).map(this.root::relativize);

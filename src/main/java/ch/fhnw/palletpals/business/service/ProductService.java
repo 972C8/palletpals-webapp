@@ -22,6 +22,8 @@ public class ProductService {
     private ProductImageRepository productImageRepository;
 
     /**
+     * Code by: Tibor Haller
+     *
      * Save BucketItem and assign referenced objects based on provided id in JSON using a proxy
      * <p>
      * Proxy logic adapted from:
@@ -59,6 +61,13 @@ public class ProductService {
         }
     }
 
+    /**
+     * Code by: Tibor Haller
+     *
+     * @param product
+     * @return
+     * @throws Exception
+     */
     //TODO: Use PATCH instead of PUT!
     public Product updateProduct(@Valid Product product) throws Exception {
         //Check if product with given id is already present
@@ -70,6 +79,13 @@ public class ProductService {
         return saveProduct(product);
     }
 
+    /**
+     * Code by: Tibor Haller
+     *
+     * @param productId
+     * @return
+     * @throws Exception
+     */
     public Product findProductById(Long productId) throws Exception {
         Product product = productRepository.findProductById(productId);
         if (product == null) {
@@ -79,6 +95,8 @@ public class ProductService {
     }
 
     /**
+     * Code by: Tibor Haller
+     *
      * Recursively deletes all referenced images. For more information, check Product.java, specifically the "private List<ProductImage> productImages".
      *
      * @param productId

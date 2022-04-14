@@ -24,6 +24,8 @@ public class ProductImagesEndpoint {
     private ImageService imageService;
 
     /**
+     * Code by: Tibor Haller
+     *
      * Save the uploaded image
      */
     @PostMapping("/product-images")
@@ -37,8 +39,9 @@ public class ProductImagesEndpoint {
         }
     }
 
-    //TODO: Return url to resource instead of complete image
     /**
+     * Code by: Tibor Haller
+     *
      * GET the uploaded image by imageId
      */
     @GetMapping("/product-images/{imageId}")
@@ -60,6 +63,12 @@ public class ProductImagesEndpoint {
         }
     }
 
+    /**
+     * Code by: Tibor Haller
+     *
+     * @param imageId
+     * @return
+     */
     @DeleteMapping(path = "/product-images/{imageId}")
     public ResponseEntity<Void> deleteProductImage(@PathVariable(value = "imageId") String imageId) {
         try {
