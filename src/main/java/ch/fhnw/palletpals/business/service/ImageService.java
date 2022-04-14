@@ -9,6 +9,7 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.stream.Stream;
 
+import ch.fhnw.palletpals.data.domain.Product;
 import ch.fhnw.palletpals.data.domain.image.ProductImage;
 import ch.fhnw.palletpals.data.repository.ProductImageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,12 +103,12 @@ public class ImageService {
     /**
      * Load ProductItemImage from productItemId
      *
-     * @param productItemId
+     * @param imageId
      * @return
      */
-    public ProductImage loadProductImage(Long productItemId) {
+    public ProductImage loadProductImage(Long imageId) {
         try {
-            return productImageRepository.findProductImageById(productItemId);
+            return productImageRepository.findProductImageById(imageId);
 
         } catch (Exception e) {
             throw new RuntimeException("Error: " + e.getMessage());
@@ -133,6 +134,33 @@ public class ImageService {
                 throw new RuntimeException("Could not read the file!");
             }
         } catch (MalformedURLException e) {
+            throw new RuntimeException("Error: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Delete image by provided id, both from directory and database
+     *
+     * @param imageId
+     */
+    public void deleteImageById(Long imageId) {
+        try {
+            //Load file as Resource
+            ProductImage imageFile = loadProductImage(imageId);
+
+            //Find and delete the image from the directory
+            Path file = root.resolve(imageFile.getFileName());
+            Files.delete(file);
+
+            //TODO: It is possible that a db entry persists as productImageRepository.deleteBy(imageId) is not performed. This needs to be checked
+
+            //Remove reference from Product so that the garbage collector deletes the ProductImage
+            if (imageFile.getProduct() != null) {
+                Product product = imageFile.getProduct();
+                product.getProductImages().remove(imageFile);
+            }
+
+        } catch (Exception e) {
             throw new RuntimeException("Error: " + e.getMessage());
         }
     }

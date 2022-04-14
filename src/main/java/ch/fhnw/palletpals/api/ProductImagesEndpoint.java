@@ -8,7 +8,10 @@ package ch.fhnw.palletpals.api;
 import ch.fhnw.palletpals.business.service.ImageService;
 import ch.fhnw.palletpals.data.domain.image.ProductImage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,4 +36,38 @@ public class ProductImagesEndpoint {
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
         }
     }
+
+    //TODO: Return url to resource instead of complete image
+    /**
+     * GET the uploaded image by imageId
+     */
+    @GetMapping("/product-images/{imageId}")
+    public ResponseEntity<Resource> getProductImage(@PathVariable(value = "imageId") String imageId) {
+        try {
+            // Load file as Resource
+            ProductImage imageFile = imageService.loadProductImage(Long.parseLong(imageId));
+
+            //Create resource from imageFile
+            Resource resource = imageService.loadResourceFromProductImage(imageFile);
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType(imageFile.getFileType()))
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + imageFile.getFileName() + "\"")
+                    .body(resource);
+
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
+
+    @DeleteMapping(path = "/product-images/{imageId}")
+    public ResponseEntity<Void> deleteProductImage(@PathVariable(value = "imageId") String imageId) {
+        try {
+            imageService.deleteImageById(Long.parseLong(imageId));
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
+        }
+        return ResponseEntity.accepted().build();
+    }
+
 }
