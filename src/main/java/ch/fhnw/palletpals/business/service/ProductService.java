@@ -23,7 +23,7 @@ public class ProductService {
 
     /**
      * Code by: Tibor Haller
-     *
+     * <p>
      * Save BucketItem and assign referenced objects based on provided id in JSON using a proxy
      * <p>
      * Proxy logic adapted from:
@@ -47,9 +47,11 @@ public class ProductService {
                     ProductImage image = productImageRepository.findProductImageById(productImage.getId());
 
                     //Add all found images (based on imageId provided through API)
-                    if (image != null) {
-                        productImages.add(image);
+                    //An image can only be assigned to one product. Therefore it is checked if the image was already assigned.
+                    if (image == null || image.getProduct() != null) {
+                        throw new RuntimeException("Invalid imageId provided: " + image.getId());
                     }
+                    productImages.add(image);
                 }
                 //Override list of productImages as this is a post request. This method also handles the referencing
                 product.setProductImages(productImages);
@@ -96,7 +98,7 @@ public class ProductService {
 
     /**
      * Code by: Tibor Haller
-     *
+     * <p>
      * Recursively deletes all referenced images. For more information, check Product.java, specifically the "private List<ProductImage> productImages".
      *
      * @param productId
