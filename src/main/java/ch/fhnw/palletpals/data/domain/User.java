@@ -11,28 +11,30 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import java.util.List;
 
 @Entity
-public class Agent {
+public class User {
 
 	@Id
 	@GeneratedValue
 	private Long id;
 	@NotEmpty(message = "Please provide a name.")
-	private String name;
+	private String userName;
 	@Email(message = "Please provide a valid e-mail.")
 	@NotEmpty(message = "Please provide an e-mail.")
 	private String email;
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY) // only create object property from JSON
 	private String password;
 	@JsonIgnore
-	private String role = "USER";
+	private UserType role;
 	@Transient // will not be stored in DB
 	private String remember;
-	@OneToMany(mappedBy = "agent")
-	@JsonIgnore
-	private List<Customer> customers;
+	private Language language;
+	private Appearance appearance;
+	@OneToOne
+	@JoinColumn(name = "address_id", referencedColumnName = "id")
+	private ShppingAddress address;
+
 
 	public Long getId() {
 		return id;
@@ -42,12 +44,12 @@ public class Agent {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public String getEmail() {
@@ -68,14 +70,6 @@ public class Agent {
 		this.password = password;
 	}
 
-	public List<Customer> getCustomers() {
-		return customers;
-	}
-
-	public void setCustomers(List<Customer> customers) {
-		this.customers = customers;
-	}
-
 	public String getRemember() {
 		return remember;
 	}
@@ -84,7 +78,7 @@ public class Agent {
 		this.remember = remember;
 	}
 
-	public String getRole() {
+	public UserType getRole() {
 		return role;
 	}
 }

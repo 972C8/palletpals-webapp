@@ -1,7 +1,7 @@
 package ch.fhnw.palletpals.config;
 
-import ch.fhnw.palletpals.business.service.AgentService;
-import ch.fhnw.palletpals.data.domain.Agent;
+import ch.fhnw.palletpals.business.service.UserService;
+import ch.fhnw.palletpals.data.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -13,7 +13,7 @@ import javax.annotation.PostConstruct;
 public class DataGeneratorTest {
 
     @Autowired
-    private AgentService agentService;
+    private UserService agentService;
 
     @PostConstruct
     private void init() throws Exception {
@@ -21,10 +21,10 @@ public class DataGeneratorTest {
     }
 
     private void demoUser() throws Exception {
-        Agent agentUser = new Agent();
-        agentUser.setEmail("user@user.com");
-        agentUser.setPassword("password");
-        agentUser.setName("user");
-        agentService.saveAgent(agentUser);
+        User userUser = new User();
+        userUser.setEmail("user@user.com");
+        userUser.setPassword("password");
+        userUser.setUserName("user");
+        agentService.saveUser(userUser);
     }
 }

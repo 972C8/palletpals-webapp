@@ -5,20 +5,20 @@
 
 package ch.fhnw.palletpals.controller;
 
-import ch.fhnw.palletpals.business.service.AgentService;
+import ch.fhnw.palletpals.business.service.UserService;
+import ch.fhnw.palletpals.data.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import ch.fhnw.palletpals.data.domain.Agent;
 
 @Controller
 public class UserController {
 
     @Autowired
-    private AgentService agentService;
+    private UserService userService;
 
     @GetMapping("/login")
     public String getLoginView() {
@@ -31,9 +31,9 @@ public class UserController {
     }
 
     @PostMapping("/user/register")
-    public ResponseEntity<Void> postRegister(@RequestBody Agent agent) {
+    public ResponseEntity<Void> postRegister(@RequestBody User user) {
         try {
-            agentService.saveAgent(agent);
+            userService.saveUser(user);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
         }
@@ -46,15 +46,16 @@ public class UserController {
     }
 
     @GetMapping("/profile")
-    public @ResponseBody Agent getProfile() {
-        return agentService.getCurrentAgent();
+    public @ResponseBody
+    User getProfile() {
+        return userService.getCurrentUser();
     }
 
     @PutMapping("/profile")
-    public ResponseEntity<Void> putProfile(@RequestBody Agent agent) {
+    public ResponseEntity<Void> putProfile(@RequestBody User user) {
         try {
-            agent.setId(agentService.getCurrentAgent().getId());
-            agentService.saveAgent(agent);
+            user.setId(userService.getCurrentUser().getId());
+            userService.saveUser(user);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
         }

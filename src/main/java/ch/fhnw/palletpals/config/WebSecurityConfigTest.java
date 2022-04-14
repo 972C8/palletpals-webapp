@@ -5,9 +5,7 @@
 
 package ch.fhnw.palletpals.config;
 
-import ch.fhnw.palletpals.business.service.AgentService;
 import ch.fhnw.palletpals.business.service.UserDetailsServiceImpl;
-import ch.fhnw.palletpals.data.domain.Agent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
