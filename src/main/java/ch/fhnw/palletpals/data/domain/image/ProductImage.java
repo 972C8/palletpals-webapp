@@ -1,5 +1,8 @@
 package ch.fhnw.palletpals.data.domain.image;
 
+import ch.fhnw.palletpals.data.domain.Product;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -14,20 +17,19 @@ public class ProductImage extends AbstractImage {
         super(fileName, fileUrl, fileType);
     }
 
-    //TODO: Check that: Product removes reference of deleted ProductImage
-    // + All referenced ProductImages are deleted when a Product is deleted
-
     /**
-     * Handle referential integrity constraint for 1:n relationship between Product and ProductImage
-     * <p>
-     * If a ProductImage is removed, the references to this ProductImage must be removed from all Products.
-     * This is not required in Product as it is the owner of the relationship (as indicated by "mappedBy" in this class
-     * for List<ProductImage> productImages.
+     * Bidirectional relation with Product. Changes are propagated to Product, meaning that deleting an instance of ProductImage will remove the reference in Product
      */
-    /*
-    @PreRemove
-    private void removeImageFromProducts() {
-        this.product.getProductImages().remove(this);
+    @ManyToOne
+    @JoinColumn(name = "productID")
+    @JsonIgnore
+    private Product product;
+
+    public Product getProduct() {
+        return product;
     }
-    */
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
 }

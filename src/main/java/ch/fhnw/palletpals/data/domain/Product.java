@@ -12,6 +12,7 @@ public class Product {
 
     @Id
     @GeneratedValue
+    @Column(name="productID", unique = true, nullable = false)
     private Long id;
 
     @NotEmpty(message = "Please provide a name for the product")
@@ -32,13 +33,15 @@ public class Product {
     /**
      * One product holds many images
      *
-     * Uni-directional oneToMany connection. CascadeType and orphanRemoval is required to propagate changes in the parent to children.
+     * Bidirectional oneToMany connection. CascadeType and orphanRemoval is required to propagate changes in the parent to children.
+     *
+     * According to https://stackoverflow.com/a/40339633, changes in children (ProductImage) can be propagated to the parent (Product) by using the @JoinColumn
      *
      * According to https://stackoverflow.com/questions/49592081/jpa-detached-entity-passed-to-persist-nested-exception-is-org-hibernate-persis,
      * CascadeType.PERSIST poses problems as it tries to persist an already existing child when adding the reference in the list
      */
-    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, orphanRemoval = true, fetch = FetchType.EAGER)
-    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE}, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JoinColumn(name="productID",referencedColumnName="productID")
     private List<ProductImage> productImages;
 
     public Long getId() {

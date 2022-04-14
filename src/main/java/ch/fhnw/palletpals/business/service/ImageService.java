@@ -147,18 +147,12 @@ public class ImageService {
             //Load file as Resource
             ProductImage imageFile = loadProductImage(imageId);
 
+            //Delete ProductImage by imageId. As explained in ProductImage.java, the reference is automatically deleted from Product when the ProductImage is deleted.
+            productImageRepository.deleteById(imageId);
+
             //Find and delete the image from the directory
             Path file = root.resolve(imageFile.getFileName());
             Files.delete(file);
-
-            //TODO: It is possible that a db entry persists as productImageRepository.deleteBy(imageId) is not performed. This needs to be checked
-
-            //TODO: Fix deletion of references
-            //Remove reference from Product so that the garbage collector deletes the ProductImage
-            /*if (imageFile.getProduct() != null) {
-                Product product = imageFile.getProduct();
-                product.getProductImages().remove(imageFile);
-            }*/
 
         } catch (Exception e) {
             throw new RuntimeException("Error: " + e.getMessage());
