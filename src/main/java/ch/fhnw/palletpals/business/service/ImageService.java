@@ -43,8 +43,6 @@ public class ImageService {
         }
     }
 
-    //TODO: Create better algorithm to simply append number to duplicate names.
-
     /**
      * Creates a randomized name for the image name
      *
@@ -55,7 +53,7 @@ public class ImageService {
         //generate the random string
         int leftLimit = 48; // numeral '0'
         int rightLimit = 122; // letter 'z'
-        int targetStringLength = 10;
+        int targetStringLength = 20;
         Random random = new Random();
 
         String generatedString = random.ints(leftLimit, rightLimit + 1)
@@ -83,11 +81,26 @@ public class ImageService {
             //Check if root already exists
             rootExists();
 
-            //Create a random image name
-            String imageName = createRandomName(Objects.requireNonNull(file.getOriginalFilename()));
+            //Ensure a unique file name
+            String imageName;
+            Path url;
+
+            int maxTries = 15;
+            int i = 1;
+            do {
+                imageName = createRandomName(Objects.requireNonNull(file.getOriginalFilename()));
+                url = this.root.resolve(imageName);
+
+                //Ensures that no infinite loop occurs
+                if (i > maxTries) {
+                    throw new Exception("Could not ensure unique name for uploaded image.");
+                }
+                i++;
+            } while (Files.exists(url));
+
+            //TODO: add safety net after 15 tries!
 
             //Upload image to root folder
-            Path url = this.root.resolve(imageName);
             Files.copy(file.getInputStream(), url);
 
             //store the image information in the database and reference the product
