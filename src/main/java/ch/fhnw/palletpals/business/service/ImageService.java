@@ -9,7 +9,6 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.stream.Stream;
 
-import ch.fhnw.palletpals.data.domain.Product;
 import ch.fhnw.palletpals.data.domain.image.ProductImage;
 import ch.fhnw.palletpals.data.repository.ProductImageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Service to save and retrieve uploaded images ProductItemImage from file system.
- *
+ * <p>
  * https://www.bezkoder.com/spring-boot-file-upload/
  */
 @Service
@@ -45,6 +44,7 @@ public class ImageService {
     }
 
     //TODO: Create better algorithm to simply append number to duplicate names.
+
     /**
      * Creates a randomized name for the image name
      *
@@ -73,12 +73,12 @@ public class ImageService {
     }
 
     /**
-     * Save the uploaded image as a ProductItemImage in the file system
+     * Save the uploaded image as a ProductImage in the file system
      *
      * @param file
      * @return
      */
-    public ProductImage saveProductImageByProductId(MultipartFile file, Product product) {
+    public ProductImage saveProductImage(MultipartFile file) {
         try {
             //Check if root already exists
             rootExists();
@@ -92,9 +92,6 @@ public class ImageService {
 
             //store the image information in the database and reference the product
             ProductImage image = new ProductImage(imageName, url.toString(), file.getContentType());
-
-            //Set referenced Product in ProductImage
-            image.setProduct(product);
 
             return productImageRepository.save(image);
         } catch (Exception e) {

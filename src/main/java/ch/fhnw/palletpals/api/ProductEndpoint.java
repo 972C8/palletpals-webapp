@@ -1,14 +1,11 @@
 package ch.fhnw.palletpals.api;
 
-import ch.fhnw.palletpals.business.service.ImageService;
 import ch.fhnw.palletpals.business.service.ProductService;
 import ch.fhnw.palletpals.data.domain.Product;
-import ch.fhnw.palletpals.data.domain.image.ProductImage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -21,9 +18,6 @@ import java.util.List;
 public class ProductEndpoint {
     @Autowired
     private ProductService productService;
-
-    @Autowired
-    private ImageService imageService;
 
     @PostMapping(path = "/products", consumes = "application/json", produces = "application/json")
     public ResponseEntity<Product> postProduct(@RequestBody Product product) {
@@ -84,21 +78,5 @@ public class ProductEndpoint {
     @GetMapping(path = "/products", produces = "application/json")
     public List<Product> getProductItems() {
         return productService.findAllProducts();
-    }
-
-    /**
-     * Save the uploaded image as the image of the provided product id
-     */
-    @PostMapping("/products/{productId}/images")
-    public ResponseEntity<ProductImage> uploadProductImageByProductId(@RequestParam(value = "image") MultipartFile image, @PathVariable(value = "productId") String productId) {
-        try {
-            Product product = productService.findProductById(Long.parseLong(productId));
-
-            ProductImage item = imageService.saveProductImageByProductId(image, product);
-
-            return ResponseEntity.accepted().body(item);
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
-        }
     }
 }
