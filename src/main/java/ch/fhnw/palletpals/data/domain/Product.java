@@ -1,7 +1,6 @@
 package ch.fhnw.palletpals.data.domain;
 
 import ch.fhnw.palletpals.data.domain.image.ProductImage;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -30,8 +29,16 @@ public class Product {
     @Positive(message = "Please provide minPalletSpace for the product.")
     private float minPalletSpace;
 
-    //One product holds many images
-    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
+    /**
+     * One product holds many images
+     *
+     * Uni-directional oneToMany connection. CascadeType and orphanRemoval is required to propagate changes in the parent to children.
+     *
+     * According to https://stackoverflow.com/questions/49592081/jpa-detached-entity-passed-to-persist-nested-exception-is-org-hibernate-persis,
+     * CascadeType.PERSIST poses problems as it tries to persist an already existing child when adding the reference in the list
+     */
+    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
     private List<ProductImage> productImages;
 
     public Long getId() {

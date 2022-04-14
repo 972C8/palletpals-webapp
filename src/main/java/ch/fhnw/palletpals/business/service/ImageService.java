@@ -9,7 +9,6 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.stream.Stream;
 
-import ch.fhnw.palletpals.data.domain.Product;
 import ch.fhnw.palletpals.data.domain.image.ProductImage;
 import ch.fhnw.palletpals.data.repository.ProductImageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -154,11 +153,12 @@ public class ImageService {
 
             //TODO: It is possible that a db entry persists as productImageRepository.deleteBy(imageId) is not performed. This needs to be checked
 
+            //TODO: Fix deletion of references
             //Remove reference from Product so that the garbage collector deletes the ProductImage
-            if (imageFile.getProduct() != null) {
+            /*if (imageFile.getProduct() != null) {
                 Product product = imageFile.getProduct();
                 product.getProductImages().remove(imageFile);
-            }
+            }*/
 
         } catch (Exception e) {
             throw new RuntimeException("Error: " + e.getMessage());

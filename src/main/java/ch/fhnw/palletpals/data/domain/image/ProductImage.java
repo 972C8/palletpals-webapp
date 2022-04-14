@@ -1,8 +1,5 @@
 package ch.fhnw.palletpals.data.domain.image;
 
-import ch.fhnw.palletpals.data.domain.Product;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 
 @Entity
@@ -17,11 +14,6 @@ public class ProductImage extends AbstractImage {
         super(fileName, fileUrl, fileType);
     }
 
-    //One product holds many images
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JsonIgnore
-    private Product product;
-
     //TODO: Check that: Product removes reference of deleted ProductImage
     // + All referenced ProductImages are deleted when a Product is deleted
 
@@ -32,16 +24,10 @@ public class ProductImage extends AbstractImage {
      * This is not required in Product as it is the owner of the relationship (as indicated by "mappedBy" in this class
      * for List<ProductImage> productImages.
      */
+    /*
     @PreRemove
     private void removeImageFromProducts() {
         this.product.getProductImages().remove(this);
     }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
+    */
 }

@@ -21,13 +21,22 @@ public class ProductService {
     @Autowired
     private ProductImageRepository productImageRepository;
 
+    /**
+     * Save BucketItem and assign referenced objects based on provided id in JSON using a proxy
+     * <p>
+     * Proxy logic adapted from:
+     * https://github.com/AnghelLeonard/Hibernate-SpringBoot/tree/master/HibernateSpringBootPopulatingChildViaProxy
+     *
+     * @param product
+     * @return
+     * @throws Exception
+     */
     public Product saveProduct(@Valid Product product) throws Exception {
         try {
             //TODO: Add additional requirements (e.g. price not negative) before saving new product. Possibly done in Product class directly
 
-            //Add referenced images that were uploaded prior
+            //Add referenced ProductImages to Product that were uploaded prior
             if (product.getProductImages() != null) {
-
                 //Initialize list of referenced productImages
                 List<ProductImage> productImages = new ArrayList<>();
 
@@ -40,7 +49,7 @@ public class ProductService {
                         productImages.add(image);
                     }
                 }
-                //Override list of productImages as this is a post request.
+                //Override list of productImages as this is a post request. This method also handles the referencing
                 product.setProductImages(productImages);
             }
 
@@ -69,6 +78,11 @@ public class ProductService {
         return product;
     }
 
+    /**
+     * Recursively deletes all referenced images. For more information, check Product.java, specifically the "private List<ProductImage> productImages".
+     *
+     * @param productId
+     */
     public void deleteProduct(Long productId) {
         productRepository.deleteById(productId);
     }
