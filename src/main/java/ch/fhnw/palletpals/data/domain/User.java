@@ -33,7 +33,7 @@ public class User {
 	private Appearance appearance;
 	@OneToOne
 	@JoinColumn(name = "address_id", referencedColumnName = "id")
-	private ShppingAddress address;
+	private ShippingAddress address;
 
 
 	public Long getId() {

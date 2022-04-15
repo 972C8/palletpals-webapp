@@ -11,5 +11,5 @@ public class Warehouse {
     private String name;
     @OneToOne
     @JoinColumn(name = "address_id", referencedColumnName = "id")
-    private ShppingAddress address;
+    private ShippingAddress address;
 }
