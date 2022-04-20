@@ -13,7 +13,7 @@ import javax.annotation.PostConstruct;
 public class DataGeneratorTest {
 
     @Autowired
-    private UserService agentService;
+    private UserService userService;
 
     @PostConstruct
     private void init() throws Exception {
@@ -25,6 +25,6 @@ public class DataGeneratorTest {
         userUser.setEmail("user@user.com");
         userUser.setPassword("password");
         userUser.setUserName("user");
-        agentService.saveUser(userUser);
+        userService.saveUser(userUser);
     }
 }
