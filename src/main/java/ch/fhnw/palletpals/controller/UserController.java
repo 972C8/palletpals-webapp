@@ -32,6 +32,7 @@ public class UserController {
 
     @PostMapping("/user/register")
     public ResponseEntity<Void> postRegister(@RequestBody User user) {
+        System.out.println("ok");
         try {
             userService.saveUser(user);
         } catch (Exception e) {
