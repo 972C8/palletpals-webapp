@@ -5,6 +5,7 @@
 
 package ch.fhnw.palletpals.business.service;
 
+import ch.fhnw.palletpals.data.domain.UserType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -35,6 +36,8 @@ public class UserService {
         } else if (userRepository.findByEmailAndIdNot(user.getEmail(), user.getId()) != null) {
             throw new Exception("Email address " + user.getEmail() + " already assigned another user.");
         }
+        //TODO define process for setting UserType
+        user.setRole(UserType.USER);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }

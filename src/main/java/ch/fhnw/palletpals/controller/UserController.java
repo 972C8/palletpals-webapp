@@ -20,30 +20,14 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/login")
-    public String getLoginView() {
-        return "user/login.html";
-    }
-
-    @GetMapping("/user/register")
-    public String getRegisterView() {
-        return "register.html";
-    }
-
     @PostMapping("/user/register")
     public ResponseEntity<Void> postRegister(@RequestBody User user) {
-        System.out.println("ok");
         try {
             userService.saveUser(user);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
         }
         return ResponseEntity.ok().build();
-    }
-
-    @GetMapping("/profile/edit")
-    public String getProfileView() {
-        return "../user/profile.html";
     }
 
     @GetMapping("/profile")

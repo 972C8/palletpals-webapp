@@ -25,6 +25,7 @@ public class User {
 	private String email;
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY) // only create object property from JSON
 	private String password;
+	//@NotEmpty
 	@JsonIgnore
 	private UserType role;
 	@Transient // will not be stored in DB
@@ -77,6 +78,8 @@ public class User {
 	public void setRemember(String remember) {
 		this.remember = remember;
 	}
+
+	public void setRole(UserType role){ this.role = role;}
 
 	public UserType getRole() {
 		return role;
