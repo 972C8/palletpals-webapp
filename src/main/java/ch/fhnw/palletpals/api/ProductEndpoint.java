@@ -2,6 +2,7 @@ package ch.fhnw.palletpals.api;
 
 import ch.fhnw.palletpals.business.service.ProductService;
 import ch.fhnw.palletpals.data.domain.Product;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,10 @@ import java.util.Map;
 public class ProductEndpoint {
     @Autowired
     private ProductService productService;
+
+    //Used by patchProduct method to map objects
+    @Autowired
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     /**
      * Code by: Tibor Haller
@@ -61,19 +66,29 @@ public class ProductEndpoint {
     /**
      * Code by: Tibor Haller
      * <p>
-     * PUT product
+     * Patch product
+     *
+     * Roughly based on the idea of objectMapper and NullAwareBeanUtilsBean.java (https://stackoverflow.com/a/45205844)
      *
      * @param productPatch   provided by user.
      * @param productId to update.
      * @return Product
      */
-    //TODO: Use PATCH instead of PUT!
     @PatchMapping(path = "/products/{productId}", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<Product> patchProduct(@RequestBody Map<Object, Object> productPatch, @PathVariable(value = "productId") String productId) {
+    public ResponseEntity<Product> patchProduct(@RequestBody Map<String, String> productPatch, @PathVariable(value = "productId") String productId) {
         Product patchedProduct;
         try {
             Product currentProduct = productService.findProductById(Long.parseLong(productId));
-            patchedProduct = productService.patchProduct(productPatch, currentProduct);
+
+            //The provided patch (as Map<String, String>) is converted into a Product object.
+            Product toBePatchedProduct = objectMapper.convertValue(productPatch, Product.class);
+
+            //TODO: Support patching of referenced images of product
+            //Set productImages to null as patching images is not yet supported.
+            toBePatchedProduct.setProductImages(null);
+
+            //The current product is patched (updated) using the provided patch
+            patchedProduct = productService.patchProduct(toBePatchedProduct, currentProduct);
 
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
