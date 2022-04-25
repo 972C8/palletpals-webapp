@@ -31,3 +31,6 @@ export/
 /data/
 *.vpp.lck
 /.jpb/
+
+### Folder for uploaded images
+/uploads
