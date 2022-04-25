@@ -6,11 +6,14 @@ import ch.fhnw.palletpals.data.repository.ProductImageRepository;
 import ch.fhnw.palletpals.data.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ReflectionUtils;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Validated
@@ -66,19 +69,27 @@ public class ProductService {
     /**
      * Code by: Tibor Haller
      *
-     * @param product
+     * @param productPatch param currentProduct
      * @return
      * @throws Exception
      */
-    //TODO: Use PATCH instead of PUT!
-    public Product updateProduct(@Valid Product product) throws Exception {
-        //Check if product with given id is already present
+    public Product patchProduct(Map<Object, Object> productPatch, Product currentProduct) throws Exception {
         //Only products with valid id are updated.
-        if (!productRepository.findById(product.getId()).isPresent()) {
-            throw new Exception("No product with ID " + product.getId() + " found.");
+        if (!productRepository.findById(currentProduct.getId()).isPresent()) {
+            throw new Exception("No product with ID " + currentProduct.getId() + " found.");
         }
-        //Call regular save method
-        return saveProduct(product);
+
+        //For each map in the provided productPatch, check if it exists in the currentProduct and override
+
+        //Map key is field name, v is value
+        productPatch.forEach((k, v) -> {
+            // use reflection to get field k on manager and set it to value v
+            Field field = ReflectionUtils.findField(Product.class, String.valueOf(k));
+            field.setAccessible(true);
+            ReflectionUtils.setField(field, currentProduct, v);
+        });
+
+        return productRepository.save(currentProduct);
     }
 
     /**

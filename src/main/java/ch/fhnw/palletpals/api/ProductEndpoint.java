@@ -12,6 +12,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.ConstraintViolationException;
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/api")
@@ -62,20 +63,22 @@ public class ProductEndpoint {
      * <p>
      * PUT product
      *
-     * @param product   provided by user.
+     * @param productPatch   provided by user.
      * @param productId to update.
      * @return Product
      */
     //TODO: Use PATCH instead of PUT!
-    @PutMapping(path = "/products/{productId}", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<Product> putProduct(@RequestBody Product product, @PathVariable(value = "productId") String productId) {
+    @PatchMapping(path = "/products/{productId}", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Product> patchProduct(@RequestBody Map<Object, Object> productPatch, @PathVariable(value = "productId") String productId) {
+        Product patchedProduct;
         try {
-            product.setId(Long.parseLong(productId));
-            product = productService.updateProduct(product);
+            Product currentProduct = productService.findProductById(Long.parseLong(productId));
+            patchedProduct = productService.patchProduct(productPatch, currentProduct);
+
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
         }
-        return ResponseEntity.accepted().body(product);
+        return ResponseEntity.accepted().body(patchedProduct);
     }
 
     /**
