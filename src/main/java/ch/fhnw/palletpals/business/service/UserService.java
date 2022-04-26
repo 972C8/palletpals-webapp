@@ -28,7 +28,7 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public void saveUser(@Valid User user) throws Exception {
+    public User saveUser(@Valid User user) throws Exception {
         if (user.getId() == null) {
             if (userRepository.findByEmail(user.getEmail()) != null) {
                 throw new Exception("Email address " + user.getEmail() + " already assigned another user.");
@@ -39,7 +39,7 @@ public class UserService {
         //TODO define process for setting UserType
         user.setRole(UserType.USER);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
     public User getUserById(Long id)throws Exception{
@@ -53,5 +53,13 @@ public class UserService {
     public User getCurrentUser() {
         org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return userRepository.findByEmail(user.getUsername());
+    }
+
+    public User patchUser(User toBePatchedUser) throws Exception{
+        return null;
+    }
+
+    public void deleteUser(Long userId){
+        userRepository.deleteById(userId);
     }
 }

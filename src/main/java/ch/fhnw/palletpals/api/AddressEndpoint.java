@@ -22,21 +22,36 @@ public class AddressEndpoint {
     @Autowired
     private UserService userService;
 
+    /**
+     * Code by Daniel Locher
+     * @return address
+     * @throws Exception
+     */
+
     @GetMapping(path = "/address", produces = "application/json")
     public ResponseEntity<ShippingAddress> getCustomerAddress()throws Exception{
-        ShippingAddress address;
         try {
+            ShippingAddress address;
             address = addressService.getAddressByUserId(userService.getCurrentUser().getId());
+            return ResponseEntity.ok(address);
         } catch (Exception e){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
-        return ResponseEntity.ok(address);
     }
 
-    @PostMapping(path = "/address", produces = "application/json")
-    public ResponseEntity<ShippingAddress> postClientAddress(@RequestBody ShippingAddress address) throws Exception{
+
+
+    /**
+     * Code by Daniel Locher
+     * @param address
+     * @return address
+     * @throws Exception
+     */
+
+    /*@PostMapping(path = "/address", produces = "application/json")
+    public ResponseEntity<ShippingAddress> postWarehouseAddress(@RequestBody ShippingAddress address) throws Exception{
         try {
-            address = addressService.saveAddress(address);
+            //address = addressService.saveWarehouseAddress(address);
         } catch (ConstraintViolationException e) {
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getConstraintViolations().iterator().next().getMessage());
         } catch (Exception e) {
@@ -48,5 +63,5 @@ public class AddressEndpoint {
                 .buildAndExpand(address.getId()).toUri();
 
         return ResponseEntity.created(location).body(address);
-    }
+    }*/
 }

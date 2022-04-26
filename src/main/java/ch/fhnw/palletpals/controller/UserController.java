@@ -5,7 +5,9 @@
 
 package ch.fhnw.palletpals.controller;
 
+import ch.fhnw.palletpals.business.service.AddressService;
 import ch.fhnw.palletpals.business.service.UserService;
+import ch.fhnw.palletpals.data.domain.ShippingAddress;
 import ch.fhnw.palletpals.data.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,11 +21,16 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private AddressService addressService;
 
     @PostMapping("/user/register")
     public ResponseEntity<Void> postRegister(@RequestBody User user) {
         try {
-            userService.saveUser(user);
+            ShippingAddress address = user.getAddress();
+            user.setAddress(null);
+            User currentUser = userService.saveUser(user);
+            addressService.saveCustomerAddress(address, currentUser);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
         }

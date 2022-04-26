@@ -84,4 +84,28 @@ public class User {
 	public UserType getRole() {
 		return role;
 	}
+
+	public Language getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(Language language) {
+		this.language = language;
+	}
+
+	public Appearance getAppearance() {
+		return appearance;
+	}
+
+	public void setAppearance(Appearance appearance) {
+		this.appearance = appearance;
+	}
+
+	public ShippingAddress getAddress() {
+		return address;
+	}
+
+	public void setAddress(ShippingAddress address) {
+		this.address = address;
+	}
 }
