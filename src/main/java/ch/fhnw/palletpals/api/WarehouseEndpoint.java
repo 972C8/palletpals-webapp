@@ -32,6 +32,7 @@ public class WarehouseEndpoint {
             ShippingAddress warehouseAddress = warehouse.getAddress();
             warehouse.setAddress(null);
             Warehouse savedWarehouse = warehouseService.saveWarehouse(warehouse);
+            addressService.saveWarehouseAddress(warehouseAddress, savedWarehouse);
         } catch (Exception e){
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
         }

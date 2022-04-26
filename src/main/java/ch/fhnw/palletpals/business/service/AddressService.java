@@ -26,7 +26,7 @@ public class AddressService {
             address.setUser(currentUser);
             address = addressRepository.save(address);
         } catch (Exception e) {
-            throw new Exception("Address couldn't be saved");
+            throw new Exception("Address couldn't be assigned to user");
         }
         return address;
     }
@@ -46,7 +46,7 @@ public class AddressService {
             address.setWarehouse(warehouse);
             address = addressRepository.save(address);
         } catch (Exception e) {
-            throw new Exception("Address couldn't be saved");
+            throw new Exception("Address couldn't be assigned to warehouse");
         }
         return address;
     }
@@ -56,6 +56,14 @@ public class AddressService {
             return addressRepository.findByUser(userService.getUserById(userId));
         } catch (Exception e){
             throw new Exception("Address not found");
+        }
+    }
+
+    public void deleteAddressByUser(User user) throws Exception{
+        try {
+            addressRepository.deleteById(addressRepository.findByUser(user).getId());
+        } catch (Exception e){
+            throw new Exception("User address can't be deleted");
         }
     }
 }

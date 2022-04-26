@@ -39,29 +39,4 @@ public class AddressEndpoint {
         }
     }
 
-
-
-    /**
-     * Code by Daniel Locher
-     * @param address
-     * @return address
-     * @throws Exception
-     */
-
-    /*@PostMapping(path = "/address", produces = "application/json")
-    public ResponseEntity<ShippingAddress> postWarehouseAddress(@RequestBody ShippingAddress address) throws Exception{
-        try {
-            //address = addressService.saveWarehouseAddress(address);
-        } catch (ConstraintViolationException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getConstraintViolations().iterator().next().getMessage());
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
-        }
-
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest().path("/{itemId}")
-                .buildAndExpand(address.getId()).toUri();
-
-        return ResponseEntity.created(location).body(address);
-    }*/
 }

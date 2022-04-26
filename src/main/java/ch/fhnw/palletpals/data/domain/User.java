@@ -18,6 +18,7 @@ public class User {
 	@Id
 	@GeneratedValue
 	private Long id;
+	private int accessCode;
 	@NotEmpty(message = "Please provide a name.")
 	private String userName;
 	@Email(message = "Please provide a valid e-mail.")
@@ -43,6 +44,14 @@ public class User {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public int getAccessCode() {
+		return accessCode;
+	}
+
+	public void setAccessCode(int accessCode) {
+		this.accessCode = accessCode;
 	}
 
 	public String getUserName() {
