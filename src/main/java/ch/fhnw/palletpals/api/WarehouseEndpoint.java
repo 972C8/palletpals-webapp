@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/api")
 public class WarehouseEndpoint {
     @Autowired
     private AddressService addressService;
