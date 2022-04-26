@@ -42,6 +42,14 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public User getUserById(Long id)throws Exception{
+        try {
+            return userRepository.findUserById(id);
+        } catch (Exception e){
+            throw new Exception("No user found with id: " + id);
+        }
+    }
+
     public User getCurrentUser() {
         org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return userRepository.findByEmail(user.getUsername());
