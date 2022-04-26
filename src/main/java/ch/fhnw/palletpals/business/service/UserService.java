@@ -5,6 +5,7 @@
 
 package ch.fhnw.palletpals.business.service;
 
+import ch.fhnw.palletpals.data.domain.UserType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,7 +28,7 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public void saveUser(@Valid User user) throws Exception {
+    public User saveUser(@Valid User user) throws Exception {
         if (user.getId() == null) {
             if (userRepository.findByEmail(user.getEmail()) != null) {
                 throw new Exception("Email address " + user.getEmail() + " already assigned another user.");
@@ -35,12 +36,30 @@ public class UserService {
         } else if (userRepository.findByEmailAndIdNot(user.getEmail(), user.getId()) != null) {
             throw new Exception("Email address " + user.getEmail() + " already assigned another user.");
         }
+        //TODO define process for setting UserType
+        user.setRole(UserType.USER);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
+        return userRepository.save(user);
+    }
+
+    public User getUserById(Long id)throws Exception{
+        try {
+            return userRepository.findUserById(id);
+        } catch (Exception e){
+            throw new Exception("No user found with id: " + id);
+        }
     }
 
     public User getCurrentUser() {
         org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return userRepository.findByEmail(user.getUsername());
+    }
+
+    public User patchUser(User toBePatchedUser) throws Exception{
+        return null;
+    }
+
+    public void deleteUser(Long userId){
+        userRepository.deleteById(userId);
     }
 }
