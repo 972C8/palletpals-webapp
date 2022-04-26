@@ -14,7 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/user")
 public class UserEndpoint {
     @Autowired
     private UserService userService;
