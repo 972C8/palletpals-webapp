@@ -19,11 +19,9 @@ public class AddressService {
     @Autowired
     private UserService userService;
 
-    public ShippingAddress saveCustomerAddress(@Valid ShippingAddress address, User currentUser) throws Exception {
+    public ShippingAddress saveCustomerAddress(@Valid ShippingAddress address) throws Exception {
         //Logic to store referenced objects by provided id from JSON
         try {
-            //Assign current user to address
-            address.setUser(currentUser);
             address = addressRepository.save(address);
         } catch (Exception e) {
             throw new Exception("Address couldn't be assigned to user");

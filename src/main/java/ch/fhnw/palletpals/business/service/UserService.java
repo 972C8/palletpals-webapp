@@ -5,6 +5,8 @@
 
 package ch.fhnw.palletpals.business.service;
 
+import ch.fhnw.palletpals.component.AdminKey;
+import ch.fhnw.palletpals.component.NullAwareBeanUtilsBean;
 import ch.fhnw.palletpals.data.domain.UserType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,6 +29,8 @@ public class UserService {
     Validator validator;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private NullAwareBeanUtilsBean beanUtils = new NullAwareBeanUtilsBean();
 
     public User saveUser(@Valid User user) throws Exception {
         if (user.getId() == null) {
@@ -36,8 +40,11 @@ public class UserService {
         } else if (userRepository.findByEmailAndIdNot(user.getEmail(), user.getId()) != null) {
             throw new Exception("Email address " + user.getEmail() + " already assigned another user.");
         }
-        //TODO define process for setting UserType
-        user.setRole(UserType.USER);
+        if (user.getAccessCode().equals(AdminKey.adminKey)){
+            user.setRole(UserType.Admin);
+        } else {
+            user.setRole(UserType.USER);
+        }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
@@ -56,7 +63,10 @@ public class UserService {
     }
 
     public User patchUser(User toBePatchedUser) throws Exception{
-        return null;
+        //TODO check if right user is used?
+        User currentUser = getCurrentUser();
+        beanUtils.copyProperties(currentUser, toBePatchedUser);
+        return userRepository.save(currentUser);
     }
 
     public void deleteUser(Long userId){

@@ -7,6 +7,7 @@ package ch.fhnw.palletpals.data.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -18,7 +19,7 @@ public class User {
 	@Id
 	@GeneratedValue
 	private Long id;
-	private int accessCode;
+	private String accessCode;
 	@NotEmpty(message = "Please provide a name.")
 	private String userName;
 	@Email(message = "Please provide a valid e-mail.")
@@ -33,7 +34,7 @@ public class User {
 	private String remember;
 	private Language language;
 	private Appearance appearance;
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "address_id", referencedColumnName = "id")
 	private ShippingAddress address;
 
@@ -46,11 +47,11 @@ public class User {
 		this.id = id;
 	}
 
-	public int getAccessCode() {
+	public String getAccessCode() {
 		return accessCode;
 	}
 
-	public void setAccessCode(int accessCode) {
+	public void setAccessCode(String accessCode) {
 		this.accessCode = accessCode;
 	}
 
