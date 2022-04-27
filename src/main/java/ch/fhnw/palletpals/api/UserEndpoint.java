@@ -46,7 +46,7 @@ public class UserEndpoint {
         try {
             ShippingAddress address = user.getAddress();
             User currentUser = userService.saveUser(user);
-            addressService.saveCustomerAddress(address);
+            address = addressService.saveCustomerAddress(address);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
         }
@@ -68,11 +68,11 @@ public class UserEndpoint {
     @DeleteMapping(path = "/profile")
     public ResponseEntity<Void> deleteProfile(){
         try {
-            addressService.deleteAddressByUser(userService.getCurrentUser());
             userService.deleteUser(userService.getCurrentUser().getId());
         } catch (Exception e){
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
         }
+        //TODO remove Test
         return ResponseEntity.accepted().build();
     }
 

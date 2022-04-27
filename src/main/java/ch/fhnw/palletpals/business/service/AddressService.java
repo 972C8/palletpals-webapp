@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Service
 @Validated
@@ -32,16 +33,13 @@ public class AddressService {
     /**
      * Code by Daniel Locher
      * @param address
-     * @param warehouse
      * @return
      * @throws Exception
      */
 
-    public ShippingAddress saveWarehouseAddress(@Valid ShippingAddress address, Warehouse warehouse) throws Exception {
+    public ShippingAddress saveWarehouseAddress(@Valid ShippingAddress address) throws Exception {
         //Logic to store referenced objects by provided id from JSON
         try {
-            //Assign warehouse to address
-            address.setWarehouse(warehouse);
             address = addressRepository.save(address);
         } catch (Exception e) {
             throw new Exception("Address couldn't be assigned to warehouse");
@@ -63,5 +61,10 @@ public class AddressService {
         } catch (Exception e){
             throw new Exception("User address can't be deleted");
         }
+    }
+
+    //TODO only for testing
+    public List<ShippingAddress> getAllAddresses(){
+        return addressRepository.findAll();
     }
 }

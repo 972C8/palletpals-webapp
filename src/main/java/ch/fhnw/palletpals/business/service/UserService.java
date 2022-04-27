@@ -40,11 +40,12 @@ public class UserService {
         } else if (userRepository.findByEmailAndIdNot(user.getEmail(), user.getId()) != null) {
             throw new Exception("Email address " + user.getEmail() + " already assigned another user.");
         }
-        if (user.getAccessCode().equals(AdminKey.adminKey)){
-            user.setRole(UserType.Admin);
-        } else {
+        if (user.getAccessCode()==null){
             user.setRole(UserType.USER);
+        } else if (user.getAccessCode().equals(AdminKey.adminKey)){
+            user.setRole(UserType.Admin);
         }
+
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
