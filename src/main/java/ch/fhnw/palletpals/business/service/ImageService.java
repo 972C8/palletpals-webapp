@@ -106,8 +106,6 @@ public class ImageService {
                 i++;
             } while (Files.exists(url));
 
-            //TODO: add safety net after 15 tries!
-
             //Upload image to root folder
             Files.copy(file.getInputStream(), url);
 
