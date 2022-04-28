@@ -1,6 +1,7 @@
 package ch.fhnw.palletpals.config;
 
 import ch.fhnw.palletpals.business.service.AddressService;
+import ch.fhnw.palletpals.business.service.DistanceService;
 import ch.fhnw.palletpals.business.service.UserService;
 import ch.fhnw.palletpals.business.service.WarehouseService;
 import ch.fhnw.palletpals.data.domain.ShippingAddress;
@@ -22,6 +23,11 @@ public class DataGeneratorDev {
     private WarehouseService warehouseService;
     @Autowired
     private AddressService addressService;
+    @Autowired
+    private DistanceService distanceService;
+
+    User userUser;
+    Warehouse demoWarehouse;
 
     @PostConstruct
     private void init() throws Exception {
@@ -30,26 +36,32 @@ public class DataGeneratorDev {
     }
 
     private void demoUser() throws Exception {
-        User userUser = new User();
+        userUser = new User();
         userUser.setEmail("user@user.com");
         userUser.setPassword("password");
         userUser.setUserName("user");
         ShippingAddress demoUserAddress = new ShippingAddress();
+        demoUserAddress.setStreet("Bahnhofstrasse 6");
+        demoUserAddress.setPostalCode("5210");
+        demoUserAddress.setCity("Windisch");
         demoUserAddress.setStreet("Demo Street");
         userUser.setAddress(demoUserAddress);
         userService.saveUser(userUser);
         addressService.saveCustomerAddress(demoUserAddress);
     }
     private void demoWarehouse() throws Exception{
-        Warehouse demoWarehouse = new Warehouse();
+        demoWarehouse = new Warehouse();
         demoWarehouse.setName("Demo Warehouse");
         ShippingAddress demoWarehouseAddress = new ShippingAddress();
         demoWarehouseAddress.setOrganisationName("Demo Warehouse");
-        demoWarehouseAddress.setStreet("Teststrasse 8");
-        demoWarehouseAddress.setPostalCode(8967);
-        demoWarehouseAddress.setCity("Teststadt");
-        demoWarehouseAddress.setCountry("ch");
+        demoWarehouseAddress.setStreet("Wiesentalstrasse 6a");
+        demoWarehouseAddress.setPostalCode("8962");
+        demoWarehouseAddress.setCity("Bergdietikon");
+        demoWarehouseAddress.setCountry("CH");
         demoWarehouse.setAddress(demoWarehouseAddress);
         demoWarehouse = warehouseService.saveWarehouse(demoWarehouse);
+    }
+    private void testDistance() throws Exception{
+        distanceService.distance(demoWarehouse.getAddress(), userUser.getAddress());
     }
 }
