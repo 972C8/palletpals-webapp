@@ -5,12 +5,14 @@
 
 package ch.fhnw.palletpals.data.domain;
 
+import ch.fhnw.palletpals.data.domain.order.Order;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
 
 @Entity
 public class User {
@@ -37,6 +39,10 @@ public class User {
 	@JoinColumn(name = "address_id", referencedColumnName = "id")
 	private ShippingAddress address;
 
+	//One user has many orders
+	//@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+	//@JsonIgnore
+	//private List<Order> orderHistory;
 
 	public Long getId() {
 		return id;
