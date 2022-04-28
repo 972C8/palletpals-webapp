@@ -16,7 +16,7 @@ public class ShippingItem extends OrderItem {
         super();
     }
 
-    public ShippingItem(String name, Order order) {
+    public ShippingItem(String name, UserOrder order) {
         super(name, order);
     }
 

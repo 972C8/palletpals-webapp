@@ -29,7 +29,7 @@ public class ProductItem extends OrderItem {
         super();
     }
 
-    public ProductItem(String name, Order order) {
+    public ProductItem(String name, UserOrder order) {
         super(name, order);
     }
 

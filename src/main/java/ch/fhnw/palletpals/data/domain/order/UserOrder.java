@@ -15,35 +15,35 @@ import java.util.List;
  * References OrderItem (ProductItem and ShippingItem) that hold relevant snapshots of the information used to calculate totalCosts.
  */
 @Entity
-public class Order {
+public class UserOrder {
 
     @Id
     @GeneratedValue
     private Long id;
 
-    //@ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     //Referenced user is not returned in api requests
-    //@JsonIgnore
-    //private User user;
+    @JsonIgnore
+    private User user;
 
     private float totalCost;
     private String dateOrdered;
     private String dateDelivered;
 
     //One Order has many OrderItems
-    //@OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
-    //private List<OrderItem> orderItems;
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
+    private List<OrderItem> orderItems;
 
     //TODO: private ServiceProvider serviceProvider
 
     //private AddressItem addressItem needed?
-    /*class AddressItem {
+    class AddressItem {
         private String firstName;
         private String lastName;
         private String organisationName;
 
         //TODO: Add rest of address items
-    }*/
+    }
 
     public float getTotalCost() {
         return totalCost;

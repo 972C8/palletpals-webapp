@@ -4,8 +4,7 @@
  */
 
 package ch.fhnw.palletpals.data.domain;
-
-import ch.fhnw.palletpals.data.domain.order.Order;
+import ch.fhnw.palletpals.data.domain.order.UserOrder;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -40,9 +39,9 @@ public class User {
 	private ShippingAddress address;
 
 	//One user has many orders
-	//@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-	//@JsonIgnore
-	//private List<Order> orderHistory;
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+	@JsonIgnore
+	private List<UserOrder> orderHistory;
 
 	public Long getId() {
 		return id;
