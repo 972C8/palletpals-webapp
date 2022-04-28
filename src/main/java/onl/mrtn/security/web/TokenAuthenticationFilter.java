@@ -11,6 +11,8 @@ import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import onl.mrtn.security.config.TokenSecurityProperties;
 import onl.mrtn.security.service.TokenService;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -55,7 +57,9 @@ public class TokenAuthenticationFilter extends BasicAuthenticationFilter {
             chain.doFilter(request, response);
         } catch (UsernameNotFoundException | ExpiredJwtException | UnsupportedJwtException | MalformedJwtException |
                 SignatureException | IllegalArgumentException e) {
-            response.sendRedirect("/logout");
+            TokenLogoutHandler handler = new TokenLogoutHandler(tokenService);
+            handler.logout(request, response, null);
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
         }
 
     }

@@ -30,6 +30,9 @@ import onl.mrtn.security.web.TokenLogoutHandler;
 @EnableTokenSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private final String LOGIN_URL = "/api/user/login";
+    private final String LOGOUT_URL = "/api/user/logout";
+
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
     @Autowired
@@ -47,14 +50,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .csrf()
                 .disable()
             .authorizeRequests()
-                .antMatchers("/", "/assets/**", "/api/user/login", "/api/user/logout", "/api/user/register").permitAll()
+                .antMatchers("/", "/assets/**", LOGIN_URL, LOGOUT_URL, "/api/user/register").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/products/**", "/api/product-images/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .addFilter(new TokenLoginFilter(authenticationManagerBean(), tokenService, "/api/user/login"))
+                .addFilter(new TokenLoginFilter(authenticationManagerBean(), tokenService, LOGIN_URL))
                 .addFilter(new TokenAuthenticationFilter(authenticationManagerBean(), tokenService))
             .logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/api/user/logout"))    
+                .logoutRequestMatcher(new AntPathRequestMatcher(LOGOUT_URL))    
                 .addLogoutHandler(new TokenLogoutHandler(tokenService))
                 // override success handler to prevent redirection
                 .logoutSuccessHandler((request, response, authentication) -> {
