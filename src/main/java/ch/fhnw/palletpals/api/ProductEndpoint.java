@@ -75,17 +75,13 @@ public class ProductEndpoint {
      * @return Product
      */
     @PatchMapping(path = "/products/{productId}", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<Product> patchProduct(@RequestBody Map<String, String> productPatch, @PathVariable(value = "productId") String productId) {
+    public ResponseEntity<Product> patchProduct(@RequestBody Map<String, Object> productPatch, @PathVariable(value = "productId") String productId) {
         Product patchedProduct;
         try {
             Product currentProduct = productService.findProductById(Long.parseLong(productId));
 
             //The provided patch (as Map<String, String>) is converted into a Product object.
             Product toBePatchedProduct = objectMapper.convertValue(productPatch, Product.class);
-
-            //TODO: Support patching of referenced images of product
-            //Set productImages to null as patching images is not yet supported.
-            toBePatchedProduct.setProductImages(null);
 
             //The current product is patched (updated) using the provided patch
             patchedProduct = productService.patchProduct(toBePatchedProduct, currentProduct);
