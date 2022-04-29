@@ -39,28 +39,10 @@ public class ProductService {
      */
     public Product saveProduct(@Valid Product product) throws Exception {
         try {
-            //TODO: Add additional requirements (e.g. price not negative) before saving new product. Possibly done in Product class directly
-
-            //Add referenced ProductImages to Product that were uploaded prior
+            //Product includes empty ProductImages only with id. Add these referenced images based on the id.
             if (product.getProductImages() != null) {
-                //Initialize list of referenced productImages
-                List<ProductImage> productImages = new ArrayList<>();
-
-                //Get all ProductImage objects by id and add them to the list
-                for (ProductImage productImage : product.getProductImages()) {
-                    ProductImage image = productImageRepository.findProductImageById(productImage.getId());
-
-                    //Add all found images (based on imageId provided through API)
-                    //An image can only be assigned to one product. Therefore it is checked if the image was already assigned.
-                    if (image == null || image.getProduct() != null) {
-                        throw new RuntimeException("Invalid imageId provided: " + image.getId());
-                    }
-                    productImages.add(image);
-                }
-                //Override list of productImages as this is a post request. This method also handles the referencing
-                product.setProductImages(productImages);
+                addReferencedProductImagesWithinProduct(product);
             }
-
             return productRepository.save(product);
         } catch (Exception e) {
             throw new Exception("No product found.");
@@ -69,7 +51,7 @@ public class ProductService {
 
     /**
      * Code by: Tibor Haller
-     *
+     * <p>
      * Patch product using NullAwareBeansUtilsBean.java
      *
      * @param toBePatchedProduct
@@ -87,7 +69,50 @@ public class ProductService {
         //This effectively means that the existing product object will be patched (updated)
         beanUtils.copyProperties(currentProduct, toBePatchedProduct);
 
+        //Product includes empty ProductImages only with id. Add these referenced images based on the id.
+        //This is done after copying of properties because toBePatchedProduct is missing the current product id, which we need
+        if (currentProduct.getProductImages() != null) {
+            addReferencedProductImagesWithinProduct(currentProduct);
+        }
+
         return productRepository.save(currentProduct);
+    }
+
+    /**
+     * Code by: Tibor Haller
+     * <p>
+     * Products hold a list of referenced ProductImages.
+     * For POST or PATCH Product, a list of referenced images is provided. Using this list, correct references of ProductImages are added to the Product.
+     *
+     * @param product the Product to add the ProductImage references to.
+     * @throws Exception
+     */
+    private void addReferencedProductImagesWithinProduct(Product product) throws Exception {
+        try {
+            //Add referenced ProductImages to Product that were uploaded prior
+            if (product.getProductImages() != null) {
+                //Initialize list of referenced productImages
+                List<ProductImage> productImages = new ArrayList<>();
+
+                //Get all ProductImage objects by id and add them to the list
+                //Add all found images (based on imageId provided through API)
+                for (ProductImage productImage : product.getProductImages()) {
+                    ProductImage image = productImageRepository.findProductImageById(productImage.getId());
+
+                    //An image can only be assigned to one product. Therefore it is checked if the image was already assigned.
+                    //If this image is already referenced in a product, it must be the current product that is updated.
+                    //If that is not the case, the image will be referenced more than once, leading to issues.
+                    if (image == null || image.getProduct() != null && !image.getProduct().getId().equals(product.getId())) {
+                        throw new RuntimeException("One image should only be referenced in one product");
+                    }
+                    productImages.add(image);
+                }
+                //Override list of productImages as this is a post request. This method also handles the referencing
+                product.setProductImages(productImages);
+            }
+        } catch (Exception e) {
+            throw new Exception("Problem when adding referenced images to given product." + e);
+        }
     }
 
     /**
