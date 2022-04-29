@@ -41,6 +41,11 @@ public class UserEndpoint {
         return ResponseEntity.ok(user);
     }
 
+    /**
+     * Code by Daniel Locher
+     * @param user
+     * @return
+     */
     @PostMapping("/register")
     public ResponseEntity<Void> postRegister(@RequestBody User user) {
         try {
@@ -53,6 +58,11 @@ public class UserEndpoint {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * Code written by Daniel Locher & copied from Tibor Haller
+     * @param userPatch
+     * @return
+     */
     @PatchMapping(path = "/profile", consumes = "application/json", produces = "application/json")
     public ResponseEntity<User> patchProfile(@RequestBody Map<String, String> userPatch){
         User patchedUser;
@@ -65,6 +75,10 @@ public class UserEndpoint {
         return ResponseEntity.accepted().body(patchedUser);
     }
 
+    /**
+     * Code by Daniel Locher
+     * @return
+     */
     @DeleteMapping(path = "/profile")
     public ResponseEntity<Void> deleteProfile(){
         try {

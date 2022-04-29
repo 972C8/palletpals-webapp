@@ -48,6 +48,12 @@ public class WarehouseEndpoint {
         return ResponseEntity.created(location).body(warehouse);
     }
 
+    /**
+     * Cody written by Daniel Locher & copied form Tibor Haller
+     * @param warehousePatch
+     * @param warehouseId
+     * @return
+     */
     @PatchMapping(path = "/{warehouseId}", consumes = "application/json", produces = "application/json")
     public ResponseEntity<Warehouse> patchWarehouse(@RequestBody Map<String, String> warehousePatch, @PathVariable(value = "warehouseId") String warehouseId){
         Warehouse patchedWarehouse;
@@ -63,11 +69,20 @@ public class WarehouseEndpoint {
         return ResponseEntity.accepted().body(patchedWarehouse);
     }
 
+    /**
+     * Cody by Daniel Locher
+     * @return
+     */
     @GetMapping(path = "/all", produces = "application/json")
     public List<Warehouse> getAllWarehouses(){
         return warehouseService.findAllWarehouses();
     }
 
+    /**
+     * Code by Daniel Locher
+     * @param warehouseId
+     * @return
+     */
     @GetMapping(path = "/{warehouseId}")
     public ResponseEntity<Warehouse> getWarehouse(@PathVariable(value = "warehouseId")String warehouseId){
         Warehouse warehouse;

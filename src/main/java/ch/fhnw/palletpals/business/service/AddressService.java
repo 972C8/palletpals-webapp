@@ -20,6 +20,12 @@ public class AddressService {
     @Autowired
     private UserService userService;
 
+    /**
+     * Code by Daniel Locher
+     * @param address
+     * @return
+     * @throws Exception
+     */
     public ShippingAddress saveCustomerAddress(@Valid ShippingAddress address) throws Exception {
         //Logic to store referenced objects by provided id from JSON
         try {
@@ -36,7 +42,6 @@ public class AddressService {
      * @return
      * @throws Exception
      */
-
     public ShippingAddress saveWarehouseAddress(@Valid ShippingAddress address) throws Exception {
         //Logic to store referenced objects by provided id from JSON
         try {
@@ -47,6 +52,12 @@ public class AddressService {
         return address;
     }
 
+    /**
+     * Code by Daniel Locher
+     * @param userId
+     * @return
+     * @throws Exception
+     */
     public ShippingAddress getAddressByUserId(Long userId) throws Exception{
         try {
             return addressRepository.findByUser(userService.getUserById(userId));
@@ -55,6 +66,11 @@ public class AddressService {
         }
     }
 
+    /**
+     * Daniel Locher
+     * @param user
+     * @throws Exception
+     */
     public void deleteAddressByUser(User user) throws Exception{
         try {
             addressRepository.deleteById(addressRepository.findByUser(user).getId());

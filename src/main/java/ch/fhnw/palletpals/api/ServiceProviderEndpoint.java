@@ -18,6 +18,11 @@ public class ServiceProviderEndpoint {
     @Autowired
     private ServiceProviderService serviceProviderService;
 
+    /**
+     * Code by Daniel Locher
+     * @param serviceProviderString
+     * @return
+     */
     @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<ServiceProvider> postServiceProvider(@RequestBody String serviceProviderString){
         ServiceProvider serviceProvider;

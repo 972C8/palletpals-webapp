@@ -18,6 +18,12 @@ public class ServiceProviderService {
     @Autowired
     private ServiceProviderRepository serviceProviderRepository;
 
+    /**
+     * Code by Daniel Locher
+     * @param serviceProviderString
+     * @return
+     * @throws Exception
+     */
     public ServiceProvider saveServiceProvider(String serviceProviderString) throws Exception{
         ServiceProvider serviceProvider = new ServiceProvider();
         try {
@@ -32,6 +38,15 @@ public class ServiceProviderService {
         return serviceProvider;
     }
 
+    /**
+     * Code by Daniel Locher
+     * Method to get shipping price from price table of a defined service provider
+     * @param serviceProvider
+     * @param palletSpace
+     * @param km
+     * @return
+     * @throws Exception
+     */
     public Double getShippingPrice(ServiceProvider serviceProvider, int palletSpace, double km)throws Exception {
         ArrayList<Integer> kmArray;
         ArrayList<Integer> palletArray;
@@ -57,6 +72,14 @@ public class ServiceProviderService {
 
     }
 
+    /**
+     * Code by Daniel Locher
+     * Because spring entities can't hold containers the table is saved as a json string
+     * This methods builds the table out of the json string
+     * @param serviceProvider
+     * @return
+     * @throws Exception
+     */
     private ArrayList<Integer> buildKmArray(ServiceProvider serviceProvider)throws Exception{
         ArrayList<Integer> kmArray = new ArrayList<Integer>();
         try{
@@ -72,6 +95,14 @@ public class ServiceProviderService {
         return kmArray;
     }
 
+    /**
+     * Code by Daniel Locher
+     * Because spring entities can't hold containers the table is saved as a json string
+     * This methods builds the table out of the json string
+     * @param serviceProvider
+     * @return
+     * @throws Exception
+     */
     private ArrayList<Integer> buildPalletArray(ServiceProvider serviceProvider)throws Exception{
         ArrayList<Integer> palletArray = new ArrayList<Integer>();
         try{
@@ -87,6 +118,14 @@ public class ServiceProviderService {
         return palletArray;
     }
 
+    /**
+     * Code by Daniel Locher
+     * Because spring entities can't hold containers the table is saved as a json string
+     * This methods builds the table out of the json string
+     * @param serviceProvider
+     * @return
+     * @throws Exception
+     */
     private ArrayList<ArrayList<Double>> buildPriceMatrix(ServiceProvider serviceProvider)throws Exception{
         ArrayList<ArrayList<Double>> priceMatrix = new ArrayList<ArrayList<Double>>();
         try{

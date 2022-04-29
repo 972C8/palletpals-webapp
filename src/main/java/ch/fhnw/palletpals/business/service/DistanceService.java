@@ -16,7 +16,14 @@ public class DistanceService {
     @Autowired
     WarehouseService warehouseService;
 
-
+    /**
+     * Code by Daniel Locher
+     * This method takes the destination address of the customer and finds the nearest warehouse and returns a coordinate
+     * object which holds the distance and the reference to this warehouse
+     * @param end
+     * @return
+     * @throws Exception
+     */
     public Coordinate nearestWarehouse(ShippingAddress end)throws Exception{
         ArrayList<Coordinate> coordinates = new ArrayList<>();
         Coordinate nearest;
@@ -43,8 +50,16 @@ public class DistanceService {
         return nearest;
     }
 
-    //https://www.baeldung.com/async-http-client
-    //https://rapidapi.com/trueway/api/trueway-geocoding/
+    /**
+     * Code by Daniel Locher
+     * Method to get coordinates out of full text addresses
+     * Resources:
+     * https://www.baeldung.com/async-http-client
+     * https://rapidapi.com/trueway/api/trueway-geocoding/
+     * @param address
+     * @return
+     * @throws Exception
+     */
     private Coordinate getCoordinate(ShippingAddress address) throws Exception{
         Coordinate coordinate;
         //Send the request to api to get coordinate of full text address
@@ -68,7 +83,16 @@ public class DistanceService {
         }
         return coordinate;
     }
-    //https://rapidapi.com/trueway/api/trueway-matrix/
+
+    /**
+     * Code by Daniel Locher
+     * Method to get distances form different warehouses to the client address
+     * Resources:
+     * https://rapidapi.com/trueway/api/trueway-matrix/
+     * @param coordinates
+     * @return
+     * @throws Exception
+     */
     private ArrayList<Coordinate> getDistancesInKm(ArrayList<Coordinate> coordinates) throws Exception{
         String originString;
         String destinationString;
