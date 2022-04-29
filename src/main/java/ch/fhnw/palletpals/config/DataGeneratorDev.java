@@ -28,11 +28,13 @@ public class DataGeneratorDev {
 
     User userUser;
     Warehouse demoWarehouse;
+    Warehouse demoWarehouse2;
 
     @PostConstruct
     private void init() throws Exception {
          demoUser();
          demoWarehouse();
+         testDistance();
     }
 
     private void demoUser() throws Exception {
@@ -41,27 +43,37 @@ public class DataGeneratorDev {
         userUser.setPassword("password");
         userUser.setUserName("user");
         ShippingAddress demoUserAddress = new ShippingAddress();
-        demoUserAddress.setStreet("Bahnhofstrasse 6");
-        demoUserAddress.setPostalCode("5210");
-        demoUserAddress.setCity("Windisch");
-        demoUserAddress.setStreet("Demo Street");
+        demoUserAddress.setStreet("Frohsinnstrasse 3");
+        demoUserAddress.setPostalCode("5430");
+        demoUserAddress.setCity("Wettingen");
         userUser.setAddress(demoUserAddress);
         userService.saveUser(userUser);
         addressService.saveCustomerAddress(demoUserAddress);
     }
     private void demoWarehouse() throws Exception{
         demoWarehouse = new Warehouse();
-        demoWarehouse.setName("Demo Warehouse");
+        demoWarehouse.setName("Brugg Campus");
         ShippingAddress demoWarehouseAddress = new ShippingAddress();
         demoWarehouseAddress.setOrganisationName("Demo Warehouse");
-        demoWarehouseAddress.setStreet("Wiesentalstrasse 6a");
-        demoWarehouseAddress.setPostalCode("8962");
-        demoWarehouseAddress.setCity("Bergdietikon");
+        demoWarehouseAddress.setStreet("Bahnhofstrasse 6");
+        demoWarehouseAddress.setPostalCode("5210");
+        demoWarehouseAddress.setCity("Windisch");
         demoWarehouseAddress.setCountry("CH");
         demoWarehouse.setAddress(demoWarehouseAddress);
         demoWarehouse = warehouseService.saveWarehouse(demoWarehouse);
+
+        demoWarehouse2 = new Warehouse();
+        demoWarehouse2.setName("Olten Campus");
+        ShippingAddress demoWarehouseAddress2 = new ShippingAddress();
+        demoWarehouseAddress2.setOrganisationName("Demo Warehouse 2");
+        demoWarehouseAddress2.setStreet("Von Rollstrasse 10");
+        demoWarehouseAddress2.setPostalCode("4600");
+        demoWarehouseAddress2.setCity("Olten");
+        demoWarehouseAddress2.setCountry("CH");
+        demoWarehouse2.setAddress(demoWarehouseAddress2);
+        demoWarehouse2 = warehouseService.saveWarehouse(demoWarehouse2);
     }
     private void testDistance() throws Exception{
-        distanceService.distance(demoWarehouse.getAddress(), userUser.getAddress());
+        System.out.println(distanceService.nearestWarehouse(userUser.getAddress()));
     }
 }

@@ -1,34 +1,58 @@
 package ch.fhnw.palletpals.business.service;
 
-import ch.fhnw.palletpals.data.domain.Coordinate;
-import ch.fhnw.palletpals.data.domain.ShippingAddress;
+import ch.fhnw.palletpals.data.domain.*;
 import org.asynchttpclient.*;
 import org.asynchttpclient.util.HttpConstants;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONArray;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class DistanceService {
 
-    public double distance(ShippingAddress start, ShippingAddress end)throws Exception{
+    @Autowired
+    WarehouseService warehouseService;
+
+
+    public Coordinate nearestWarehouse(ShippingAddress end)throws Exception{
         ArrayList<Coordinate> coordinates = new ArrayList<>();
+        Coordinate nearest;
+        Coordinate endCoordinate;
         double distance;
+        //Get coordinates for warehouse addresses and mark them as origins
         try {
-            coordinates.add(getCoordinate(start));
-            coordinates.add(getCoordinate(end));
-            distance = getDistanceInKm(coordinates);
+            for (Warehouse item: warehouseService.findAllWarehouses()) {
+                Coordinate coordinate = getCoordinate(item.getAddress());
+                coordinate.setCoordinateType(CoordinateType.ORIGIN);
+                coordinates.add(coordinate);
+            }
+            //Get coordinate for customer address, mark it as the destination and add to array
+            endCoordinate = getCoordinate(end);
+            endCoordinate.setCoordinateType(CoordinateType.DESTINATION);
+            coordinates.add(endCoordinate);
+            //Get the distances from each warehouse to destination address
+            coordinates = getDistancesInKm(coordinates);
+            //Get the warehouse which is nearest to the destination address
+            nearest = getNearestDistance(coordinates);
         } catch (Exception e){
             throw new Exception(e.getMessage());
         }
-        return distance;
+        System.out.println("The origin warehouse is:");
+        System.out.println(warehouseService.findWarehouseByAddress(nearest.getAddressReference()).getName());
+        System.out.println("The destination address is:");
+        System.out.println(end.getStreet()+" "+end.getCity());
+        System.out.println("The Distance is: "+nearest.getDistanceToDestinationInKM());
+        return null;
     }
+
     //https://www.baeldung.com/async-http-client
-    public Coordinate getCoordinate(ShippingAddress address) throws Exception{
+    //https://rapidapi.com/trueway/api/trueway-geocoding/
+    private Coordinate getCoordinate(ShippingAddress address) throws Exception{
         Coordinate coordinate;
+        //Send the request to api to get coordinate of full text address
         try {
             AsyncHttpClient client = new DefaultAsyncHttpClient();
             Request request = new RequestBuilder(HttpConstants.Methods.GET)
@@ -38,24 +62,42 @@ public class DistanceService {
                     .build();
 
             ListenableFuture<Response> responseFuture = client.executeRequest(request);
+            //Get values out of JSON and assign to coordinate object
             JSONObject jsonObject = new JSONObject(responseFuture.get().getResponseBody());
             JSONArray jsonArray = jsonObject.getJSONArray("results");
             JSONObject location = jsonArray.getJSONObject(0).getJSONObject("location");
-            coordinate = new Coordinate(location.getString("lat"),location.getString("lng") );
+            coordinate = new Coordinate(location.getString("lat"),location.getString("lng"), address.getId());
             client.close();
         } catch (Exception e){
             throw new Exception("Request for coordinates failed");
         }
         return coordinate;
     }
-
-    public double getDistanceInKm(ArrayList<Coordinate> coordinates) throws Exception{
+    //https://rapidapi.com/trueway/api/trueway-matrix/
+    private ArrayList<Coordinate> getDistancesInKm(ArrayList<Coordinate> coordinates) throws Exception{
+        String originString;
+        String destinationString;
         String distanceString;
-        double distance;
+
+        //Last element of coordinates array is always the destination
+        //Assign coordinates as string to variable and remove from array
+        destinationString = coordinates.get(coordinates.size() - 1).getPathString();
+        coordinates.remove(coordinates.size() - 1);
+
+        //The remaining coordinates are all origins and warehouse addresses
+        //Build the path string with the remaining coordinates
+        ArrayList<String> pathStrings = new ArrayList<String>();
+        for(Coordinate item : coordinates){
+            pathStrings.add(item.getPathString());
+        }
+        originString = String.join(";", pathStrings);
+
+        //Sending the request to API to get distances between orginis and destination
         try {
         AsyncHttpClient client = new DefaultAsyncHttpClient();
         Request request = new RequestBuilder(HttpConstants.Methods.GET)
-                .setUrl("https://trueway-matrix.p.rapidapi.com/CalculateDrivingMatrix?origins=47.274169%2C%208.166035&destinations=47.38936%2C%208.393617")
+                .setUrl("https://trueway-matrix.p.rapidapi.com/CalculateDrivingMatrix?origins="
+                        + originString + "&destinations=" + destinationString)
                 .setHeader("X-RapidAPI-Host", "trueway-matrix.p.rapidapi.com")
                 .setHeader("X-RapidAPI-Key", "a3ed38eadamsh9968ee50089fa4cp1c5264jsn6093f98e35ce")
                 .build();
@@ -63,16 +105,34 @@ public class DistanceService {
         ListenableFuture<Response> responseFuture = client.executeRequest(request);
         JSONObject jsonObject = new JSONObject(responseFuture.get().getResponseBody());
         JSONArray jsonArray = jsonObject.getJSONArray("distances");
-        JSONArray distanceArray = jsonArray.getJSONArray(0);
-        distanceString = distanceArray.getString(0);
+        //Assign distances in meter to corresponding coordinates and convert to km
+        for (int i = 0; i<jsonArray.length(); i++) {
+            JSONArray distanceArray = jsonArray.getJSONArray(i);
+            distanceString = distanceArray.getString(0);
+            double distance = Double.parseDouble(distanceString);
+            distance /= 1000;
+            coordinates.get(i).setDistanceToDestinationInKM(distance);
+        }
 
         client.close();
 
         } catch (Exception e){
             throw new Exception("Request for distance failed");
         }
-        distance = Double.parseDouble(distanceString);
-        distance = distance / 1000;
-        return distance;
+
+        return coordinates;
+    }
+    //TODO think of case when distance is same
+    public Coordinate getNearestDistance(ArrayList<Coordinate> coordinates){
+        Coordinate nearest=null;
+        for(Coordinate c : coordinates){
+            if (nearest==null){
+                nearest = c;
+            }
+            if (c.getDistanceToDestinationInKM()<nearest.getDistanceToDestinationInKM()){
+                nearest=c;
+            }
+        }
+        return nearest;
     }
 }

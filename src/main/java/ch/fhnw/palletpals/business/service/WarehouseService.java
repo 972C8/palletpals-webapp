@@ -43,6 +43,14 @@ public class WarehouseService {
         return warehouse;
     }
 
+    public Warehouse findWarehouseByAddress(Long id)throws Exception{
+        try{
+            return warehouseRepository.findWarehouseByAddressId(id);
+        } catch (Exception e){
+            throw new Exception("No warehouse found with address ID: " + id);
+        }
+    }
+
     public Warehouse patchWarehouse(Warehouse toBePatchedWarehouse, Warehouse currentWarehouse) throws Exception{
         beanUtils.copyProperties(currentWarehouse, toBePatchedWarehouse);
         return warehouseRepository.save(currentWarehouse);
