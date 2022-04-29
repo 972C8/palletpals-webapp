@@ -40,12 +40,7 @@ public class DistanceService {
         } catch (Exception e){
             throw new Exception(e.getMessage());
         }
-        System.out.println("The origin warehouse is:");
-        System.out.println(warehouseService.findWarehouseByAddress(nearest.getAddressReference()).getName());
-        System.out.println("The destination address is:");
-        System.out.println(end.getStreet()+" "+end.getCity());
-        System.out.println("The Distance is: "+nearest.getDistanceToDestinationInKM());
-        return null;
+        return nearest;
     }
 
     //https://www.baeldung.com/async-http-client

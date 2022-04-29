@@ -9,9 +9,9 @@ public class ServiceProvider {
     @GeneratedValue
     private Long id;
     private String name;
-    private String kmArray;
-    private String palletArray;
-    private String priceMatrix;
+    @Column(columnDefinition = "LONGTEXT")
+    private String jSONString;
+
 
     public Long getId() {
         return id;
@@ -29,27 +29,14 @@ public class ServiceProvider {
         this.name = name;
     }
 
-    public String getKmArray() {
-        return kmArray;
+    public String getJSONString() {
+        return jSONString;
     }
 
-    public void setKmArray(String kmArray) {
-        this.kmArray = kmArray;
+    public void setJSONString(String kmArray) {
+        this.jSONString = kmArray;
     }
 
-    public String getPalletArray() {
-        return palletArray;
-    }
 
-    public void setPalletArray(String palletArray) {
-        this.palletArray = palletArray;
-    }
 
-    public String getPriceMatrix() {
-        return priceMatrix;
-    }
-
-    public void setPriceMatrix(String priceMatrix) {
-        this.priceMatrix = priceMatrix;
-    }
 }

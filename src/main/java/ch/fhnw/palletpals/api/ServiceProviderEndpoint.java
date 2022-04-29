@@ -19,13 +19,14 @@ public class ServiceProviderEndpoint {
     private ServiceProviderService serviceProviderService;
 
     @PostMapping(consumes = "application/json", produces = "application/json")
-    public ResponseEntity<ServiceProvider> postServiceProvider(@RequestBody ServiceProvider serviceProvider){
+    public ResponseEntity<ServiceProvider> postServiceProvider(@RequestBody String serviceProviderString){
+        ServiceProvider serviceProvider;
         try {
-            serviceProviderService.saveServiceProvider(serviceProvider);
+            serviceProvider = serviceProviderService.saveServiceProvider(serviceProviderString);
         }catch (Exception e){
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
         }
         return ResponseEntity.ok(serviceProvider);
     }
-    //TODO make requests
+    //TODO make requests rather Put than Patch as discussed with Tibor
 }
