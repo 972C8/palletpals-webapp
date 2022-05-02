@@ -26,7 +26,7 @@ public class DistanceService {
      */
     public Coordinate nearestWarehouse(ShippingAddress end)throws Exception{
         ArrayList<Coordinate> coordinates = new ArrayList<>();
-        Coordinate nearest;
+        Coordinate nearest = null;
         Coordinate endCoordinate;
         double distance;
         //Get coordinates for warehouse addresses and mark them as origins
@@ -41,11 +41,17 @@ public class DistanceService {
             endCoordinate.setCoordinateType(CoordinateType.DESTINATION);
             coordinates.add(endCoordinate);
             //Get the distances from each warehouse to destination address
-            coordinates = getDistancesInKm(coordinates);
+            getDistancesInKm(coordinates);
             //Get the warehouse which is nearest to the destination address
             nearest = getNearestDistance(coordinates);
+
+            //Ensure that nearestWarehouse is never null
+            if (nearest == null) {
+                throw new Exception("NearestWarehouse cannot be null");
+            }
         } catch (Exception e){
-            throw new Exception(e.getMessage());
+            //Permit server to continue running if DistanceService experiences an issue while calculating the distance
+            System.out.println("DistanceService.java experienced an issue:" + e.getMessage());
         }
         return nearest;
     }

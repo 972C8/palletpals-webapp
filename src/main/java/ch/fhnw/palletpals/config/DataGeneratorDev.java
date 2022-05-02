@@ -34,6 +34,8 @@ public class DataGeneratorDev {
     @PostConstruct
     private void init() throws Exception {
          demoUser();
+
+         //When using the application dev profile, demo data is generated and demo calculations are performed.
          demoWarehouse();
          demoServiceProvider();
          double drivingDistance = distanceService.nearestWarehouse(userUser.getAddress()).getDistanceToDestinationInKM();
