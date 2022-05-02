@@ -1,13 +1,8 @@
-/*
- * Copyright (c) 2020. University of Applied Sciences and Arts Northwestern Switzerland FHNW.
- * All rights reserved.
- */
-
 package ch.fhnw.palletpals.data.domain;
 import ch.fhnw.palletpals.data.domain.order.UserOrder;
+import ch.fhnw.palletpals.data.domain.shopping.ShoppingSession;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -43,6 +38,9 @@ public class User {
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
 	@JsonIgnore
 	private List<UserOrder> orderHistory;
+
+	@OneToOne(mappedBy = "user")
+	private ShoppingSession shoppingSession;
 
 	public Long getId() {
 		return id;
