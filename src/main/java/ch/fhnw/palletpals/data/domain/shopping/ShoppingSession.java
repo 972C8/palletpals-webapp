@@ -16,7 +16,7 @@ public class ShoppingSession {
 
     @Id
     @GeneratedValue
-    @Column(name = "shoppingsessionID", unique = true, nullable = false)
+    @Column(name = "shoppingID", unique = true, nullable = false)
     private Long id;
 
     private float shippingCost;
@@ -35,8 +35,64 @@ public class ShoppingSession {
      * According to https://stackoverflow.com/questions/49592081/jpa-detached-entity-passed-to-persist-nested-exception-is-org-hibernate-persis,
      * CascadeType.PERSIST poses problems as it tries to persist an already existing child when adding the reference in the list
      */
-    //TODO: Enable shoppingCart relationship
-    //@OneToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE}, orphanRemoval = true, fetch = FetchType.EAGER)
-    //private List<CartItem> shoppingCart;
+    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE}, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JoinColumn(name = "shoppingID", referencedColumnName = "shoppingID")
+    private List<CartItem> shoppingCart;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public float getShippingCost() {
+        return shippingCost;
+    }
+
+    public void setShippingCost(float shippingCost) {
+        this.shippingCost = shippingCost;
+    }
+
+    public float getTotalCost() {
+        return totalCost;
+    }
+
+    public void setTotalCost(float totalCost) {
+        this.totalCost = totalCost;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getModifiedAt() {
+        return modifiedAt;
+    }
+
+    public void setModifiedAt(String modifiedAt) {
+        this.modifiedAt = modifiedAt;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<CartItem> getShoppingCart() {
+        return shoppingCart;
+    }
+
+    public void setShoppingCart(List<CartItem> shoppingCart) {
+        this.shoppingCart = shoppingCart;
+    }
 }
 
