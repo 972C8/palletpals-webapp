@@ -39,7 +39,7 @@ public class ProductService {
      */
     public Product saveProduct(@Valid Product product) throws Exception {
         try {
-            //TODO: Add additional requirements (e.g. price not negative) before saving new product. Possibly done in Product class directly
+            //TODO: Add additional requirements (e.g. price not negative) before saving new product. Possibly done in Product class directly (Comment by Dan: Yes done directly in class and with @Valid annotation conditions get evaluated)
 
             //Add referenced ProductImages to Product that were uploaded prior
             if (product.getProductImages() != null) {

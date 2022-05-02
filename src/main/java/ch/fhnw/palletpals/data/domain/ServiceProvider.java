@@ -3,15 +3,15 @@ package ch.fhnw.palletpals.data.domain;
 import javax.persistence.*;
 
 @Entity
-public class Warehouse {
+public class ServiceProvider {
 
     @Id
     @GeneratedValue
     private Long id;
     private String name;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id", referencedColumnName = "id")
-    private ShippingAddress address;
+    @Column(columnDefinition = "LONGTEXT")
+    private String jSONString;
+
 
     public Long getId() {
         return id;
@@ -29,11 +29,14 @@ public class Warehouse {
         this.name = name;
     }
 
-    public ShippingAddress getAddress() {
-        return address;
+    public String getJSONString() {
+        return jSONString;
     }
 
-    public void setAddress(ShippingAddress address) {
-        this.address = address;
+    public void setJSONString(String kmArray) {
+        this.jSONString = kmArray;
     }
+
+
+
 }
