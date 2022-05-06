@@ -35,6 +35,8 @@ public class DataGeneratorDev {
     ServiceProvider demoServiceProvider1;
     Product product1;
     Product product2;
+    Product product3;
+    Product product4;
 
     @PostConstruct
     private void init() throws Exception {
@@ -121,20 +123,48 @@ public class DataGeneratorDev {
         product2.setMaxProducts(10);
         product2.setMinPalletSpace((float) 2);
         product2 = productService.saveProduct(product2);
+
+        product3 = new Product();
+        product3.setName("Product 3");
+        product3.setDescription("Product is good");
+        product3.setDetails("Yes");
+        product3.setPrice((float) 45.9);
+        product3.setMaxProducts(15);
+        product3.setMinPalletSpace((float) 2.5);
+        product3 = productService.saveProduct(product3);
+
+        product4 = new Product();
+        product4.setName("Product 4");
+        product4.setDescription("Product is good");
+        product4.setDetails("Yes");
+        product4.setPrice((float) 45.9);
+        product4.setMaxProducts(100);
+        product4.setMinPalletSpace((float) 0.8);
+        product4 = productService.saveProduct(product4);
     }
 
     private void demoShoppingSession() throws Exception{
         CartItem item1 = new CartItem();
         item1.setProduct(product1);
-        item1.setQuantity(5);
+        item1.setQuantity(13);
 
         CartItem item2 = new CartItem();
         item2.setProduct(product2);
-        item2.setQuantity(15);
+        item2.setQuantity(5);
+
+        CartItem item3 = new CartItem();
+        item3.setProduct(product3);
+        item3.setQuantity(8);
+
+        CartItem item4 = new CartItem();
+        item4.setProduct(product4);
+        item4.setQuantity(60);
 
         ArrayList<CartItem> list = new ArrayList<CartItem>();
         list.add(item1);
         list.add(item2);
+        list.add(item3);
+        list.add(item4);
 
         palletSpaceService.getPalletSpace(list);
     }
