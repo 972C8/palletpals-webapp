@@ -2,6 +2,8 @@ package ch.fhnw.palletpals.data.domain.shopping;
 
 import ch.fhnw.palletpals.data.domain.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.List;
@@ -16,17 +18,20 @@ public class ShoppingSession {
 
     @Id
     @GeneratedValue
-    @Column(name = "shoppingID", unique = true, nullable = false)
+    @Column(name = "shoppingId", unique = true, nullable = false)
     private Long id;
 
     private float shippingCost;
     private float totalCost;
+
+    //TODO: Timestamps not used yet
     private String createdAt;
     private String modifiedAt;
 
     @OneToOne
     @JsonIgnore
     private User user;
+
     /**
      * Uni-directional OneToMany relationship. CascadeType and orphanRemoval is required to propagate changes in the parent to children.
      *
@@ -36,8 +41,17 @@ public class ShoppingSession {
      * CascadeType.PERSIST poses problems as it tries to persist an already existing child when adding the reference in the list
      */
     @OneToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE}, orphanRemoval = true, fetch = FetchType.EAGER)
-    @JoinColumn(name = "shoppingID", referencedColumnName = "shoppingID")
+    @JoinColumn(name = "shoppingId", referencedColumnName = "shoppingId")
+    //Fixes Hibernate issue to disallow multiple bag fetches https://hibernate.atlassian.net/browse/HHH-1718
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<CartItem> shoppingCart;
+
+    public ShoppingSession(User user) {
+        this.user = user;
+    }
+
+    public ShoppingSession() {
+    }
 
     public Long getId() {
         return id;

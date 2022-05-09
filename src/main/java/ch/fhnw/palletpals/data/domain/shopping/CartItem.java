@@ -1,6 +1,7 @@
 package ch.fhnw.palletpals.data.domain.shopping;
 
 import ch.fhnw.palletpals.data.domain.Product;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.Positive;
@@ -33,11 +34,15 @@ public class CartItem {
      * <p>
      * Bidirectional relation with ShoppingSession. Changes are propagated to ShoppingSession, meaning that deleting an instance of CartItem will remove the reference in ShoppingSession.
      */
-    //TODO: Add bidirectional relation with ShoppingSession
+
+    @ManyToOne
+    @JoinColumn(name = "shoppingId")
+    @JsonIgnore
+    private ShoppingSession shoppingSession;
 
     //Uni-directional relationship. This means that Product does not know about which CartItems reference it.
     @ManyToOne
-    @JoinColumn(name = "shoppingID")
+    @JoinColumn(name = "productId")
     private Product product;
 
     public Long getId() {
@@ -70,5 +75,13 @@ public class CartItem {
 
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    public ShoppingSession getShoppingSession() {
+        return shoppingSession;
+    }
+
+    public void setShoppingSession(ShoppingSession shoppingSession) {
+        this.shoppingSession = shoppingSession;
     }
 }

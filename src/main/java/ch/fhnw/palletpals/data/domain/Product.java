@@ -1,6 +1,8 @@
 package ch.fhnw.palletpals.data.domain;
 
 import ch.fhnw.palletpals.data.domain.image.ProductImage;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
