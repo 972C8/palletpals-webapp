@@ -50,6 +50,18 @@ public class ShoppingService {
                 throw new Exception("Problem finding or creating shopping session for current user.");
             }
 
+            //If a CartItem with reference to given Product already exists, the CartItem's quantity is increased rather than creating a new object.
+            CartItem cartItemWithGivenProductId = cartItemRepository.findCartItemByProductId(cartItem.getProduct().getId());
+
+            //Simply add the given quantity to the existing cartItem, rather than creating a second, duplicate CartItem.
+            if (cartItemWithGivenProductId != null) {
+                int quantityToAdd = cartItem.getQuantity();
+                cartItemWithGivenProductId.addQuantity(quantityToAdd);
+
+                //Return the updated cartItem rather than creating a new one
+                return cartItemWithGivenProductId;
+            }
+
             //Add reference to shoppingSession in CartItem. Due to bi-directional mapping, the reference is also added in shoppingSession
             cartItem.setShoppingSession(currentShoppingSession);
 
@@ -110,7 +122,7 @@ public class ShoppingService {
 
     /**
      * Code by: Tibor Haller
-     *
+     * <p>
      * Patch product using NullAwareBeansUtilsBean.java
      *
      * @param toBePatchedCartItem
@@ -144,9 +156,9 @@ public class ShoppingService {
 
     /**
      * Code by: Tibor Haller
-     *
+     * <p>
      * Returns the current user's existing shopping session or creates a new shopping session for the current user if it doesn't exist yet.
-     *
+     * <p>
      * Each user can have one shopping session.
      *
      * @return the current user's shopping session

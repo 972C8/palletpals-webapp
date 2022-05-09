@@ -13,6 +13,8 @@ import javax.validation.constraints.Positive;
  * CartItem is used to display the shopping cart (with calculations).
  * <p>
  * One User has one ShoppingSession, which consists of one CartItem per product in the shopping cart.
+ * <p>
+ * Rather than creating multiple CartItems with reference to the same Product, the additional quantities are added to existing CartItem. This ensures that no duplicate orders of the same Product exist.
  */
 @Entity
 public class CartItem {
@@ -56,6 +58,17 @@ public class CartItem {
         return quantity;
     }
 
+    /**
+     * Code by: Tibor Haller
+     * <p>
+     * Increase the quantity. Necessary when avoiding duplicate CartItems with reference to the same product.
+     *
+     * @param quantity
+     */
+    public void addQuantity(int quantity) {
+        this.quantity += quantity;
+    }
+
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
@@ -75,7 +88,6 @@ public class CartItem {
     public void setProduct(Product product) {
         this.product = product;
 
-        //TODO: Ensure that it works when updating CartItem
         //When the referenced product changes, ensure that correct, new pricePerUnit is taken from referenced product
         setPricePerUnit(this.product.getPrice());
     }
