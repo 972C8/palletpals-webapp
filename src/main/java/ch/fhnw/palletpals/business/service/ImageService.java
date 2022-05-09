@@ -30,7 +30,7 @@ public class ImageService {
     @Autowired
     private ProductImageRepository productImageRepository;
 
-    private final Path root = Paths.get("uploads");
+    public final static Path root = Paths.get("uploads");
 
     /**
      * Code by: Tibor Haller
@@ -163,7 +163,7 @@ public class ImageService {
     /**
      * Code by: Tibor Haller
      *
-     * Delete image by provided id, both from directory and database
+     * Delete image by provided id, both from directory (using @PostRemove method in ProductImage.java) and database.
      *
      * @param imageId
      */
@@ -174,10 +174,6 @@ public class ImageService {
 
             //Delete ProductImage by imageId. As explained in ProductImage.java, the reference is automatically deleted from Product when the ProductImage is deleted.
             productImageRepository.deleteById(imageId);
-
-            //Find and delete the image from the directory
-            Path file = root.resolve(imageFile.getFileName());
-            Files.delete(file);
 
         } catch (Exception e) {
             throw new RuntimeException("Error: " + e.getMessage());

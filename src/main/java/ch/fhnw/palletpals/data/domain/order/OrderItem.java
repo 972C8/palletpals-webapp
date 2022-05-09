@@ -62,4 +62,12 @@ public abstract class OrderItem {
     public void setOrder(UserOrder order) {
         this.order = order;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }
