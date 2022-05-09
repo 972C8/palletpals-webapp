@@ -121,4 +121,20 @@ public class User {
 	public void setAddress(ShippingAddress address) {
 		this.address = address;
 	}
+
+	public List<UserOrder> getOrderHistory() {
+		return orderHistory;
+	}
+
+	public void setOrderHistory(List<UserOrder> orderHistory) {
+		this.orderHistory = orderHistory;
+	}
+
+	public ShoppingSession getShoppingSession() {
+		return shoppingSession;
+	}
+
+	public void setShoppingSession(ShoppingSession shoppingSession) {
+		this.shoppingSession = shoppingSession;
+	}
 }
