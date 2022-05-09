@@ -15,7 +15,7 @@ public class Product {
 
     @Id
     @GeneratedValue
-    @Column(name = "productID", unique = true, nullable = false)
+    @Column(name = "productId", unique = true, nullable = false)
     private Long id;
 
     @NotEmpty(message = "Please provide a name for the product")
@@ -46,7 +46,9 @@ public class Product {
      * CascadeType.PERSIST poses problems as it tries to persist an already existing child when adding the reference in the list
      */
     @OneToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE}, orphanRemoval = true, fetch = FetchType.EAGER)
-    @JoinColumn(name = "productID", referencedColumnName = "productID")
+    @JoinColumn(name = "productId", referencedColumnName = "productId")
+    //Fixes Hibernate issue to disallow multiple bag fetches https://hibernate.atlassian.net/browse/HHH-1718
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<ProductImage> productImages;
 
     public Long getId() {
