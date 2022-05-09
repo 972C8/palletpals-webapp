@@ -98,10 +98,21 @@ public class ShoppingService {
 
         CartItem cartItem = cartItemRepository.findCartItemById(cartItemId);
         if (cartItem == null) {
-            throw new Exception("No product with ID " + cartItem + " found.");
+            throw new Exception("No product with given ID found.");
         }
 
         return cartItem;
+    }
+
+    /**
+     * Code by: Tibor Haller
+     * <p>
+     * Deletes the CartItem using the id.
+     *
+     * @param cartItemId is to be deleted
+     */
+    public void deleteCartItemById(Long cartItemId) {
+        cartItemRepository.deleteById(cartItemId);
     }
 
     /**

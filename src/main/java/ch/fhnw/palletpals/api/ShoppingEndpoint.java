@@ -46,8 +46,8 @@ public class ShoppingEndpoint {
      * <p>
      * GET CartItem by id
      */
-    @GetMapping(path = "/shopping/{cartItemID}", produces = "application/json")
-    public ResponseEntity<CartItem> getCartItem(@PathVariable(value = "cartItemID") String cartItemId) {
+    @GetMapping(path = "/shopping/{cartItemId}", produces = "application/json")
+    public ResponseEntity<CartItem> getCartItem(@PathVariable(value = "cartItemId") String cartItemId) {
         CartItem cartItem;
         try {
             cartItem = shoppingService.findCartItemById(Long.parseLong(cartItemId));
@@ -75,6 +75,20 @@ public class ShoppingEndpoint {
 
     //PATCH CartItem by id (only quantity can be updated)
 
-    //DELETE CartItem by id
+    /**
+     * Code by: Tibor Haller
+     *
+     * @param cartItemId
+     * @return
+     */
+    @DeleteMapping(path = "/shopping/{cartItemId}")
+    public ResponseEntity<Void> deleteCartItem(@PathVariable(value = "cartItemId") String cartItemId) {
+        try {
+            shoppingService.deleteCartItemById(Long.parseLong(cartItemId));
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
+        }
+        return ResponseEntity.accepted().build();
+    }
 
 }

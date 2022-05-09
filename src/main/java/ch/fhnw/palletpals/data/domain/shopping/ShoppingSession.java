@@ -33,7 +33,9 @@ public class ShoppingSession {
     private User user;
 
     /**
-     * Uni-directional OneToMany relationship. CascadeType and orphanRemoval is required to propagate changes in the parent to children.
+     * Code by: Tibor Haller
+     *
+     * Bi-directional OneToMany relationship. CascadeType and orphanRemoval is required to propagate changes in the parent to children.
      *
      * Removal of ShoppingSession is propagated to CartItem, meaning that the child objects are removed as well.
      *
