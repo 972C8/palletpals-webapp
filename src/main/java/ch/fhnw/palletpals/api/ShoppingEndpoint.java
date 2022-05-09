@@ -1,8 +1,8 @@
 package ch.fhnw.palletpals.api;
 
 import ch.fhnw.palletpals.business.service.ShoppingService;
-import ch.fhnw.palletpals.data.domain.Product;
 import ch.fhnw.palletpals.data.domain.shopping.CartItem;
+import ch.fhnw.palletpals.data.domain.shopping.ShoppingSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +19,6 @@ public class ShoppingEndpoint {
     @Autowired
     private ShoppingService shoppingService;
 
-    //POST new CartItem (quantity, product reference by id -> pricePerUnit is fetched within the system)
     /**
      * Code by: Tibor Haller
      * <p>
@@ -58,7 +57,21 @@ public class ShoppingEndpoint {
         return ResponseEntity.ok(cartItem);
     }
 
-    //GET Shopping Cart (all CartItems + calculated shippingCost&totalCost)
+    /**
+     * Code by: Tibor Haller
+     * <p>
+     * Returns the ShoppingSession of the current user
+     */
+    @GetMapping(path = "/shopping", produces = "application/json")
+    public ResponseEntity<ShoppingSession> getShoppingSession() {
+        try {
+            //Returns (if already exists) or creates the current user's shopping session
+            ShoppingSession shoppingSession = shoppingService.getDistinctShoppingSessionOfCurrentUser();
+            return ResponseEntity.ok(shoppingSession);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
 
     //PATCH CartItem by id (only quantity can be updated)
 

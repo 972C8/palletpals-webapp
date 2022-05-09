@@ -1,9 +1,12 @@
 package ch.fhnw.palletpals.business.service;
 
 import ch.fhnw.palletpals.data.domain.Product;
+import ch.fhnw.palletpals.data.domain.User;
 import ch.fhnw.palletpals.data.domain.shopping.CartItem;
+import ch.fhnw.palletpals.data.domain.shopping.ShoppingSession;
 import ch.fhnw.palletpals.data.repository.CartItemRepository;
 import ch.fhnw.palletpals.data.repository.ProductRepository;
+import ch.fhnw.palletpals.data.repository.ShoppingSessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -19,6 +22,12 @@ public class ShoppingService {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private ShoppingSessionRepository shoppingSessionRepository;
+
+    @Autowired
+    private UserService userService;
+
     /**
      * Code by: Tibor Haller
      *
@@ -31,12 +40,17 @@ public class ShoppingService {
             if (cartItem.getProduct() == null) {
                 throw new Exception("CartItem requires reference to Product.");
             }
+
+            ShoppingSession currentShoppingSession = getDistinctShoppingSessionOfCurrentUser();
+            if (currentShoppingSession == null) {
+                throw new Exception("Problem finding or creating shopping session for current user.");
+            }
+
+            //Add reference to shoppingSession in CartItem. Due to bi-directional mapping, the reference is also added in shoppingSession
+            cartItem.setShoppingSession(currentShoppingSession);
+
             //Add necessary Product reference to CartItem
             addReferencedProductWithinCartItem(cartItem);
-
-            //TODO: Add constructor functionality to CartItem that ensures correct PricePerUnit and Product reference
-            //Override PricePerUnit to default. This value cannot be set using the API as it is done internally
-            cartItem.setPricePerUnit(0.0f);
 
             return cartItemRepository.save(cartItem);
         } catch (Exception e) {
@@ -88,5 +102,34 @@ public class ShoppingService {
         }
 
         return cartItem;
+    }
+
+    /**
+     * Code by: Tibor Haller
+     *
+     * Returns the current user's existing shopping session or creates a new shopping session for the current user if it doesn't exist yet.
+     *
+     * Each user can have one shopping session.
+     *
+     * @return the current user's shopping session
+     */
+    public ShoppingSession getDistinctShoppingSessionOfCurrentUser() throws Exception {
+        try {
+            User currentUser = userService.getCurrentUser();
+
+            ShoppingSession shoppingSession = shoppingSessionRepository.findByUserId(currentUser.getId());
+
+            //Create new shoppingSession for the current user if not exists yet
+            if (shoppingSession == null) {
+                shoppingSessionRepository.save(new ShoppingSession(currentUser));
+            }
+
+            //Retrieve the new shoppingSession after system created it and automatically added required configurations
+            shoppingSession = shoppingSessionRepository.findByUserId(currentUser.getId());
+
+            return shoppingSession;
+        } catch (Exception e) {
+            throw new Exception("Problem finding or creating shopping session for current user.");
+        }
     }
 }

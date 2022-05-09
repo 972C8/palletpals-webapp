@@ -34,7 +34,6 @@ public class CartItem {
      * <p>
      * Bidirectional relation with ShoppingSession. Changes are propagated to ShoppingSession, meaning that deleting an instance of CartItem will remove the reference in ShoppingSession.
      */
-
     @ManyToOne
     @JoinColumn(name = "shoppingId")
     @JsonIgnore
@@ -75,6 +74,10 @@ public class CartItem {
 
     public void setProduct(Product product) {
         this.product = product;
+
+        //TODO: Ensure that it works when updating CartItem
+        //When the referenced product changes, ensure that correct, new pricePerUnit is taken from referenced product
+        setPricePerUnit(this.product.getPrice());
     }
 
     public ShoppingSession getShoppingSession() {

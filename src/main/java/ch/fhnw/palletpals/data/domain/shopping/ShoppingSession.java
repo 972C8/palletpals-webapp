@@ -42,7 +42,7 @@ public class ShoppingSession {
      */
     @OneToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE}, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "shoppingId", referencedColumnName = "shoppingId")
-    //Fixes Hibernate issue to disallow multiple bag fetches https://hibernate.atlassian.net/browse/HHH-1718
+    //Fixes Hibernate issue to disallow multiple bag fetches https://hibernate.atlassian.net/browse/HHH-1718, https://stackoverflow.com/a/8309458
     @Fetch(value = FetchMode.SUBSELECT)
     private List<CartItem> shoppingCart;
 
