@@ -83,8 +83,7 @@ public class ProductEndpoint {
             //The provided patch (as Map<String, String>) is converted into a Product object.
             Product toBePatchedProduct = objectMapper.convertValue(productPatch, Product.class);
 
-            //TODO: Support patching of referenced images of product
-            //Set productImages to null as patching images is not yet supported.
+            //Set productImages to null as patching images is not supported.
             toBePatchedProduct.setProductImages(null);
 
             //The current product is patched (updated) using the provided patch

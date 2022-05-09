@@ -1,8 +1,10 @@
 package ch.fhnw.palletpals.api;
 
 import ch.fhnw.palletpals.business.service.ShoppingService;
+import ch.fhnw.palletpals.data.domain.Product;
 import ch.fhnw.palletpals.data.domain.shopping.CartItem;
 import ch.fhnw.palletpals.data.domain.shopping.ShoppingSession;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,12 +14,17 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.ConstraintViolationException;
 import java.net.URI;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/api")
 public class ShoppingEndpoint {
     @Autowired
     private ShoppingService shoppingService;
+
+    //Used by patchCartItem method to map objects
+    @Autowired
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     /**
      * Code by: Tibor Haller
@@ -73,7 +80,38 @@ public class ShoppingEndpoint {
         }
     }
 
-    //PATCH CartItem by id (only quantity can be updated)
+    /**
+     * Code by: Tibor Haller
+     * <p>
+     * Patch cartItem
+     *
+     * Roughly based on the idea of objectMapper and NullAwareBeanUtilsBean.java (https://stackoverflow.com/a/45205844)
+     *
+     * @param cartItemPatch   provided by user.
+     * @param cartItemId to update.
+     * @return Product
+     */
+    @PatchMapping(path = "/shopping/{cartItemId}", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<CartItem> patchCartItem(@RequestBody Map<String, Object> cartItemPatch, @PathVariable(value = "cartItemId") String cartItemId) {
+        CartItem patchedCartItem;
+        try {
+            CartItem currentCartItem = shoppingService.findCartItemById(Long.parseLong(cartItemId));
+
+            //The provided patch (as Map<String, String>) is converted into a Product object.
+            CartItem toBePatchedCartItem = objectMapper.convertValue(cartItemPatch, CartItem.class);
+
+            //Set variables to null so that they are ignored when patching, meaning that the current values are persisted.
+            toBePatchedCartItem.setPricePerUnit(0.0f);
+            toBePatchedCartItem.setShoppingSession(null);
+
+            //The current product is patched (updated) using the provided patch
+            patchedCartItem = shoppingService.patchCartItem(toBePatchedCartItem, currentCartItem);
+
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
+        }
+        return ResponseEntity.accepted().body(patchedCartItem);
+    }
 
     /**
      * Code by: Tibor Haller

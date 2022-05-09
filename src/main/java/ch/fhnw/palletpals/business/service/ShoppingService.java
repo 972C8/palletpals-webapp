@@ -1,5 +1,6 @@
 package ch.fhnw.palletpals.business.service;
 
+import ch.fhnw.palletpals.component.NullAwareBeanUtilsBean;
 import ch.fhnw.palletpals.data.domain.Product;
 import ch.fhnw.palletpals.data.domain.User;
 import ch.fhnw.palletpals.data.domain.shopping.CartItem;
@@ -27,6 +28,9 @@ public class ShoppingService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private NullAwareBeanUtilsBean beanUtils = new NullAwareBeanUtilsBean();
 
     /**
      * Code by: Tibor Haller
@@ -102,6 +106,29 @@ public class ShoppingService {
         }
 
         return cartItem;
+    }
+
+    /**
+     * Code by: Tibor Haller
+     *
+     * Patch product using NullAwareBeansUtilsBean.java
+     *
+     * @param toBePatchedCartItem
+     * @param currentCartItem
+     * @return
+     * @throws Exception
+     */
+    public CartItem patchCartItem(CartItem toBePatchedCartItem, CartItem currentCartItem) throws Exception {
+        //Only cartItems with valid id are updated.
+        if (!cartItemRepository.findById(currentCartItem.getId()).isPresent()) {
+            throw new Exception("No cartItem with ID " + currentCartItem.getId() + " found.");
+        }
+
+        //Bean utils will copy non null values from toBePatchedCartItem to currentCartItem. Null values will be ignored.
+        //This effectively means that the existing CartItem object will be patched (updated)
+        beanUtils.copyProperties(currentCartItem, toBePatchedCartItem);
+
+        return cartItemRepository.save(currentCartItem);
     }
 
     /**
