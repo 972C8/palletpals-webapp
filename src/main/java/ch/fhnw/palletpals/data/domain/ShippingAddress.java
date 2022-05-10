@@ -17,8 +17,8 @@ public class ShippingAddress {
     private String street;
     private String premise;
     private String city;
-    //TODO in system spec as String why?
-    private int postalCode;
+    //TODO check in docs if string
+    private String postalCode;
     private String country;
     @OneToOne
     private User user;
@@ -81,11 +81,11 @@ public class ShippingAddress {
         this.city = city;
     }
 
-    public int getPostalCode() {
+    public String getPostalCode() {
         return postalCode;
     }
 
-    public void setPostalCode(int postalCode) {
+    public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
 
@@ -111,5 +111,9 @@ public class ShippingAddress {
 
     public void setWarehouse(Warehouse warehouse) {
         this.warehouse = warehouse;
+    }
+
+    public String coordinateRequest(){
+        return postalCode + "%20" + city + "%20" + street + "%20";
     }
 }

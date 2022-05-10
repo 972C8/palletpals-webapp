@@ -1,16 +1,13 @@
-/*
- * Copyright (c) 2020. University of Applied Sciences and Arts Northwestern Switzerland FHNW.
- * All rights reserved.
- */
-
 package ch.fhnw.palletpals.data.domain;
-
+import ch.fhnw.palletpals.data.domain.order.UserOrder;
+import ch.fhnw.palletpals.data.domain.shopping.ShoppingSession;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
 
 @Entity
 public class User {
@@ -18,7 +15,7 @@ public class User {
 	@Id
 	@GeneratedValue
 	private Long id;
-	private int accessCode;
+	private String accessCode;
 	@NotEmpty(message = "Please provide a name.")
 	private String userName;
 	@Email(message = "Please provide a valid e-mail.")
@@ -33,10 +30,17 @@ public class User {
 	private String remember;
 	private Language language;
 	private Appearance appearance;
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "address_id", referencedColumnName = "id")
 	private ShippingAddress address;
 
+	//One user has many orders
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+	@JsonIgnore
+	private List<UserOrder> orderHistory;
+
+	@OneToOne(mappedBy = "user")
+	private ShoppingSession shoppingSession;
 
 	public Long getId() {
 		return id;
@@ -46,11 +50,11 @@ public class User {
 		this.id = id;
 	}
 
-	public int getAccessCode() {
+	public String getAccessCode() {
 		return accessCode;
 	}
 
-	public void setAccessCode(int accessCode) {
+	public void setAccessCode(String accessCode) {
 		this.accessCode = accessCode;
 	}
 
@@ -116,5 +120,21 @@ public class User {
 
 	public void setAddress(ShippingAddress address) {
 		this.address = address;
+	}
+
+	public List<UserOrder> getOrderHistory() {
+		return orderHistory;
+	}
+
+	public void setOrderHistory(List<UserOrder> orderHistory) {
+		this.orderHistory = orderHistory;
+	}
+
+	public ShoppingSession getShoppingSession() {
+		return shoppingSession;
+	}
+
+	public void setShoppingSession(ShoppingSession shoppingSession) {
+		this.shoppingSession = shoppingSession;
 	}
 }
