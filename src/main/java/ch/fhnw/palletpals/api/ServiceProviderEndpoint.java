@@ -1,6 +1,6 @@
 package ch.fhnw.palletpals.api;
 
-import ch.fhnw.palletpals.business.service.ServiceProviderService;
+import ch.fhnw.palletpals.business.service.shoppingServices.ServiceProviderService;
 import ch.fhnw.palletpals.data.domain.ServiceProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

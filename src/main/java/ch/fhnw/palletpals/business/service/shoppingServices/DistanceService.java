@@ -1,5 +1,6 @@
-package ch.fhnw.palletpals.business.service;
+package ch.fhnw.palletpals.business.service.shoppingServices;
 
+import ch.fhnw.palletpals.business.service.WarehouseService;
 import ch.fhnw.palletpals.data.domain.*;
 import org.asynchttpclient.*;
 import org.asynchttpclient.util.HttpConstants;
@@ -85,7 +86,7 @@ public class DistanceService {
             coordinate = new Coordinate(location.getString("lat"),location.getString("lng"), address.getId());
             client.close();
         } catch (Exception e){
-            throw new Exception("Request for coordinates failed");
+            throw new Exception("Api request for coordinates failed");
         }
         return coordinate;
     }
@@ -142,7 +143,7 @@ public class DistanceService {
         client.close();
 
         } catch (Exception e){
-            throw new Exception("Request for distance failed");
+            throw new Exception("Api request for distance failed");
         }
 
         return coordinates;
