@@ -1,4 +1,4 @@
-package ch.fhnw.palletpals.business.service;
+package ch.fhnw.palletpals.business.service.shoppingServices;
 
 import ch.fhnw.palletpals.component.NullAwareBeanUtilsBean;
 import ch.fhnw.palletpals.data.domain.Product;

@@ -1,6 +1,6 @@
 package ch.fhnw.palletpals.api;
 
-import ch.fhnw.palletpals.business.service.ShoppingSessionService;
+import ch.fhnw.palletpals.business.service.shoppingServices.ShoppingSessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

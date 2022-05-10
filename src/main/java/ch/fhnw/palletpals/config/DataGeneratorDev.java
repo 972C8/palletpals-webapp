@@ -1,6 +1,9 @@
 package ch.fhnw.palletpals.config;
 
 import ch.fhnw.palletpals.business.service.*;
+import ch.fhnw.palletpals.business.service.shoppingServices.DistanceService;
+import ch.fhnw.palletpals.business.service.shoppingServices.PalletSpaceService;
+import ch.fhnw.palletpals.business.service.shoppingServices.ServiceProviderService;
 import ch.fhnw.palletpals.data.domain.*;
 import ch.fhnw.palletpals.data.domain.shopping.CartItem;
 import org.springframework.beans.factory.annotation.Autowired;
