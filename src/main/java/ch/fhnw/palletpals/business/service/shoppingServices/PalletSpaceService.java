@@ -4,6 +4,7 @@ import ch.fhnw.palletpals.data.domain.Product;
 import ch.fhnw.palletpals.data.domain.shopping.CartItem;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 @Service
@@ -30,21 +31,21 @@ public class PalletSpaceService {
 
             for (CartItem cartItem : cartItems){
                 if (cartItem.getQuantity()>0){
-                    //Find product with the biggest min pallet space
-                    index = getNextProduct(cartItems);
-                    pallets += cartItems.get(index).getProduct().getMinPalletSpace();
-                    usedPallets += getProportion(cartItems.get(index));
-                    cartItems.get(index).setQuantity(0);
+                    //Assign pallet spaces to products in order of their min pallet space required
+                    pallets += cartItem.getProduct().getMinPalletSpace();
+                    usedPallets += getProportion(cartItem);
+                    cartItem.setQuantity(0);
 
-                    //Find best fitting products to minimize remaining space (output array cartitems with quantity)
+                    //As long as there is space to fill in other products in the remaining pallet space the while loop gets executed
                     while (unusedSpace(cartItems, pallets, usedPallets)){
-                        //break when full
+                        //Looping over remaining products to find one which fits best into the remaining space
                         for (CartItem cartItemItem : cartItems){
-                            //check if has space, if not round up and add another pallet
+                            //With the spaceItem we check if there is space available for this product and for how many quantities
                             if (cartItemItem.getQuantity()>0){
                                 CartItem spaceItem = new CartItem();
                                 spaceItem.setProduct(cartItemItem.getProduct());
                                 spaceItem.setQuantity(0);
+                                //As long there is space for another item, the while loop increases quantity
                                 if (checkForAdditionalSpace(spaceItem, pallets, usedPallets)){
                                     while (spaceItem.getQuantity()<cartItemItem.getQuantity() && checkForAdditionalSpace(spaceItem, pallets, usedPallets)){
                                         spaceItem.setQuantity(spaceItem.getQuantity()+1);
@@ -55,7 +56,8 @@ public class PalletSpaceService {
                             }
                         }
                     }
-                    //round up
+                    //When there is no product left which fits into the remaining space, used pallet is set equal to
+                    //overall pallets used and the loop starts over
                     usedPallets = pallets;
                 }
             }
@@ -63,14 +65,21 @@ public class PalletSpaceService {
             throw new Exception(e.getMessage());
         }
 
+        //Round to one decimal because sometimes we get large decimals
+        //https://stackoverflow.com/questions/22186778/using-math-round-to-round-to-one-decimal-place
+        int scale = (int) Math.pow(10, 1);
+        pallets = (double) Math.round(pallets*scale) /scale;
 
+        //TODO remove as soon as tested
         //Test
         for (CartItem cartItem : cartItems){
             System.out.println(cartItem.getProduct().getName() + ": " + cartItem.getQuantity());
         }
         System.out.println(pallets);
         System.out.println(usedPallets);
-        return 0;
+
+        //Round pallets up to the next full integer & return it
+        return (int) Math.ceil(pallets);
     }
 
     private boolean unusedSpace(ArrayList<CartItem> cartItems, double pallets, double usedPallets) throws Exception{

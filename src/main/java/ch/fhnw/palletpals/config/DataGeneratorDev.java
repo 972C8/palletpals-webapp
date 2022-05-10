@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Profile;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 @Profile("dev")
 @Configuration
@@ -149,11 +150,8 @@ public class DataGeneratorDev {
     private void demoShoppingSession() throws Exception{
         CartItem item1 = new CartItem();
         item1.setProduct(product1);
-        item1.setQuantity(13);
+        item1.setQuantity(30);
 
-        CartItem item2 = new CartItem();
-        item2.setProduct(product2);
-        item2.setQuantity(5);
 
         CartItem item3 = new CartItem();
         item3.setProduct(product3);
@@ -161,14 +159,51 @@ public class DataGeneratorDev {
 
         CartItem item4 = new CartItem();
         item4.setProduct(product4);
-        item4.setQuantity(60);
+        item4.setQuantity(53);
 
         ArrayList<CartItem> list = new ArrayList<CartItem>();
         list.add(item1);
-        list.add(item2);
         list.add(item3);
         list.add(item4);
 
+        CartItem o2item1 = new CartItem();
+        o2item1.setProduct(product1);
+        o2item1.setQuantity(7);
+
+        CartItem o2item2 = new CartItem();
+        o2item2.setProduct(product2);
+        o2item2.setQuantity(17);
+
+        CartItem o2item3 = new CartItem();
+        o2item3.setProduct(product3);
+        o2item3.setQuantity(2);
+
+        CartItem o2item4 = new CartItem();
+        o2item4.setProduct(product4);
+        o2item4.setQuantity(28);
+
+        ArrayList<CartItem> order2 = new ArrayList<CartItem>(Arrays.asList(o2item1, o2item2, o2item3, o2item4));
+
+        CartItem o3item1 = new CartItem();
+        o3item1.setProduct(product1);
+        o3item1.setQuantity(2);
+
+        CartItem o3item2 = new CartItem();
+        o3item2.setProduct(product2);
+        o3item2.setQuantity(12);
+
+        CartItem o3item3 = new CartItem();
+        o3item3.setProduct(product3);
+        o3item3.setQuantity(8);
+
+        CartItem o3item4 = new CartItem();
+        o3item4.setProduct(product4);
+        o3item4.setQuantity(120);
+
+        ArrayList<CartItem> order3 = new ArrayList<CartItem>(Arrays.asList(o3item1, o3item2, o3item3, o3item4));
+
         palletSpaceService.getPalletSpace(list);
+        palletSpaceService.getPalletSpace(order2);
+        palletSpaceService.getPalletSpace(order3);
     }
 }
