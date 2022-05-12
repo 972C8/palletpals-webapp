@@ -2,6 +2,7 @@ package ch.fhnw.palletpals.business.service.shoppingServices;
 
 import ch.fhnw.palletpals.data.domain.Product;
 import ch.fhnw.palletpals.data.domain.shopping.CartItem;
+import ch.fhnw.palletpals.data.domain.shopping.ShoppingSession;
 import org.springframework.stereotype.Service;
 
 import java.text.DecimalFormat;
@@ -10,10 +11,12 @@ import java.util.ArrayList;
 @Service
 public class PalletSpaceService {
 
-    public int getPalletSpace(ArrayList<CartItem> cartItems) throws Exception {
+    public ShoppingSession setPalletSpace(ShoppingSession shoppingSession) throws Exception {
         double pallets = 0;
         double usedPallets = 0;
         int index;
+
+        ArrayList<CartItem> cartItems = (ArrayList) shoppingSession.getShoppingCart();
 
         try {
             //Sort out full pallet spaces
@@ -79,7 +82,8 @@ public class PalletSpaceService {
         System.out.println(usedPallets);
 
         //Round pallets up to the next full integer & return it
-        return (int) Math.ceil(pallets);
+        shoppingSession.setPalletSpace((int) Math.ceil(pallets));
+        return shoppingSession;
     }
 
     private boolean unusedSpace(ArrayList<CartItem> cartItems, double pallets, double usedPallets) throws Exception{

@@ -34,6 +34,7 @@ public class WarehouseEndpoint {
     @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<Warehouse> postWarehouse(@RequestBody Warehouse warehouse){
         try {
+            warehouse.setAddress(addressService.setCoordinates(warehouse.getAddress()));
             ShippingAddress warehouseAddress = warehouse.getAddress();
             warehouse = warehouseService.saveWarehouse(warehouse);
             addressService.saveWarehouseAddress(warehouseAddress);

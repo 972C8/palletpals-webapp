@@ -49,6 +49,7 @@ public class UserEndpoint {
     @PostMapping("/register")
     public ResponseEntity<Void> postRegister(@RequestBody User user) {
         try {
+            user.setAddress(addressService.setCoordinates(user.getAddress()));
             ShippingAddress address = user.getAddress();
             User currentUser = userService.saveUser(user);
             address = addressService.saveCustomerAddress(address);

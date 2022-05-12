@@ -1,7 +1,9 @@
 package ch.fhnw.palletpals.business.service.shoppingServices;
 
+import ch.fhnw.palletpals.business.service.AddressService;
 import ch.fhnw.palletpals.business.service.WarehouseService;
 import ch.fhnw.palletpals.data.domain.*;
+import ch.fhnw.palletpals.data.domain.shopping.ShoppingSession;
 import org.asynchttpclient.*;
 import org.asynchttpclient.util.HttpConstants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,79 +18,26 @@ public class DistanceService {
 
     @Autowired
     WarehouseService warehouseService;
+    @Autowired
+    AddressService addressService;
 
     /**
      * Code by Daniel Locher
      * This method takes the destination address of the customer and finds the nearest warehouse and returns a coordinate
      * object which holds the distance and the reference to this warehouse
-     * @param end
+     * @param shoppingSession
      * @return
      * @throws Exception
      */
-    public Coordinate nearestWarehouse(ShippingAddress end)throws Exception{
-        ArrayList<Coordinate> coordinates = new ArrayList<>();
-        Coordinate nearest = null;
-        Coordinate endCoordinate;
-        double distance;
-        //Get coordinates for warehouse addresses and mark them as origins
+    public ShoppingSession setNearestWarehouse(ShoppingSession shoppingSession)throws Exception{
         try {
-            for (Warehouse item: warehouseService.findAllWarehouses()) {
-                Coordinate coordinate = getCoordinate(item.getAddress());
-                coordinate.setCoordinateType(CoordinateType.ORIGIN);
-                coordinates.add(coordinate);
-            }
-            //Get coordinate for customer address, mark it as the destination and add to array
-            endCoordinate = getCoordinate(end);
-            endCoordinate.setCoordinateType(CoordinateType.DESTINATION);
-            coordinates.add(endCoordinate);
-            //Get the distances from each warehouse to destination address
-            getDistancesInKm(coordinates);
-            //Get the warehouse which is nearest to the destination address
-            nearest = getNearestDistance(coordinates);
-
-            //Ensure that nearestWarehouse is never null
-            if (nearest == null) {
-                throw new Exception("NearestWarehouse cannot be null");
-            }
+            //Get the distances from each warehouse to destination address and assign values to shopping session object
+            shoppingSession = getDistancesInKm(shoppingSession);
         } catch (Exception e){
             //Permit server to continue running if DistanceService experiences an issue while calculating the distance
             System.out.println("DistanceService.java experienced an issue:" + e.getMessage());
         }
-        return nearest;
-    }
-
-    /**
-     * Code by Daniel Locher
-     * Method to get coordinates out of full text addresses
-     * Resources:
-     * https://www.baeldung.com/async-http-client
-     * https://rapidapi.com/trueway/api/trueway-geocoding/
-     * @param address
-     * @return
-     * @throws Exception
-     */
-    private Coordinate getCoordinate(ShippingAddress address) throws Exception{
-        Coordinate coordinate;
-        //Send the request to api to get coordinate of full text address
-        try {
-            AsyncHttpClient client = new DefaultAsyncHttpClient();
-            Request request = new RequestBuilder(HttpConstants.Methods.GET)
-                    .setUrl("https://trueway-geocoding.p.rapidapi.com/Geocode?address="+address.coordinateRequest()+"6&language=en")
-                    .setHeader("X-RapidAPI-Host", "trueway-geocoding.p.rapidapi.com")
-                    .setHeader("X-RapidAPI-Key", "a3ed38eadamsh9968ee50089fa4cp1c5264jsn6093f98e35ce")
-                    .build();
-
-            ListenableFuture<Response> responseFuture = client.executeRequest(request);
-            //Get values out of JSON and assign to coordinate object
-            JSONObject jsonObject = new JSONObject(responseFuture.get().getResponseBody());
-            JSONArray jsonArray = jsonObject.getJSONArray("results");
-            JSONObject location = jsonArray.getJSONObject(0).getJSONObject("location");
-            coordinate = new Coordinate(location.getString("lat"),location.getString("lng"), address.getId());
-            client.close();
-        } catch (Exception e){
-            throw new Exception("Api request for coordinates failed");
-        }
-        return coordinate;
+        return shoppingSession;
     }
 
     /**
@@ -96,26 +45,28 @@ public class DistanceService {
      * Method to get distances form different warehouses to the client address
      * Resources:
      * https://rapidapi.com/trueway/api/trueway-matrix/
-     * @param coordinates
+     * @param shoppingSession
      * @return
      * @throws Exception
      */
-    private ArrayList<Coordinate> getDistancesInKm(ArrayList<Coordinate> coordinates) throws Exception{
+    private ShoppingSession getDistancesInKm(ShoppingSession shoppingSession) throws Exception{
         String originString;
         String destinationString;
         String distanceString;
+        Float shotestDistance = null;
+        Integer warehouseIndex = null;
 
-        //Last element of coordinates array is always the destination
-        //Assign coordinates as string to variable and remove from array
-        destinationString = coordinates.get(coordinates.size() - 1).getPathString();
-        coordinates.remove(coordinates.size() - 1);
+        //Assign destination coordinates from shopping session as string to variable
+        destinationString = shoppingSession.getUser().getAddress().distanceRequest();
 
-        //The remaining coordinates are all origins and warehouse addresses
-        //Build the path string with the remaining coordinates
+        //Build the origin string with all warehouses
+        //First put all Strings separately in the Array
         ArrayList<String> pathStrings = new ArrayList<String>();
-        for(Coordinate item : coordinates){
-            pathStrings.add(item.getPathString());
+        ArrayList<Warehouse> allWarehouses = (ArrayList) warehouseService.findAllWarehouses();
+        for(Warehouse item : allWarehouses){
+            pathStrings.add(item.getAddress().distanceRequest());
         }
+        //Then combine all strings into one and separate them with ;
         originString = String.join(";", pathStrings);
 
         //Sending the request to API to get distances between orginis and destination
@@ -127,7 +78,7 @@ public class DistanceService {
                 .setHeader("X-RapidAPI-Host", "trueway-matrix.p.rapidapi.com")
                 .setHeader("X-RapidAPI-Key", "a3ed38eadamsh9968ee50089fa4cp1c5264jsn6093f98e35ce")
                 .build();
-
+        //Assign respons from Api to a jsonArray so we can loop over the results
         ListenableFuture<Response> responseFuture = client.executeRequest(request);
         JSONObject jsonObject = new JSONObject(responseFuture.get().getResponseBody());
         JSONArray jsonArray = jsonObject.getJSONArray("distances");
@@ -135,21 +86,28 @@ public class DistanceService {
         for (int i = 0; i<jsonArray.length(); i++) {
             JSONArray distanceArray = jsonArray.getJSONArray(i);
             distanceString = distanceArray.getString(0);
-            double distance = Double.parseDouble(distanceString);
+            Float distance = Float.parseFloat(distanceString);
             distance /= 1000;
-            coordinates.get(i).setDistanceToDestinationInKM(distance);
+            if (shotestDistance==null ||distance<shotestDistance){
+                shotestDistance = distance;
+                warehouseIndex = i;
+            }
         }
-
         client.close();
-
+        if (shotestDistance!=null&&warehouseIndex!=null){
+            shoppingSession.setDrivingDistance(shotestDistance);
+            shoppingSession.setNearestWarehouse(allWarehouses.get(warehouseIndex).getId());
+        } else {
+            throw new Exception("Shortest distance is null");
+        }
         } catch (Exception e){
             throw new Exception("Api request for distance failed");
         }
 
-        return coordinates;
+        return shoppingSession;
     }
     //TODO think of case when distance is same
-    public Coordinate getNearestDistance(ArrayList<Coordinate> coordinates){
+    private Coordinate getNearestDistance(ArrayList<Coordinate> coordinates){
         Coordinate nearest=null;
         for(Coordinate c : coordinates){
             if (nearest==null){

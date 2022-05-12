@@ -1,6 +1,7 @@
 package ch.fhnw.palletpals.business.service.shoppingServices;
 
 import ch.fhnw.palletpals.data.domain.ServiceProvider;
+import ch.fhnw.palletpals.data.domain.shopping.ShoppingSession;
 import ch.fhnw.palletpals.data.repository.ServiceProviderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONArray;
@@ -38,6 +39,24 @@ public class ServiceProviderService {
         return serviceProvider;
     }
 
+    public ShoppingSession setCheapestShipment(ShoppingSession shoppingSession) throws Exception {
+        List<ServiceProvider> allServiceProviders;
+        Float shippingCost = null;
+        try {
+            allServiceProviders = serviceProviderRepository.findAll();
+            for (ServiceProvider serviceProvider: allServiceProviders){
+                shippingCost = getShippingPrice(serviceProvider, shoppingSession.getPalletSpace(), shoppingSession.getDrivingDistance());
+                if (shippingCost<shoppingSession.getShippingCost()){
+                    shoppingSession.setServiceProvider(serviceProvider.getId());
+                    shoppingSession.setShippingCost(shippingCost);
+                }
+            }
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+        return null;
+    }
+
     /**
      * Code by Daniel Locher
      * Method to get shipping price from price table of a defined service provider
@@ -47,10 +66,10 @@ public class ServiceProviderService {
      * @return
      * @throws Exception
      */
-    public Double getShippingPrice(ServiceProvider serviceProvider, int palletSpace, double km)throws Exception {
+    private Float getShippingPrice(ServiceProvider serviceProvider, int palletSpace, double km)throws Exception {
         ArrayList<Integer> kmArray;
         ArrayList<Integer> palletArray;
-        ArrayList<ArrayList<Double>> priceMatrix;
+        ArrayList<ArrayList<Float>> priceMatrix;
         int kmIndex = 0;
         int palletIndex = 0;
         //build price table
@@ -126,17 +145,17 @@ public class ServiceProviderService {
      * @return
      * @throws Exception
      */
-    private ArrayList<ArrayList<Double>> buildPriceMatrix(ServiceProvider serviceProvider)throws Exception{
-        ArrayList<ArrayList<Double>> priceMatrix = new ArrayList<ArrayList<Double>>();
+    private ArrayList<ArrayList<Float>> buildPriceMatrix(ServiceProvider serviceProvider)throws Exception{
+        ArrayList<ArrayList<Float>> priceMatrix = new ArrayList<ArrayList<Float>>();
         try{
             JSONObject jsonObject = new JSONObject(serviceProvider.getJSONString());
             JSONArray jsonArray = new JSONArray(jsonObject.getString("priceMatrix"));
             for(int i = 0; i<jsonArray.length(); i++){
                 JSONArray priceArray = jsonArray.getJSONArray(i);
-                ArrayList<Double> prices = new ArrayList<>();
+                ArrayList<Float> prices = new ArrayList<>();
                 for(int index = 0; index<priceArray.length(); index++){
                     String string = priceArray.getString(index);
-                    prices.add(Double.parseDouble(string));
+                    prices.add(Float.parseFloat(string));
                 }
                 priceMatrix.add(prices);
             }

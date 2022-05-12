@@ -1,6 +1,9 @@
 package ch.fhnw.palletpals.data.domain;
 
+import ch.fhnw.palletpals.data.domain.shopping.ShoppingSession;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Warehouse {
