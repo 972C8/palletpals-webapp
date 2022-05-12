@@ -24,7 +24,6 @@ public class PalletSpaceService {
                 while (cartItem.getQuantity()>=cartItem.getProduct().getMaxProducts()){
                     pallets += cartItem.getProduct().getMinPalletSpace();
                     usedPallets += cartItem.getProduct().getMinPalletSpace();
-                    //TODO check with Tibor if using int instead of float makes sense
                     cartItem.setQuantity(cartItem.getQuantity()- Math.round(cartItem.getProduct().getMaxProducts()));
                 }
             }
@@ -72,14 +71,6 @@ public class PalletSpaceService {
         //https://stackoverflow.com/questions/22186778/using-math-round-to-round-to-one-decimal-place
         int scale = (int) Math.pow(10, 1);
         pallets = (double) Math.round(pallets*scale) /scale;
-
-        //TODO remove as soon as tested
-        //Test
-        for (CartItem cartItem : cartItems){
-            System.out.println(cartItem.getProduct().getName() + ": " + cartItem.getQuantity());
-        }
-        System.out.println(pallets);
-        System.out.println(usedPallets);
 
         //Round pallets up to the next full integer & return it
         shoppingSession.setPalletSpace((int) Math.ceil(pallets));
@@ -142,28 +133,6 @@ public class PalletSpaceService {
             throw new Exception("Ordering of cart items failed");
         }
         return orderItems;
-    }
-
-    //TODO exception if index still null
-    private int getNextProduct(ArrayList<CartItem> cartItems) throws Exception{
-        Integer index = null;
-        try {
-            for (CartItem cartItem : cartItems){
-                if (cartItem.getQuantity()>0){
-                    if (index == null){
-                        index = cartItems.indexOf(cartItem);
-                    } else {
-                        if (cartItem.getProduct().getMinPalletSpace()>
-                        cartItems.get(index).getProduct().getMinPalletSpace()){
-                            index = cartItems.indexOf(cartItem);
-                        }
-                    }
-                }
-            }
-        } catch (Exception e) {
-            throw new Exception("Can't get next product");
-        }
-        return index;
     }
 
 }

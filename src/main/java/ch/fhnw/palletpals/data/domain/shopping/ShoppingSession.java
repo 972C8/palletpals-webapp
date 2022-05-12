@@ -28,8 +28,10 @@ public class ShoppingSession {
     private float drivingDistance;
     private int palletSpace;
 
-    //TODO make unidirectional relationship
+    @Column(name = "warehouseId")
     private Long nearestWarehouse;
+
+    @Column(name = "serviceProviderId")
     private Long serviceProvider;
 
     //TODO: Timestamps not used yet

@@ -87,7 +87,6 @@ public class UserEndpoint {
         } catch (Exception e){
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
         }
-        //TODO remove Test
         return ResponseEntity.accepted().build();
     }
 

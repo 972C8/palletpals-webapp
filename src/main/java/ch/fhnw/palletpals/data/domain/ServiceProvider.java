@@ -1,6 +1,9 @@
 package ch.fhnw.palletpals.data.domain;
 
+import ch.fhnw.palletpals.data.domain.shopping.ShoppingSession;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class ServiceProvider {
@@ -12,6 +15,9 @@ public class ServiceProvider {
     @Column(columnDefinition = "LONGTEXT")
     private String jSONString;
 
+    @OneToMany
+    @JoinColumn(name = "serviceProviderId", referencedColumnName = "id")
+    private List<ShoppingSession> shoppingSessions;
 
     public Long getId() {
         return id;

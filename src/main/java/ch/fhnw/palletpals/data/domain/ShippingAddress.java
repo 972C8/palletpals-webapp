@@ -17,7 +17,6 @@ public class ShippingAddress {
     private String street;
     private String premise;
     private String city;
-    //TODO check in docs if string
     private String postalCode;
     private String country;
     private String lat;

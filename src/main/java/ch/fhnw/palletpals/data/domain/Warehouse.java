@@ -16,6 +16,10 @@ public class Warehouse {
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private ShippingAddress address;
 
+    @OneToMany
+    @JoinColumn(name = "warehouseId", referencedColumnName = "id")
+    private List<ShoppingSession> shoppingSessions;
+
     public Long getId() {
         return id;
     }

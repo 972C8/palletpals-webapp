@@ -1,6 +1,5 @@
 package ch.fhnw.palletpals.business.service;
 
-import ch.fhnw.palletpals.data.domain.Coordinate;
 import ch.fhnw.palletpals.data.domain.ShippingAddress;
 import ch.fhnw.palletpals.data.domain.User;
 import ch.fhnw.palletpals.data.domain.Warehouse;
@@ -118,8 +117,4 @@ public class AddressService {
         return address;
     }
 
-    //TODO only for testing
-    public List<ShippingAddress> getAllAddresses(){
-        return addressRepository.findAll();
-    }
 }

@@ -27,7 +27,7 @@ public class WarehouseService {
      */
     //TODO check if warehouse/address already exists relevant?
     public Warehouse saveWarehouse(@Valid Warehouse warehouse) throws Exception{
-        //TODO save coordinates
+        //TODO save coordinates when address is changed
         try {
             warehouse = warehouseRepository.save(warehouse);
         } catch (Exception e){

@@ -106,17 +106,4 @@ public class DistanceService {
 
         return shoppingSession;
     }
-    //TODO think of case when distance is same
-    private Coordinate getNearestDistance(ArrayList<Coordinate> coordinates){
-        Coordinate nearest=null;
-        for(Coordinate c : coordinates){
-            if (nearest==null){
-                nearest = c;
-            }
-            if (c.getDistanceToDestinationInKM()<nearest.getDistanceToDestinationInKM()){
-                nearest=c;
-            }
-        }
-        return nearest;
-    }
 }

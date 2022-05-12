@@ -4,6 +4,7 @@ import ch.fhnw.palletpals.business.service.*;
 import ch.fhnw.palletpals.business.service.shoppingServices.DistanceService;
 import ch.fhnw.palletpals.business.service.shoppingServices.PalletSpaceService;
 import ch.fhnw.palletpals.business.service.shoppingServices.ServiceProviderService;
+import ch.fhnw.palletpals.business.service.shoppingServices.ShippingCostService;
 import ch.fhnw.palletpals.data.domain.*;
 import ch.fhnw.palletpals.data.domain.shopping.CartItem;
 import ch.fhnw.palletpals.data.domain.shopping.ShoppingSession;
@@ -33,6 +34,8 @@ public class DataGeneratorDev {
     private ProductService productService;
     @Autowired
     private PalletSpaceService palletSpaceService;
+    @Autowired
+    private ShippingCostService shippingCostService;
 
     User userUser;
     Warehouse demoWarehouse;
@@ -45,10 +48,9 @@ public class DataGeneratorDev {
 
     @PostConstruct
     private void init() throws Exception {
-         //demoUser();
-         //demoWarehouse();
-         //demoproducts();
-         //testDistance();
+         demoUser();
+         demoWarehouse();
+         demoproducts();
 
          //When using the application dev profile, demo data is generated and demo calculations are performed.
          /*demoWarehouse();
@@ -98,9 +100,7 @@ public class DataGeneratorDev {
         demoWarehouse2 = warehouseService.saveWarehouse(demoWarehouse2);
     }
     private void testDistance() throws Exception{
-        ShoppingSession shoppingSession = new ShoppingSession();
-        shoppingSession.setUser(userUser);
-        distanceService.setNearestWarehouse(shoppingSession);
+
     }
 
     private void demoServiceProvider() throws Exception{
