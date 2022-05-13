@@ -141,6 +141,13 @@ public class ProductService {
         productRepository.deleteById(productId);
     }
 
+    /**
+     * Code by: Tibor Haller
+     * <p>
+     * Return list of all products
+     *
+     * @return
+     */
     public List<Product> findAllProducts() {
         return productRepository.findAll();
     }

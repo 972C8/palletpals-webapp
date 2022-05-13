@@ -11,6 +11,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.ConstraintViolationException;
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api")
@@ -58,5 +59,15 @@ public class OrderEndpoint {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
         return ResponseEntity.ok(order);
+    }
+
+    /**
+     * Code by: Tibor Haller
+     * <p>
+     * Returns List<UserOrder> of orders assigned to the given avatar
+     */
+    @GetMapping(path = "/orders", produces = "application/json")
+    public List<UserOrder> getUserOrders() {
+        return orderService.findAllUserOrders();
     }
 }

@@ -140,4 +140,15 @@ public class OrderService {
         return order;
     }
 
+    /**
+     * Code by: Tibor Haller
+     * <p>
+     * Return list of all orders of the current user.
+     *
+     * @return
+     */
+    public List<UserOrder> findAllUserOrders() {
+        return orderRepository.findAll();
+    }
+
 }
