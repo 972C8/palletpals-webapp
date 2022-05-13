@@ -43,4 +43,20 @@ public class OrderEndpoint {
 
         return ResponseEntity.created(location).body(order);
     }
+
+    /**
+     * Code by: Tibor Haller
+     * <p>
+     * GET order by id
+     */
+    @GetMapping(path = "/orders/{orderId}", produces = "application/json")
+    public ResponseEntity<UserOrder> getOrder(@PathVariable(value = "orderId") String orderId) {
+        UserOrder order;
+        try {
+            order = orderService.findOrderById(Long.parseLong(orderId));
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+        return ResponseEntity.ok(order);
+    }
 }

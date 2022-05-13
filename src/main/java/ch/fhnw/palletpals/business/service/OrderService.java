@@ -120,10 +120,24 @@ public class OrderService {
         shippingItem.setShippingCost(shoppingSession.getShippingCost());
 
         //Store the new ShippingItem in the DB
-        shippingItemRepository.save(shippingItem);
-
-        return shippingItem;
+        return shippingItemRepository.save(shippingItem);
     }
 
+    /**
+     * Code by: Tibor Haller
+     * <p>
+     * Find the user order by id.
+     *
+     * @param orderId
+     * @return
+     * @throws Exception
+     */
+    public UserOrder findOrderById(Long orderId) throws Exception {
+        UserOrder order = orderRepository.findUserOrderById(orderId);
+        if (order == null) {
+            throw new Exception("No order with ID " + orderId + " found.");
+        }
+        return order;
+    }
 
 }

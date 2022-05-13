@@ -3,10 +3,7 @@ package ch.fhnw.palletpals.data.domain.order;
 import ch.fhnw.palletpals.data.domain.Product;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 /**
  * Code by: Tibor Haller
@@ -23,7 +20,13 @@ public class ProductItem extends OrderItem {
     private int quantity;
     private float palletSpace;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    /**
+     * Code by: Tibor Haller
+     * <p>
+     * Bidirectional relation with UserOrder. Changes are propagated to UserOrder, meaning that deleting an instance of ProductItem will remove the reference in UserOrder
+     */
+    @ManyToOne
+    @JoinColumn(name = "orderId")
     //Referenced user is not returned in api requests
     @JsonIgnore
     private UserOrder order;

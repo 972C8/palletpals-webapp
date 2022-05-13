@@ -13,7 +13,7 @@ public class ShippingItem extends OrderItem {
 
     private float shippingCost;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "shippingItem")
     //Referenced user is not returned in api requests
     @JsonIgnore
     private UserOrder order;
