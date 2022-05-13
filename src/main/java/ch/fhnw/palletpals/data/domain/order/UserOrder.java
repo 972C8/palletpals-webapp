@@ -32,9 +32,11 @@ public class UserOrder {
 
     //One Order has many OrderItems
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
-    private List<OrderItem> orderItems;
+    private List<ProductItem> productItems;
 
-    //TODO: private ServiceProvider serviceProvider
+    //One Order has one ShippingItem
+    @OneToOne(mappedBy = "order", fetch = FetchType.LAZY)
+    private ShippingItem shippingItem;
 
     //private AddressItem addressItem needed?
     class AddressItem {
@@ -85,11 +87,19 @@ public class UserOrder {
         this.user = user;
     }
 
-    public List<OrderItem> getOrderItems() {
-        return orderItems;
+    public List<ProductItem> getProductItems() {
+        return productItems;
     }
 
-    public void setOrderItems(List<OrderItem> orderItems) {
-        this.orderItems = orderItems;
+    public void setProductItems(List<ProductItem> productItems) {
+        this.productItems = productItems;
+    }
+
+    public ShippingItem getShippingItem() {
+        return shippingItem;
+    }
+
+    public void setShippingItem(ShippingItem shippingItem) {
+        this.shippingItem = shippingItem;
     }
 }

@@ -1,7 +1,8 @@
 package ch.fhnw.palletpals.data.domain.order;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 
 /**
  * Code by: Tibor Haller
@@ -12,12 +13,23 @@ public class ShippingItem extends OrderItem {
 
     private float shippingCost;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    //Referenced user is not returned in api requests
+    @JsonIgnore
+    private UserOrder order;
+
     public ShippingItem() {
         super();
     }
 
+    public ShippingItem(UserOrder order) {
+        super();
+        this.order = order;
+    }
+
     public ShippingItem(String name, UserOrder order) {
-        super(name, order);
+        super(name);
+        this.order = order;
     }
 
     public float getShippingCost() {
@@ -26,5 +38,13 @@ public class ShippingItem extends OrderItem {
 
     public void setShippingCost(float shippingCost) {
         this.shippingCost = shippingCost;
+    }
+
+    public UserOrder getOrder() {
+        return order;
+    }
+
+    public void setOrder(UserOrder order) {
+        this.order = order;
     }
 }

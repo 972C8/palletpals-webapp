@@ -182,4 +182,16 @@ public class ShoppingService {
             throw new Exception("Problem finding or creating shopping session for current user.");
         }
     }
+
+    /**
+     * Code by: Tibor Haller
+     * <p>
+     * Returns the current user's shopping session
+     *
+     * @return ShoppingSession or null if no shopping session exists yet.
+     */
+    public ShoppingSession getShoppingSessionOfCurrentUser() {
+        User currentUser = userService.getCurrentUser();
+        return shoppingSessionRepository.findByUserId(currentUser.getId());
+    }
 }
