@@ -54,6 +54,8 @@ public class OrderService {
             order.setTotalCost(shoppingSession.getTotalCost());
             //TODO: order.setDateOrdered();
 
+            //TODO: Create AddressItem
+
             //Create relevant objects (ProductItem and ShippingItem) and add them as a reference to the new Order
 
             //For each CartItem in the shopping cart of the shopping session, create a ProductItem

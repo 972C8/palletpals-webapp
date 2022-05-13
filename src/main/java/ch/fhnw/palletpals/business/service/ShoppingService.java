@@ -51,7 +51,7 @@ public class ShoppingService {
             }
 
             //If a CartItem with reference to given Product already exists, the CartItem's quantity is increased rather than creating a new object.
-            CartItem cartItemWithGivenProductId = cartItemRepository.findCartItemByProductId(cartItem.getProduct().getId());
+            CartItem cartItemWithGivenProductId = cartItemRepository.findCartItemByShoppingSessionIdAndProductId(currentShoppingSession.getId(), cartItem.getProduct().getId());
 
             //Simply add the given quantity to the existing cartItem, rather than creating a second, duplicate CartItem.
             if (cartItemWithGivenProductId != null) {
@@ -59,7 +59,7 @@ public class ShoppingService {
                 cartItemWithGivenProductId.addQuantity(quantityToAdd);
 
                 //Return the updated cartItem rather than creating a new one
-                return cartItemWithGivenProductId;
+                return cartItemRepository.save(cartItemWithGivenProductId);
             }
 
             //Add reference to shoppingSession in CartItem. Due to bi-directional mapping, the reference is also added in shoppingSession
