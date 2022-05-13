@@ -51,7 +51,7 @@ public class ShoppingService {
             }
 
             //If a CartItem with reference to given Product already exists, the CartItem's quantity is increased rather than creating a new object.
-            CartItem cartItemWithGivenProductId = cartItemRepository.findCartItemByProductId(cartItem.getProduct().getId());
+            CartItem cartItemWithGivenProductId = cartItemRepository.findCartItemByShoppingSessionIdAndProductId(currentShoppingSession.getId(), cartItem.getProduct().getId());
 
             //Simply add the given quantity to the existing cartItem, rather than creating a second, duplicate CartItem.
             if (cartItemWithGivenProductId != null) {
@@ -59,7 +59,7 @@ public class ShoppingService {
                 cartItemWithGivenProductId.addQuantity(quantityToAdd);
 
                 //Return the updated cartItem rather than creating a new one
-                return cartItemWithGivenProductId;
+                return cartItemRepository.save(cartItemWithGivenProductId);
             }
 
             //Add reference to shoppingSession in CartItem. Due to bi-directional mapping, the reference is also added in shoppingSession
@@ -181,5 +181,17 @@ public class ShoppingService {
         } catch (Exception e) {
             throw new Exception("Problem finding or creating shopping session for current user.");
         }
+    }
+
+    /**
+     * Code by: Tibor Haller
+     * <p>
+     * Returns the current user's shopping session
+     *
+     * @return ShoppingSession or null if no shopping session exists yet.
+     */
+    public ShoppingSession getShoppingSessionOfCurrentUser() {
+        User currentUser = userService.getCurrentUser();
+        return shoppingSessionRepository.findByUserId(currentUser.getId());
     }
 }

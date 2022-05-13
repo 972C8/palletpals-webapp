@@ -30,21 +30,11 @@ public abstract class OrderItem {
     //TODO: What is the purpose of name?
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    //Referenced user is not returned in api requests
-    @JsonIgnore
-    private UserOrder order;
-
     public OrderItem() {
     }
 
     public OrderItem(String name) {
         this.name = name;
-    }
-
-    public OrderItem(String name, UserOrder order) {
-        this.name = name;
-        this.order = order;
     }
 
     public String getName() {
@@ -53,14 +43,6 @@ public abstract class OrderItem {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public UserOrder getOrder() {
-        return order;
-    }
-
-    public void setOrder(UserOrder order) {
-        this.order = order;
     }
 
     public Long getId() {

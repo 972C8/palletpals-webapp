@@ -2,6 +2,8 @@ package ch.fhnw.palletpals.data.domain.order;
 
 import ch.fhnw.palletpals.data.domain.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.List;
@@ -19,6 +21,7 @@ public class UserOrder {
 
     @Id
     @GeneratedValue
+    @Column(name = "orderId", unique = true, nullable = false)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -30,11 +33,34 @@ public class UserOrder {
     private String dateOrdered;
     private String dateDelivered;
 
-    //One Order has many OrderItems
-    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
-    private List<OrderItem> orderItems;
+    /**
+     * Code by: Tibor Haller
+     * <p>
+     * One order holds many productItems
+     * <p>
+     * Bidirectional oneToMany connection. CascadeType and orphanRemoval is required to propagate changes in the parent to children.
+     * <p>
+     * According to https://stackoverflow.com/a/40339633, changes in children (ProductImage) can be propagated to the parent (Product) by using the @JoinColumn
+     * <p>
+     * According to https://stackoverflow.com/questions/49592081/jpa-detached-entity-passed-to-persist-nested-exception-is-org-hibernate-persis,
+     * CascadeType.PERSIST poses problems as it tries to persist an already existing child when adding the reference in the list
+     */
+    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE}, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JoinColumn(name = "productItems_id", referencedColumnName = "orderId")
+    //Fixes Hibernate issue to disallow multiple bag fetches https://hibernate.atlassian.net/browse/HHH-1718, https://stackoverflow.com/a/8309458
+    @Fetch(value = FetchMode.SUBSELECT)
+    private List<ProductItem> productItems;
 
-    //TODO: private ServiceProvider serviceProvider
+    /**
+     * Code by: Tibor Haller
+     * <p>
+     * One Order has one ShippingItem
+     * <p>
+     * Bidirectional oneToMany connection. CascadeType and orphanRemoval is required to propagate changes in the parent to children.
+     * <p>
+     */
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE}, orphanRemoval = true)
+    private ShippingItem shippingItem;
 
     //private AddressItem addressItem needed?
     class AddressItem {
@@ -85,11 +111,19 @@ public class UserOrder {
         this.user = user;
     }
 
-    public List<OrderItem> getOrderItems() {
-        return orderItems;
+    public List<ProductItem> getProductItems() {
+        return productItems;
     }
 
-    public void setOrderItems(List<OrderItem> orderItems) {
-        this.orderItems = orderItems;
+    public void setProductItems(List<ProductItem> productItems) {
+        this.productItems = productItems;
+    }
+
+    public ShippingItem getShippingItem() {
+        return shippingItem;
+    }
+
+    public void setShippingItem(ShippingItem shippingItem) {
+        this.shippingItem = shippingItem;
     }
 }
