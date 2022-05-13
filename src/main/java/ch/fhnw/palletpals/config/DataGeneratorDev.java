@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Profile;
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @Profile("dev")
 @Configuration
@@ -48,9 +49,11 @@ public class DataGeneratorDev {
 
     @PostConstruct
     private void init() throws Exception {
-         demoUser();
+         /*demoUser();
          demoWarehouse();
          demoproducts();
+         demoServiceProvider();
+         testShippingCost();
 
          //When using the application dev profile, demo data is generated and demo calculations are performed.
          /*demoWarehouse();
@@ -99,7 +102,30 @@ public class DataGeneratorDev {
         demoWarehouse2.setAddress(addressService.setCoordinates(demoWarehouseAddress2));
         demoWarehouse2 = warehouseService.saveWarehouse(demoWarehouse2);
     }
-    private void testDistance() throws Exception{
+    private void testShippingCost() throws Exception{
+        CartItem item1 = new CartItem();
+        item1.setProduct(product1);
+        item1.setQuantity(30);
+
+        CartItem item3 = new CartItem();
+        item3.setProduct(product3);
+        item3.setQuantity(8);
+
+        CartItem item4 = new CartItem();
+        item4.setProduct(product4);
+        item4.setQuantity(53);
+
+        List<CartItem> items = new ArrayList<CartItem>();
+        items.add(item1);
+        items.add(item3);
+        items.add(item4);
+
+        ShoppingSession shoppingSession = new ShoppingSession();
+        shoppingSession.setUser(userUser);
+        shoppingSession.setShoppingCart(items);
+
+        shoppingSession = shippingCostService.getShippingCosts(shoppingSession);
+        System.out.println(shoppingSession);
 
     }
 
@@ -155,7 +181,6 @@ public class DataGeneratorDev {
         CartItem item1 = new CartItem();
         item1.setProduct(product1);
         item1.setQuantity(30);
-
 
         CartItem item3 = new CartItem();
         item3.setProduct(product3);

@@ -44,17 +44,19 @@ public class ServiceProviderService {
         Float shippingCost = null;
         try {
             allServiceProviders = serviceProviderRepository.findAll();
+            int count = 0;
             for (ServiceProvider serviceProvider: allServiceProviders){
                 shippingCost = getShippingPrice(serviceProvider, shoppingSession.getPalletSpace(), shoppingSession.getDrivingDistance());
-                if (shippingCost<shoppingSession.getShippingCost()){
+                if (count == 0 || shippingCost<shoppingSession.getShippingCost()){
                     shoppingSession.setServiceProvider(serviceProvider.getId());
                     shoppingSession.setShippingCost(shippingCost);
                 }
+                count ++;
             }
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
-        return null;
+        return shoppingSession;
     }
 
     /**
