@@ -1,6 +1,9 @@
 package ch.fhnw.palletpals.data.domain;
 
+import ch.fhnw.palletpals.data.domain.shopping.ShoppingSession;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Warehouse {
@@ -12,6 +15,10 @@ public class Warehouse {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private ShippingAddress address;
+
+    @OneToMany
+    @JoinColumn(name = "warehouseId", referencedColumnName = "id")
+    private List<ShoppingSession> shoppingSessions;
 
     public Long getId() {
         return id;

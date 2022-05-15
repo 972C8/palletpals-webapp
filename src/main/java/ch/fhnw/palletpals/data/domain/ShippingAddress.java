@@ -17,9 +17,10 @@ public class ShippingAddress {
     private String street;
     private String premise;
     private String city;
-    //TODO check in docs if string
     private String postalCode;
     private String country;
+    private String lat;
+    private String lon;
     @OneToOne
     private User user;
     @OneToOne
@@ -113,7 +114,25 @@ public class ShippingAddress {
         this.warehouse = warehouse;
     }
 
+    public String getLat() {
+        return lat;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public String getLon() {
+        return lon;
+    }
+
+    public void setLon(String lon) {
+        this.lon = lon;
+    }
+
     public String coordinateRequest(){
         return postalCode + "%20" + city + "%20" + street + "%20";
     }
+
+    public String distanceRequest(){ return lat +"%2C" + lon;}
 }

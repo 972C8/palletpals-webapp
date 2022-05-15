@@ -4,8 +4,10 @@ import ch.fhnw.palletpals.business.service.*;
 import ch.fhnw.palletpals.business.service.shoppingServices.DistanceService;
 import ch.fhnw.palletpals.business.service.shoppingServices.PalletSpaceService;
 import ch.fhnw.palletpals.business.service.shoppingServices.ServiceProviderService;
+import ch.fhnw.palletpals.business.service.shoppingServices.ShippingCostService;
 import ch.fhnw.palletpals.data.domain.*;
 import ch.fhnw.palletpals.data.domain.shopping.CartItem;
+import ch.fhnw.palletpals.data.domain.shopping.ShoppingSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -13,6 +15,7 @@ import org.springframework.context.annotation.Profile;
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @Profile("dev")
 @Configuration
@@ -32,6 +35,8 @@ public class DataGeneratorDev {
     private ProductService productService;
     @Autowired
     private PalletSpaceService palletSpaceService;
+    @Autowired
+    private ShippingCostService shippingCostService;
 
     User userUser;
     Warehouse demoWarehouse;
@@ -44,7 +49,11 @@ public class DataGeneratorDev {
 
     @PostConstruct
     private void init() throws Exception {
-         demoUser();
+         /*demoUser();
+         demoWarehouse();
+         demoproducts();
+         demoServiceProvider();
+         testShippingCost();
 
          //When using the application dev profile, demo data is generated and demo calculations are performed.
          /*demoWarehouse();
@@ -55,8 +64,6 @@ public class DataGeneratorDev {
          System.out.println("Driving Distance: "+drivingDistance+" Pallet space: "+palletSpace+" Price: "+price);
          //testDistance();
           */
-        demoproducts();
-        demoShoppingSession();
     }
 
     private void demoUser() throws Exception {
@@ -68,20 +75,20 @@ public class DataGeneratorDev {
         demoUserAddress.setStreet("Zeughausstrasse 6");
         demoUserAddress.setPostalCode("8500");
         demoUserAddress.setCity("Frauenfeld");
-        userUser.setAddress(demoUserAddress);
+        userUser.setAddress(addressService.setCoordinates(demoUserAddress));
         userService.saveUser(userUser);
         addressService.saveCustomerAddress(demoUserAddress);
     }
     private void demoWarehouse() throws Exception{
         demoWarehouse = new Warehouse();
-        demoWarehouse.setName("Brugg Campus");
+        demoWarehouse.setName("Mutenz Campus");
         ShippingAddress demoWarehouseAddress = new ShippingAddress();
         demoWarehouseAddress.setOrganisationName("Demo Warehouse");
-        demoWarehouseAddress.setStreet("Bahnhofstrasse 6");
-        demoWarehouseAddress.setPostalCode("5210");
-        demoWarehouseAddress.setCity("Windisch");
+        demoWarehouseAddress.setStreet("Hofackerstrasse 30");
+        demoWarehouseAddress.setPostalCode("4132");
+        demoWarehouseAddress.setCity("Muttenz");
         demoWarehouseAddress.setCountry("CH");
-        demoWarehouse.setAddress(demoWarehouseAddress);
+        demoWarehouse.setAddress(addressService.setCoordinates(demoWarehouseAddress));
         demoWarehouse = warehouseService.saveWarehouse(demoWarehouse);
 
         demoWarehouse2 = new Warehouse();
@@ -92,11 +99,34 @@ public class DataGeneratorDev {
         demoWarehouseAddress2.setPostalCode("4600");
         demoWarehouseAddress2.setCity("Olten");
         demoWarehouseAddress2.setCountry("CH");
-        demoWarehouse2.setAddress(demoWarehouseAddress2);
+        demoWarehouse2.setAddress(addressService.setCoordinates(demoWarehouseAddress2));
         demoWarehouse2 = warehouseService.saveWarehouse(demoWarehouse2);
     }
-    private void testDistance() throws Exception{
-        System.out.println(distanceService.nearestWarehouse(userUser.getAddress()));
+    private void testShippingCost() throws Exception{
+        CartItem item1 = new CartItem();
+        item1.setProduct(product1);
+        item1.setQuantity(30);
+
+        CartItem item3 = new CartItem();
+        item3.setProduct(product3);
+        item3.setQuantity(8);
+
+        CartItem item4 = new CartItem();
+        item4.setProduct(product4);
+        item4.setQuantity(53);
+
+        List<CartItem> items = new ArrayList<CartItem>();
+        items.add(item1);
+        items.add(item3);
+        items.add(item4);
+
+        ShoppingSession shoppingSession = new ShoppingSession();
+        shoppingSession.setUser(userUser);
+        shoppingSession.setShoppingCart(items);
+
+        shoppingSession = shippingCostService.getShippingCosts(shoppingSession);
+        System.out.println(shoppingSession);
+
     }
 
     private void demoServiceProvider() throws Exception{
@@ -152,7 +182,6 @@ public class DataGeneratorDev {
         item1.setProduct(product1);
         item1.setQuantity(30);
 
-
         CartItem item3 = new CartItem();
         item3.setProduct(product3);
         item3.setQuantity(8);
@@ -202,8 +231,8 @@ public class DataGeneratorDev {
 
         ArrayList<CartItem> order3 = new ArrayList<CartItem>(Arrays.asList(o3item1, o3item2, o3item3, o3item4));
 
-        palletSpaceService.getPalletSpace(list);
-        palletSpaceService.getPalletSpace(order2);
-        palletSpaceService.getPalletSpace(order3);
+        //palletSpaceService.setPalletSpace(list);
+        //palletSpaceService.setPalletSpace(order2);
+        //palletSpaceService.setPalletSpace(order3);
     }
 }

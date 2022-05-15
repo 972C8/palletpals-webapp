@@ -1,6 +1,7 @@
 package ch.fhnw.palletpals.data.domain.shopping;
 
 import ch.fhnw.palletpals.data.domain.User;
+import ch.fhnw.palletpals.data.domain.Warehouse;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -24,6 +25,14 @@ public class ShoppingSession {
     //TODO: Should be updated automatically based on new shoppingCart
     private float shippingCost;
     private float totalCost;
+    private float drivingDistance;
+    private int palletSpace;
+
+    @Column(name = "warehouseId")
+    private Long nearestWarehouse;
+
+    @Column(name = "serviceProviderId")
+    private Long serviceProvider;
 
     //TODO: Timestamps not used yet
     private String createdAt;
@@ -110,6 +119,38 @@ public class ShoppingSession {
 
     public void setShoppingCart(List<CartItem> shoppingCart) {
         this.shoppingCart = shoppingCart;
+    }
+
+    public float getDrivingDistance() {
+        return drivingDistance;
+    }
+
+    public void setDrivingDistance(float drivingDistance) {
+        this.drivingDistance = drivingDistance;
+    }
+
+    public int getPalletSpace() {
+        return palletSpace;
+    }
+
+    public void setPalletSpace(int palletSpace) {
+        this.palletSpace = palletSpace;
+    }
+
+    public Long getNearestWarehouse() {
+        return nearestWarehouse;
+    }
+
+    public void setNearestWarehouse(Long nearestWarehouse) {
+        this.nearestWarehouse = nearestWarehouse;
+    }
+
+    public Long getServiceProvider() {
+        return serviceProvider;
+    }
+
+    public void setServiceProvider(Long serviceProvider) {
+        this.serviceProvider = serviceProvider;
     }
 }
 

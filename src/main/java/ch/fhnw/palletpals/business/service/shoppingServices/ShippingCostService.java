@@ -1,9 +1,6 @@
 package ch.fhnw.palletpals.business.service.shoppingServices;
 
-import ch.fhnw.palletpals.business.service.shoppingServices.DistanceService;
-import ch.fhnw.palletpals.business.service.shoppingServices.ServiceProviderService;
-import ch.fhnw.palletpals.data.domain.Coordinate;
-import ch.fhnw.palletpals.data.domain.User;
+import ch.fhnw.palletpals.data.domain.shopping.ShoppingSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,20 +11,23 @@ public class ShippingCostService {
     private ServiceProviderService serviceProviderService;
     @Autowired
     private DistanceService distanceService;
+    @Autowired
+    private PalletSpaceService palletSpaceService;
 
-
-    //TODO change input
-    public double getShippingCosts(User currentUser)throws Exception{
-        Coordinate shortestRoute;
-        int palletSpace;
-
-        //Find nearest warehouse and get driving distance with address of current user
-        shortestRoute = distanceService.nearestWarehouse(currentUser.getAddress());
-        //Calculate palletSpace with shoppingCart (shopping session)
-        palletSpace = 4;
+    public ShoppingSession getShippingCosts(ShoppingSession shoppingSession)throws Exception{
+        try {
+        //Find the nearest warehouse and get driving distance with address of current user
+        shoppingSession = distanceService.setNearestWarehouse(shoppingSession);
+        //Calculate palletSpace with shopping session
+        shoppingSession = palletSpaceService.setPalletSpace(shoppingSession);
         //Calculate shipping costs
+        shoppingSession = serviceProviderService.setCheapestShipment(shoppingSession);
 
-        return 0;
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+
+        return shoppingSession;
     }
 
 }
