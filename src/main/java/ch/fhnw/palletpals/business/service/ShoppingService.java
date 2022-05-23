@@ -194,4 +194,14 @@ public class ShoppingService {
         User currentUser = userService.getCurrentUser();
         return shoppingSessionRepository.findByUserId(currentUser.getId());
     }
+
+    /**
+     * Code by: Tibor Haller
+     * <p>
+     * Reset the current user's shopping session. Used after successful order submission
+     */
+    public void resetShoppingSessionOfCurrentUser() {
+        User currentUser = userService.getCurrentUser();
+        shoppingSessionRepository.delete(currentUser.getShoppingSession());
+    }
 }

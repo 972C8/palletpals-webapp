@@ -11,6 +11,8 @@ import javax.persistence.*;
 @DiscriminatorValue("SHIPPINGITEM")
 public class ShippingItem extends OrderItem {
 
+    //TODO: ShippingCost should be positive
+    //@Positive(message = "Please provide shipping costs")
     private float shippingCost;
 
     @OneToOne(mappedBy = "shippingItem")

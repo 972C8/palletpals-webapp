@@ -1,10 +1,14 @@
 package ch.fhnw.palletpals.business.service;
 
+import ch.fhnw.palletpals.component.NullAwareBeanUtilsBean;
+import ch.fhnw.palletpals.data.domain.ShippingAddress;
+import ch.fhnw.palletpals.data.domain.order.AddressItem;
 import ch.fhnw.palletpals.data.domain.order.ProductItem;
 import ch.fhnw.palletpals.data.domain.order.ShippingItem;
 import ch.fhnw.palletpals.data.domain.order.UserOrder;
 import ch.fhnw.palletpals.data.domain.shopping.CartItem;
 import ch.fhnw.palletpals.data.domain.shopping.ShoppingSession;
+import ch.fhnw.palletpals.data.repository.AddressRepository;
 import ch.fhnw.palletpals.data.repository.OrderRepository;
 import ch.fhnw.palletpals.data.repository.ProductItemRepository;
 import ch.fhnw.palletpals.data.repository.ShippingItemRepository;
@@ -33,6 +37,9 @@ public class OrderService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private NullAwareBeanUtilsBean beanUtils = new NullAwareBeanUtilsBean();
+
     /**
      * Code by: Tibor Haller
      * <p>
@@ -54,10 +61,24 @@ public class OrderService {
             order.setTotalCost(shoppingSession.getTotalCost());
             //TODO: order.setDateOrdered();
 
-            //TODO: Create AddressItem
+            //AddressItem serves as a snapshot of the user address and is part of the new order that is created.
+            AddressItem addressItem = new AddressItem();
+
+            //The current user's address to copy into addressItem
+            ShippingAddress userAddress = shoppingSession.getUser().getAddress();
+
+            if (userAddress == null) {
+                throw new Exception("User must have a shipping address");
+            }
+
+            //Bean utils will copy non null values from user's address to addressItem. Null values will be ignored.
+            //This effectively means that the current address of the user will be copied into addressItem.
+            beanUtils.copyProperties(addressItem, userAddress);
+
+            //Set the address snapshot. It is not necessary to save it into the db, because it is @Embeddable and embedded into UserOrder.java
+            order.setAddressItem(addressItem);
 
             //Create relevant objects (ProductItem and ShippingItem) and add them as a reference to the new Order
-
             //For each CartItem in the shopping cart of the shopping session, create a ProductItem
             List<ProductItem> productItems = createProductItemsFromShoppingCart(shoppingSession.getShoppingCart());
             //Add ProductItem references to new Order
@@ -114,15 +135,19 @@ public class OrderService {
      *
      * @param shoppingSession
      */
-    private ShippingItem createShippingItemFromShoppingSession(ShoppingSession shoppingSession) {
-        ShippingItem shippingItem = new ShippingItem();
+    private ShippingItem createShippingItemFromShoppingSession(ShoppingSession shoppingSession) throws Exception {
+        try {
+            ShippingItem shippingItem = new ShippingItem();
 
-        //TODO: Define another name?
-        shippingItem.setName("Shipping Cost");
-        shippingItem.setShippingCost(shoppingSession.getShippingCost());
+            //TODO: Define another name?
+            shippingItem.setName("Shipping Cost");
+            shippingItem.setShippingCost(shoppingSession.getShippingCost());
 
-        //Store the new ShippingItem in the DB
-        return shippingItemRepository.save(shippingItem);
+            //Store the new ShippingItem in the DB
+            return shippingItemRepository.save(shippingItem);
+        } catch (Exception e) {
+            throw new Exception("Could not create shipping item from shopping session.");
+        }
     }
 
     /**

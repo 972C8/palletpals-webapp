@@ -1,38 +1,30 @@
-package ch.fhnw.palletpals.data.domain;
+package ch.fhnw.palletpals.data.domain.order;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.Embeddable;
 
-@Entity
-public class ShippingAddress {
-
-    @Id
-    @GeneratedValue
-    private Long id;
-
-    //TODO: Add NotEmpty tags for required information when creating the object
+/**
+ * Code by: Tibor Haller
+ * <p>
+ * Embeddable class AddressItem, which serves as a snapshot of the user's address when the user creates a new order.
+ * <p>
+ * This embeddable class does not require a primary key as it is stored (embedded) as part of UserOrder.java
+ * <p>
+ * More information: https://www.objectdb.com/java/jpa/entity/types and https://www.callicoder.com/hibernate-spring-boot-jpa-embeddable-demo/
+ */
+@Embeddable
+public class AddressItem {
+    //TODO: Handle empty variables
     private String firstName;
     private String lastName;
     private String organisationName;
     private String street;
     private String premise;
     private String city;
-    //TODO check in docs if string
     private String postalCode;
     private String country;
-    @OneToOne
-    private User user;
-    @OneToOne
-    private Warehouse warehouse;
 
-    public Long getId() {
-        return id;
-    }
+    public AddressItem() {
 
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getFirstName() {
@@ -97,25 +89,5 @@ public class ShippingAddress {
 
     public void setCountry(String country) {
         this.country = country;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Warehouse getWarehouse() {
-        return warehouse;
-    }
-
-    public void setWarehouse(Warehouse warehouse) {
-        this.warehouse = warehouse;
-    }
-
-    public String coordinateRequest(){
-        return postalCode + "%20" + city + "%20" + street + "%20";
     }
 }
