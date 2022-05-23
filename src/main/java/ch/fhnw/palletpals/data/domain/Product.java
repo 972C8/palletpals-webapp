@@ -27,6 +27,12 @@ public class Product {
     @NotEmpty(message = "Please provide a description for the product.")
     private String description;
 
+    //Multilingual support for details and description
+    private String details_de;
+    private String details_fr;
+    private String description_de;
+    private String description_fr;
+
     //Float must be positive, so higher than 0 (zero is not allowed)
     @Positive(message = "Please provide a price for the product.")
     private float price;
@@ -115,5 +121,37 @@ public class Product {
 
     public void setProductImages(List<ProductImage> productImages) {
         this.productImages = productImages;
+    }
+
+    public String getDetails_de() {
+        return details_de;
+    }
+
+    public void setDetails_de(String details_de) {
+        this.details_de = details_de;
+    }
+
+    public String getDetails_fr() {
+        return details_fr;
+    }
+
+    public void setDetails_fr(String details_fr) {
+        this.details_fr = details_fr;
+    }
+
+    public String getDescription_de() {
+        return description_de;
+    }
+
+    public void setDescription_de(String description_de) {
+        this.description_de = description_de;
+    }
+
+    public String getDescription_fr() {
+        return description_fr;
+    }
+
+    public void setDescription_fr(String description_fr) {
+        this.description_fr = description_fr;
     }
 }
