@@ -1,10 +1,12 @@
 package ch.fhnw.palletpals.data.domain.shopping;
 
+import ch.fhnw.palletpals.business.service.shoppingServices.ShippingCostService;
 import ch.fhnw.palletpals.data.domain.User;
 import ch.fhnw.palletpals.data.domain.Warehouse;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.util.List;
@@ -117,9 +119,7 @@ public class ShoppingSession {
         return shoppingCart;
     }
 
-    public void setShoppingCart(List<CartItem> shoppingCart) {
-        this.shoppingCart = shoppingCart;
-    }
+    public void setShoppingCart(List<CartItem> shoppingCart) throws Exception{this.shoppingCart = shoppingCart;}
 
     public float getDrivingDistance() {
         return drivingDistance;
@@ -152,5 +152,6 @@ public class ShoppingSession {
     public void setServiceProvider(Long serviceProvider) {
         this.serviceProvider = serviceProvider;
     }
+
 }
 

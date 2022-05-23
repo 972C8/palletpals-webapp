@@ -1,8 +1,6 @@
 package ch.fhnw.palletpals.business.service;
 
 import ch.fhnw.palletpals.data.domain.ShippingAddress;
-import ch.fhnw.palletpals.data.domain.User;
-import ch.fhnw.palletpals.data.domain.Warehouse;
 import ch.fhnw.palletpals.data.repository.AddressRepository;
 import org.asynchttpclient.*;
 import org.asynchttpclient.util.HttpConstants;
@@ -13,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Service
 @Validated
@@ -54,33 +51,6 @@ public class AddressService {
             throw new Exception("Address couldn't be assigned to warehouse");
         }
         return address;
-    }
-
-    /**
-     * Code by Daniel Locher
-     * @param userId
-     * @return
-     * @throws Exception
-     */
-    public ShippingAddress getAddressByUserId(Long userId) throws Exception{
-        try {
-            return addressRepository.findByUser(userService.getUserById(userId));
-        } catch (Exception e){
-            throw new Exception("Address not found");
-        }
-    }
-
-    /**
-     * Daniel Locher
-     * @param user
-     * @throws Exception
-     */
-    public void deleteAddressByUser(User user) throws Exception{
-        try {
-            addressRepository.deleteById(addressRepository.findByUser(user).getId());
-        } catch (Exception e){
-            throw new Exception("User address can't be deleted");
-        }
     }
 
     /**

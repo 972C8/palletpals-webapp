@@ -1,5 +1,6 @@
 package ch.fhnw.palletpals.business.service.shoppingServices;
 
+import ch.fhnw.palletpals.component.NullAwareBeanUtilsBean;
 import ch.fhnw.palletpals.data.domain.ServiceProvider;
 import ch.fhnw.palletpals.data.domain.shopping.ShoppingSession;
 import ch.fhnw.palletpals.data.repository.ServiceProviderRepository;
@@ -18,6 +19,8 @@ public class ServiceProviderService {
 
     @Autowired
     private ServiceProviderRepository serviceProviderRepository;
+    @Autowired
+    private NullAwareBeanUtilsBean beanUtils = new NullAwareBeanUtilsBean();
 
     /**
      * Code by Daniel Locher
@@ -38,6 +41,23 @@ public class ServiceProviderService {
 
         return serviceProvider;
     }
+
+    public ServiceProvider patchServiceProvider(ServiceProvider toBePatchedServiceProvider, ServiceProvider currentServiceProvider) throws Exception {
+        beanUtils.copyProperties(currentServiceProvider, toBePatchedServiceProvider);
+        return serviceProviderRepository.save(currentServiceProvider);
+    }
+
+    public ServiceProvider findServiceProviderById(Long id) throws Exception{
+        ServiceProvider serviceProvider = serviceProviderRepository.findServiceProviderById(id);
+        if (serviceProvider == null){
+            throw new Exception("No service provider found with ID : " + id);
+        }
+        return serviceProvider;
+    }
+
+    public List<ServiceProvider> findAllServiceProviders(){return serviceProviderRepository.findAll();}
+
+    public void deleteServiceProvider(Long serviceProviderId){serviceProviderRepository.deleteById(serviceProviderId);}
 
     public ShoppingSession setCheapestShipment(ShoppingSession shoppingSession) throws Exception {
         List<ServiceProvider> allServiceProviders;

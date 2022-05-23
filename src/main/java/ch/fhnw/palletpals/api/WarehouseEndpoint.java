@@ -95,5 +95,15 @@ public class WarehouseEndpoint {
         return ResponseEntity.ok(warehouse);
     }
 
+    @DeleteMapping(path = "/{warehouseId}")
+    public ResponseEntity<Void> deleteWarehouse(@PathVariable(value = "warehouseId") String warehouseId) {
+        try {
+            warehouseService.deleteWarehouse(Long.parseLong(warehouseId));
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
+        }
+        return ResponseEntity.accepted().build();
+    }
+
 
 }

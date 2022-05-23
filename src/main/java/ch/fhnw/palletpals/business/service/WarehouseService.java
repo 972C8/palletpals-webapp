@@ -60,4 +60,6 @@ public class WarehouseService {
     public List<Warehouse> findAllWarehouses(){
             return warehouseRepository.findAll();
     }
+
+    public void deleteWarehouse(Long warehouseId){warehouseRepository.deleteById(warehouseId);}
 }
