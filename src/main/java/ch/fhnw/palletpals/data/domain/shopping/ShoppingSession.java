@@ -34,10 +34,6 @@ public class ShoppingSession {
     @Column(name = "serviceProviderId")
     private Long serviceProvider;
 
-    //TODO: Timestamps not used yet
-    private String createdAt;
-    private String modifiedAt;
-
     @OneToOne
     @JsonIgnore
     private User user;
@@ -87,22 +83,6 @@ public class ShoppingSession {
 
     public void setTotalCost(float totalCost) {
         this.totalCost = totalCost;
-    }
-
-    public String getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public String getModifiedAt() {
-        return modifiedAt;
-    }
-
-    public void setModifiedAt(String modifiedAt) {
-        this.modifiedAt = modifiedAt;
     }
 
     public User getUser() {

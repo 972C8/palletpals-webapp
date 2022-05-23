@@ -6,6 +6,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -30,8 +31,17 @@ public class UserOrder {
     private User user;
 
     private float totalCost;
-    private String dateOrdered;
-    private String dateDelivered;
+
+    /**
+     * Code by: Tibor Haller
+     *
+     * Ensures correct date handling with JPA: https://javabydeveloper.com/temporal/
+     */
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateOrdered;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateDelivered;
 
     /**
      * Code by: Tibor Haller
@@ -80,19 +90,19 @@ public class UserOrder {
         this.totalCost = totalCost;
     }
 
-    public String getDateOrdered() {
+    public Date getDateOrdered() {
         return dateOrdered;
     }
 
-    public void setDateOrdered(String dateOrdered) {
+    public void setDateOrdered(Date dateOrdered) {
         this.dateOrdered = dateOrdered;
     }
 
-    public String getDateDelivered() {
+    public Date getDateDelivered() {
         return dateDelivered;
     }
 
-    public void setDateDelivered(String dateDelivered) {
+    public void setDateDelivered(Date dateDelivered) {
         this.dateDelivered = dateDelivered;
     }
 

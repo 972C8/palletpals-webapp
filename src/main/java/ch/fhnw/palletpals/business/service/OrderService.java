@@ -8,7 +8,6 @@ import ch.fhnw.palletpals.data.domain.order.ShippingItem;
 import ch.fhnw.palletpals.data.domain.order.UserOrder;
 import ch.fhnw.palletpals.data.domain.shopping.CartItem;
 import ch.fhnw.palletpals.data.domain.shopping.ShoppingSession;
-import ch.fhnw.palletpals.data.repository.AddressRepository;
 import ch.fhnw.palletpals.data.repository.OrderRepository;
 import ch.fhnw.palletpals.data.repository.ProductItemRepository;
 import ch.fhnw.palletpals.data.repository.ShippingItemRepository;
@@ -17,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -59,7 +59,7 @@ public class OrderService {
             UserOrder order = new UserOrder();
             order.setUser(userService.getCurrentUser());
             order.setTotalCost(shoppingSession.getTotalCost());
-            //TODO: order.setDateOrdered();
+            order.setDateOrdered(new Date());
 
             //AddressItem serves as a snapshot of the user address and is part of the new order that is created.
             AddressItem addressItem = new AddressItem();

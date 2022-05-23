@@ -49,11 +49,13 @@ public class DataGeneratorDev {
 
     @PostConstruct
     private void init() throws Exception {
-         /*demoUser();
+         demoUser();
+         /*
          demoWarehouse();
          demoproducts();
          demoServiceProvider();
          testShippingCost();
+         */
 
          //When using the application dev profile, demo data is generated and demo calculations are performed.
          /*demoWarehouse();
@@ -72,6 +74,9 @@ public class DataGeneratorDev {
         userUser.setPassword("password");
         userUser.setUserName("user");
         ShippingAddress demoUserAddress = new ShippingAddress();
+        demoUserAddress.setFirstName("Hans");
+        demoUserAddress.setLastName("Peter");
+        demoUserAddress.setCountry("Switzerland");
         demoUserAddress.setStreet("Zeughausstrasse 6");
         demoUserAddress.setPostalCode("8500");
         demoUserAddress.setCity("Frauenfeld");
