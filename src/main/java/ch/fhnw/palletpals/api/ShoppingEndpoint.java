@@ -1,6 +1,7 @@
 package ch.fhnw.palletpals.api;
 
 import ch.fhnw.palletpals.business.service.ShoppingService;
+import ch.fhnw.palletpals.business.service.shoppingServices.ShippingCostService;
 import ch.fhnw.palletpals.data.domain.Product;
 import ch.fhnw.palletpals.data.domain.shopping.CartItem;
 import ch.fhnw.palletpals.data.domain.shopping.ShoppingSession;
@@ -33,6 +34,7 @@ public class ShoppingEndpoint {
      */
     @PostMapping(path = "/shopping", consumes = "application/json", produces = "application/json")
     public ResponseEntity<CartItem> postCartItem(@RequestBody CartItem cartItem) {
+        ShoppingSession shoppingSession;
         try {
             cartItem = shoppingService.saveCartItem(cartItem);
         } catch (ConstraintViolationException e) {
