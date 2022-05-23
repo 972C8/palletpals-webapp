@@ -1,7 +1,8 @@
 package ch.fhnw.palletpals.api;
 
+import ch.fhnw.palletpals.business.service.OrderService;
 import ch.fhnw.palletpals.business.service.ShoppingService;
-import ch.fhnw.palletpals.data.domain.Product;
+import ch.fhnw.palletpals.data.domain.order.UserOrder;
 import ch.fhnw.palletpals.data.domain.shopping.CartItem;
 import ch.fhnw.palletpals.data.domain.shopping.ShoppingSession;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,6 +22,9 @@ import java.util.Map;
 public class ShoppingEndpoint {
     @Autowired
     private ShoppingService shoppingService;
+
+    @Autowired
+    private OrderService orderService;
 
     //Used by patchCartItem method to map objects
     @Autowired
@@ -46,6 +50,24 @@ public class ShoppingEndpoint {
                 .buildAndExpand(cartItem.getId()).toUri();
 
         return ResponseEntity.created(location).body(cartItem);
+    }
+
+    /**
+     * Code by: Tibor Haller
+     * <p>
+     * GET order by id
+     */
+    @PostMapping(path = "/shopping/{orderId}", produces = "application/json")
+    public ResponseEntity<ShoppingSession> addPastOrderToShoppingSession(@PathVariable(value = "orderId") String orderId) {
+        try {
+            UserOrder pastOrder = orderService.findOrderById(Long.parseLong(orderId));
+
+            ShoppingSession shoppingSession = shoppingService.addPastOrderToShoppingSession(pastOrder);
+
+            return ResponseEntity.ok(shoppingSession);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 
     /**
@@ -84,11 +106,11 @@ public class ShoppingEndpoint {
      * Code by: Tibor Haller
      * <p>
      * Patch cartItem
-     *
+     * <p>
      * Roughly based on the idea of objectMapper and NullAwareBeanUtilsBean.java (https://stackoverflow.com/a/45205844)
      *
-     * @param cartItemPatch   provided by user.
-     * @param cartItemId to update.
+     * @param cartItemPatch provided by user.
+     * @param cartItemId    to update.
      * @return Product
      */
     @PatchMapping(path = "/shopping/{cartItemId}", consumes = "application/json", produces = "application/json")
