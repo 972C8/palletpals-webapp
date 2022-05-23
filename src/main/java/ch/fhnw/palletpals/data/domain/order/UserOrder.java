@@ -62,14 +62,15 @@ public class UserOrder {
     @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE}, orphanRemoval = true)
     private ShippingItem shippingItem;
 
-    //private AddressItem addressItem needed?
-    class AddressItem {
-        private String firstName;
-        private String lastName;
-        private String organisationName;
-
-        //TODO: Add rest of address items
-    }
+    /**
+     * Code by: Tibor Haller
+     * <p>
+     * The embeddable inner class AddressItem is embedded into the UserOrder entity and stored in the DB as part of it.
+     * <p>
+     * AddressItem serves as a snapshot of the user address when creating a new order.
+     */
+    @Embedded
+    private AddressItem addressItem;
 
     public float getTotalCost() {
         return totalCost;
@@ -125,5 +126,13 @@ public class UserOrder {
 
     public void setShippingItem(ShippingItem shippingItem) {
         this.shippingItem = shippingItem;
+    }
+
+    public AddressItem getAddressItem() {
+        return addressItem;
+    }
+
+    public void setAddressItem(AddressItem addressItem) {
+        this.addressItem = addressItem;
     }
 }

@@ -1,6 +1,7 @@
 package ch.fhnw.palletpals.api;
 
 import ch.fhnw.palletpals.business.service.OrderService;
+import ch.fhnw.palletpals.business.service.ShoppingService;
 import ch.fhnw.palletpals.data.domain.order.UserOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,9 @@ public class OrderEndpoint {
     @Autowired
     private OrderService orderService;
 
+    @Autowired
+    private ShoppingService shoppingService;
+
     /**
      * Code by: Tibor Haller
      * <p>
@@ -32,6 +36,10 @@ public class OrderEndpoint {
         try {
             //Order is created from current user's shopping session
             order = orderService.createOrderFromShoppingSession();
+
+            //Reset the shopping cart after successful order submission
+            shoppingService.resetShoppingSessionOfCurrentUser();
+
         } catch (ConstraintViolationException e) {
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getConstraintViolations().iterator().next().getMessage());
         } catch (Exception e) {

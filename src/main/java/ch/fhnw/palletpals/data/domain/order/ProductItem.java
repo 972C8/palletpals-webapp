@@ -4,6 +4,7 @@ import ch.fhnw.palletpals.data.domain.Product;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.Positive;
 
 /**
  * Code by: Tibor Haller
@@ -15,9 +16,12 @@ import javax.persistence.*;
 @DiscriminatorValue("PRODUCTITEM")
 public class ProductItem extends OrderItem {
 
-    //TODO: Add tags not empty, etc.
+    //Float must be positive, so higher than 0 (zero is not allowed)
+    @Positive(message = "Please provide a price")
     private float pricePerUnit;
+    @Positive(message = "Please provide a quantity")
     private int quantity;
+    //TODO: Add minimum requirement?
     private float palletSpace;
 
     /**
