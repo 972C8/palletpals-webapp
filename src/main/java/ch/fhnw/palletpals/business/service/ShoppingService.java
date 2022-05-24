@@ -3,6 +3,8 @@ package ch.fhnw.palletpals.business.service;
 import ch.fhnw.palletpals.component.NullAwareBeanUtilsBean;
 import ch.fhnw.palletpals.data.domain.Product;
 import ch.fhnw.palletpals.data.domain.User;
+import ch.fhnw.palletpals.data.domain.order.ProductItem;
+import ch.fhnw.palletpals.data.domain.order.UserOrder;
 import ch.fhnw.palletpals.data.domain.shopping.CartItem;
 import ch.fhnw.palletpals.data.domain.shopping.ShoppingSession;
 import ch.fhnw.palletpals.data.repository.CartItemRepository;
@@ -203,5 +205,34 @@ public class ShoppingService {
     public void resetShoppingSessionOfCurrentUser() {
         User currentUser = userService.getCurrentUser();
         shoppingSessionRepository.delete(currentUser.getShoppingSession());
+    }
+
+
+    /**
+     * Code by: Tibor Haller
+     * <p>
+     * Update the current user's shopping session using products ordered in a past order. The past order is added to the existing shopping session rather than being replaced.
+     *
+     * @param pastOrder to update the shopping session from
+     * @return the updated shopping session
+     */
+    public ShoppingSession addPastOrderToShoppingSession(UserOrder pastOrder) throws Exception {
+        try {
+            //For each productItem in the past order, create a CartItem that is saved into the db with a reference to the current user's shopping session
+            for (ProductItem productItem : pastOrder.getProductItems()) {
+                CartItem cartItem = new CartItem();
+
+                //Only product reference and quantity are relevant because the rest is fetched automatically by the system using the current data
+                cartItem.setProduct(productItem.getProduct());
+                cartItem.setQuantity(productItem.getQuantity());
+
+                //Save the cartItem into the db with reference to the user's shopping session
+                saveCartItem(cartItem);
+            }
+
+            return getDistinctShoppingSessionOfCurrentUser();
+        } catch (Exception e) {
+            throw new Exception("Could not reorder past order");
+        }
     }
 }
