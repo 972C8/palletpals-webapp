@@ -1,10 +1,10 @@
 package ch.fhnw.palletpals.data.domain.order;
 
 import ch.fhnw.palletpals.data.domain.Product;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import javax.validation.constraints.Positive;
 
 /**
  * Code by: Tibor Haller
@@ -16,21 +16,42 @@ import javax.persistence.ManyToOne;
 @DiscriminatorValue("PRODUCTITEM")
 public class ProductItem extends OrderItem {
 
+    //Float must be positive, so higher than 0 (zero is not allowed)
+    @Positive(message = "Please provide a price")
     private float pricePerUnit;
+    @Positive(message = "Please provide a quantity")
     private int quantity;
+    //TODO: Add minimum requirement?
     private float palletSpace;
+
+    /**
+     * Code by: Tibor Haller
+     * <p>
+     * Bidirectional relation with UserOrder. Changes are propagated to UserOrder, meaning that deleting an instance of ProductItem will remove the reference in UserOrder
+     */
+    @ManyToOne
+    @JoinColumn(name = "orderId")
+    //Referenced user is not returned in api requests
+    @JsonIgnore
+    private UserOrder order;
 
     //Uni-directional relationship. This means that Product does not know about which ProductItems reference it.
     @ManyToOne
+    @JsonIgnore
     private Product product;
-
 
     public ProductItem() {
         super();
     }
 
+    public ProductItem(UserOrder order) {
+        super();
+        this.order = order;
+    }
+
     public ProductItem(String name, UserOrder order) {
-        super(name, order);
+        super(name);
+        this.order = order;
     }
 
     public float getPricePerUnit() {
@@ -63,5 +84,13 @@ public class ProductItem extends OrderItem {
 
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    public UserOrder getOrder() {
+        return order;
+    }
+
+    public void setOrder(UserOrder order) {
+        this.order = order;
     }
 }

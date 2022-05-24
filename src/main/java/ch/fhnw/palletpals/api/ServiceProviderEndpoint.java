@@ -33,5 +33,5 @@ public class ServiceProviderEndpoint {
         }
         return ResponseEntity.ok(serviceProvider);
     }
-    //TODO make requests rather Put than Patch as discussed with Tibor
+    //TODO make requests
 }

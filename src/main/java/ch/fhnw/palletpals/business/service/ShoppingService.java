@@ -3,6 +3,8 @@ package ch.fhnw.palletpals.business.service;
 import ch.fhnw.palletpals.component.NullAwareBeanUtilsBean;
 import ch.fhnw.palletpals.data.domain.Product;
 import ch.fhnw.palletpals.data.domain.User;
+import ch.fhnw.palletpals.data.domain.order.ProductItem;
+import ch.fhnw.palletpals.data.domain.order.UserOrder;
 import ch.fhnw.palletpals.data.domain.shopping.CartItem;
 import ch.fhnw.palletpals.data.domain.shopping.ShoppingSession;
 import ch.fhnw.palletpals.data.repository.CartItemRepository;
@@ -51,7 +53,7 @@ public class ShoppingService {
             }
 
             //If a CartItem with reference to given Product already exists, the CartItem's quantity is increased rather than creating a new object.
-            CartItem cartItemWithGivenProductId = cartItemRepository.findCartItemByProductId(cartItem.getProduct().getId());
+            CartItem cartItemWithGivenProductId = cartItemRepository.findCartItemByShoppingSessionIdAndProductId(currentShoppingSession.getId(), cartItem.getProduct().getId());
 
             //Simply add the given quantity to the existing cartItem, rather than creating a second, duplicate CartItem.
             if (cartItemWithGivenProductId != null) {
@@ -59,7 +61,7 @@ public class ShoppingService {
                 cartItemWithGivenProductId.addQuantity(quantityToAdd);
 
                 //Return the updated cartItem rather than creating a new one
-                return cartItemWithGivenProductId;
+                return cartItemRepository.save(cartItemWithGivenProductId);
             }
 
             //Add reference to shoppingSession in CartItem. Due to bi-directional mapping, the reference is also added in shoppingSession
@@ -180,6 +182,57 @@ public class ShoppingService {
             return shoppingSession;
         } catch (Exception e) {
             throw new Exception("Problem finding or creating shopping session for current user.");
+        }
+    }
+
+    /**
+     * Code by: Tibor Haller
+     * <p>
+     * Returns the current user's shopping session
+     *
+     * @return ShoppingSession or null if no shopping session exists yet.
+     */
+    public ShoppingSession getShoppingSessionOfCurrentUser() {
+        User currentUser = userService.getCurrentUser();
+        return shoppingSessionRepository.findByUserId(currentUser.getId());
+    }
+
+    /**
+     * Code by: Tibor Haller
+     * <p>
+     * Reset the current user's shopping session. Used after successful order submission
+     */
+    public void resetShoppingSessionOfCurrentUser() {
+        User currentUser = userService.getCurrentUser();
+        shoppingSessionRepository.delete(currentUser.getShoppingSession());
+    }
+
+
+    /**
+     * Code by: Tibor Haller
+     * <p>
+     * Update the current user's shopping session using products ordered in a past order. The past order is added to the existing shopping session rather than being replaced.
+     *
+     * @param pastOrder to update the shopping session from
+     * @return the updated shopping session
+     */
+    public ShoppingSession addPastOrderToShoppingSession(UserOrder pastOrder) throws Exception {
+        try {
+            //For each productItem in the past order, create a CartItem that is saved into the db with a reference to the current user's shopping session
+            for (ProductItem productItem : pastOrder.getProductItems()) {
+                CartItem cartItem = new CartItem();
+
+                //Only product reference and quantity are relevant because the rest is fetched automatically by the system using the current data
+                cartItem.setProduct(productItem.getProduct());
+                cartItem.setQuantity(productItem.getQuantity());
+
+                //Save the cartItem into the db with reference to the user's shopping session
+                saveCartItem(cartItem);
+            }
+
+            return getDistinctShoppingSessionOfCurrentUser();
+        } catch (Exception e) {
+            throw new Exception("Could not reorder past order");
         }
     }
 }

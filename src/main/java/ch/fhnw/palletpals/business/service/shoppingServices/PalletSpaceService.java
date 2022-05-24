@@ -2,6 +2,7 @@ package ch.fhnw.palletpals.business.service.shoppingServices;
 
 import ch.fhnw.palletpals.data.domain.Product;
 import ch.fhnw.palletpals.data.domain.shopping.CartItem;
+import ch.fhnw.palletpals.data.domain.shopping.ShoppingSession;
 import org.springframework.stereotype.Service;
 
 import java.text.DecimalFormat;
@@ -10,10 +11,12 @@ import java.util.ArrayList;
 @Service
 public class PalletSpaceService {
 
-    public int getPalletSpace(ArrayList<CartItem> cartItems) throws Exception {
+    public ShoppingSession setPalletSpace(ShoppingSession shoppingSession) throws Exception {
         double pallets = 0;
         double usedPallets = 0;
         int index;
+
+        ArrayList<CartItem> cartItems = (ArrayList) shoppingSession.getShoppingCart();
 
         try {
             //Sort out full pallet spaces
@@ -21,7 +24,6 @@ public class PalletSpaceService {
                 while (cartItem.getQuantity()>=cartItem.getProduct().getMaxProducts()){
                     pallets += cartItem.getProduct().getMinPalletSpace();
                     usedPallets += cartItem.getProduct().getMinPalletSpace();
-                    //TODO check with Tibor if using int instead of float makes sense
                     cartItem.setQuantity(cartItem.getQuantity()- Math.round(cartItem.getProduct().getMaxProducts()));
                 }
             }
@@ -70,16 +72,9 @@ public class PalletSpaceService {
         int scale = (int) Math.pow(10, 1);
         pallets = (double) Math.round(pallets*scale) /scale;
 
-        //TODO remove as soon as tested
-        //Test
-        for (CartItem cartItem : cartItems){
-            System.out.println(cartItem.getProduct().getName() + ": " + cartItem.getQuantity());
-        }
-        System.out.println(pallets);
-        System.out.println(usedPallets);
-
         //Round pallets up to the next full integer & return it
-        return (int) Math.ceil(pallets);
+        shoppingSession.setPalletSpace((int) Math.ceil(pallets));
+        return shoppingSession;
     }
 
     private boolean unusedSpace(ArrayList<CartItem> cartItems, double pallets, double usedPallets) throws Exception{
@@ -138,28 +133,6 @@ public class PalletSpaceService {
             throw new Exception("Ordering of cart items failed");
         }
         return orderItems;
-    }
-
-    //TODO exception if index still null
-    private int getNextProduct(ArrayList<CartItem> cartItems) throws Exception{
-        Integer index = null;
-        try {
-            for (CartItem cartItem : cartItems){
-                if (cartItem.getQuantity()>0){
-                    if (index == null){
-                        index = cartItems.indexOf(cartItem);
-                    } else {
-                        if (cartItem.getProduct().getMinPalletSpace()>
-                        cartItems.get(index).getProduct().getMinPalletSpace()){
-                            index = cartItems.indexOf(cartItem);
-                        }
-                    }
-                }
-            }
-        } catch (Exception e) {
-            throw new Exception("Can't get next product");
-        }
-        return index;
     }
 
 }
