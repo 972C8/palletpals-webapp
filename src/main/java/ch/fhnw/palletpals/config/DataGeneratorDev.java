@@ -35,6 +35,8 @@ public class DataGeneratorDev {
     private ProductService productService;
     @Autowired
     private PalletSpaceService palletSpaceService;
+    @Autowired
+    private ShippingCostService shippingCostService;
 
     User userUser;
     Warehouse demoWarehouse;
@@ -47,8 +49,8 @@ public class DataGeneratorDev {
 
     @PostConstruct
     private void init() throws Exception {
-         demoUser();
-         /*demoWarehouse();
+         /*demoUser();
+         demoWarehouse();
          demoproducts();
          demoServiceProvider();
          testShippingCost();
@@ -120,9 +122,9 @@ public class DataGeneratorDev {
 
         ShoppingSession shoppingSession = new ShoppingSession();
         shoppingSession.setUser(userUser);
+        shoppingSession.setShoppingCart(items);
 
-
-        //shoppingSession = shippingCostService.getShippingCosts(shoppingSession);
+        shoppingSession = shippingCostService.getShippingCosts(shoppingSession);
         System.out.println(shoppingSession);
 
     }

@@ -1,6 +1,5 @@
 package ch.fhnw.palletpals.business.service;
 
-import ch.fhnw.palletpals.business.service.shoppingServices.ShippingCostService;
 import ch.fhnw.palletpals.component.NullAwareBeanUtilsBean;
 import ch.fhnw.palletpals.data.domain.Product;
 import ch.fhnw.palletpals.data.domain.User;
@@ -195,6 +194,4 @@ public class ShoppingService {
         User currentUser = userService.getCurrentUser();
         return shoppingSessionRepository.findByUserId(currentUser.getId());
     }
-
-    public void saveShoppingSession(ShoppingSession shoppingSession){shoppingSessionRepository.save(shoppingSession);}
 }

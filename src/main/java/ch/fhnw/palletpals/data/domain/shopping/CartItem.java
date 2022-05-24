@@ -1,10 +1,7 @@
 package ch.fhnw.palletpals.data.domain.shopping;
 
-import ch.fhnw.palletpals.business.service.shoppingServices.ShippingCostListener;
-import ch.fhnw.palletpals.business.service.shoppingServices.ShippingCostService;
 import ch.fhnw.palletpals.data.domain.Product;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import javax.validation.constraints.Positive;
@@ -20,7 +17,6 @@ import javax.validation.constraints.Positive;
  * Rather than creating multiple CartItems with reference to the same Product, the additional quantities are added to existing CartItem. This ensures that no duplicate orders of the same Product exist.
  */
 @Entity
-@EntityListeners(ShippingCostService.class)
 public class CartItem {
 
     @Id
@@ -100,5 +96,7 @@ public class CartItem {
         return shoppingSession;
     }
 
-    public void setShoppingSession(ShoppingSession shoppingSession) {this.shoppingSession = shoppingSession;}
+    public void setShoppingSession(ShoppingSession shoppingSession) {
+        this.shoppingSession = shoppingSession;
+    }
 }

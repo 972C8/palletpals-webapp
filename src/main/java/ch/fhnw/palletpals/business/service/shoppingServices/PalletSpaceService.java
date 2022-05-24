@@ -7,8 +7,6 @@ import org.springframework.stereotype.Service;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 @Service
 public class PalletSpaceService {
@@ -18,7 +16,7 @@ public class PalletSpaceService {
         double usedPallets = 0;
         int index;
 
-        List<CartItem> cartItems = shoppingSession.getShoppingCart();
+        ArrayList<CartItem> cartItems = (ArrayList) shoppingSession.getShoppingCart();
 
         try {
             //Sort out full pallet spaces
@@ -79,7 +77,7 @@ public class PalletSpaceService {
         return shoppingSession;
     }
 
-    private boolean unusedSpace(List<CartItem> cartItems, double pallets, double usedPallets) throws Exception{
+    private boolean unusedSpace(ArrayList<CartItem> cartItems, double pallets, double usedPallets) throws Exception{
         boolean unusedSpace = false;
         try {
             for (CartItem cartItem : cartItems){
@@ -115,8 +113,8 @@ public class PalletSpaceService {
         return ((cartItem.getQuantity()/cartItem.getProduct().getMaxProducts())*cartItem.getProduct().getMinPalletSpace());
     }
 
-    private List<CartItem> orderItemsByMinPallet(List<CartItem> cartItems) throws Exception{
-        List<CartItem> orderItems = new ArrayList();
+    private ArrayList<CartItem> orderItemsByMinPallet(ArrayList<CartItem> cartItems) throws Exception{
+        ArrayList<CartItem> orderItems = new ArrayList<CartItem>();
         CartItem nextBiggestItem = null;
         try {
             while (cartItems.size()>0){
