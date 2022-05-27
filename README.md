@@ -18,14 +18,12 @@ The project was developed in two repositories: [bucket-webapp](https://github.co
 
 - [Analysis](#analysis)
   - [Scenario](#scenario)
-  - [Explanation of Terms](#explanation-of-terms)
   - [Requirements](#requirements)
   - [User Stories](#user-stories)
   - [Use Case](#use-case)
 - [Design](#design)
   - [Prototype Design](#prototype-design)
   - [Domain Design](#domain-design)
-  - [Business Logic Design](#business-logic-design)
   - [Endpoint Design](#endpoint-design)
 - [Implementation](#implementation)
   - [Backend Technology](#backend-technology)
@@ -39,8 +37,6 @@ The project was developed in two repositories: [bucket-webapp](https://github.co
 ## Analysis
 
 ### Scenario
-
-### Explanation of Terms
 
 ### Requirements
 
@@ -70,12 +66,16 @@ UPDATE!!!
 ## Design
 
 ### Prototype Design
+Mockups
 
 ### Domain design
-
-### Business Logic Design
+Class Diagram, etc.
 
 ### Endpoint Design
+
+The Postman API Platform was used for the endpoint design and during the implementation of the backend. Using Postman allowed us to create the API collaboratively and efficiently thanks to a synchronized workflow. Furthermore, Postman also allowed us to create the API documentation through an out-of-the-box, user-friendly, web-view of the API.
+
+Please check out our endpoint design at https://documenter.getpostman.com/view/17679206/Uz5AseV9 for a user-friendly web-view of the API.
 
 ## Implementation
 
@@ -83,9 +83,8 @@ UPDATE!!!
 
 ### Frontend
 
-## Deployment
-
 ## User Guide
+Give an overview of the webapp
 
 ## Project Management
 
@@ -95,15 +94,13 @@ UPDATE!!!
 - Frontend: Marco Kaufmann
 - Conceptual: All
 
-### Milestones (UPDATE!)
+Note that some overlap between frontend and backend responsibilities existed.
 
-1. **Analysis**: Scenario ideation, use case analysis and user story writing.
-2. **Prototype Design**: Creation of Bootstrap static web-design prototype.
-3. **Domain Design**: Definition of domain model.
-4. **Business Logic and API Design**: Definition of business logic and API.
-5. **Data and API Implementation**: Implementation of data access and business logic layers, and API.
-6. **Security and Frontend Implementation**: Integration of security framework and frontend realisation.
-7. **Deployment**: Deployment of Web application on cloud infrastructure.
+### Milestones
+
+- **Phase 1**: Define and document requirements
+- **Phase 2**: Technical Design
+- **Phase 3**: Implementation
 
 #### License
 
