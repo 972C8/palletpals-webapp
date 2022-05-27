@@ -2,6 +2,8 @@ package ch.fhnw.palletpals.api;
 
 import ch.fhnw.palletpals.business.service.OrderService;
 import ch.fhnw.palletpals.data.domain.order.UserOrder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,8 @@ public class OrderEndpoint {
     @Autowired
     private OrderService orderService;
 
+    Logger logger = LoggerFactory.getLogger(OrderEndpoint.class);
+
     /**
      * Code by: Tibor Haller
      * <p>
@@ -32,9 +36,12 @@ public class OrderEndpoint {
         try {
             //Order is created from current user's shopping session
             order = orderService.createOrderFromShoppingSession();
+            logger.info("Order was created with id: " + order.getId());
         } catch (ConstraintViolationException e) {
+            logger.error("Error while creating order: " + e.getMessage());
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getConstraintViolations().iterator().next().getMessage());
         } catch (Exception e) {
+            logger.error("Error while creating order: " + e.getMessage());
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }
 

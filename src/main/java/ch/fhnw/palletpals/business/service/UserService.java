@@ -66,7 +66,6 @@ public class UserService {
     }
 
     public User patchUser(User toBePatchedUser) throws Exception{
-        //TODO check if right user is used?
         User currentUser = getCurrentUser();
         beanUtils.copyProperties(currentUser, toBePatchedUser);
         return userRepository.save(currentUser);

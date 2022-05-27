@@ -24,7 +24,6 @@ public class ShoppingSession {
     @Column(name = "shoppingId", unique = true, nullable = false)
     private Long id;
 
-    //TODO: Should be updated automatically based on new shoppingCart
     private float shippingCost;
     private float totalCost;
     private float drivingDistance;

@@ -4,7 +4,8 @@ import ch.fhnw.palletpals.business.service.AddressService;
 import ch.fhnw.palletpals.business.service.WarehouseService;
 import ch.fhnw.palletpals.data.domain.ShippingAddress;
 import ch.fhnw.palletpals.data.domain.Warehouse;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +15,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/warehouse")
@@ -23,8 +23,8 @@ public class WarehouseEndpoint {
     private AddressService addressService;
     @Autowired
     private WarehouseService warehouseService;
-    @Autowired
-    private final ObjectMapper objectMapper = new ObjectMapper();
+
+    Logger logger = LoggerFactory.getLogger(WarehouseEndpoint.class);
 
     /**
      * Code by Daniel Locher
@@ -37,8 +37,11 @@ public class WarehouseEndpoint {
             warehouse.setAddress(addressService.setCoordinates(warehouse.getAddress()));
             ShippingAddress warehouseAddress = warehouse.getAddress();
             warehouse = warehouseService.saveWarehouse(warehouse);
+            logger.info("New warehouse saved with id: " + warehouse.getId());
             addressService.saveWarehouseAddress(warehouseAddress);
+            logger.info("New warehouse address saved with id: " + warehouseAddress.getId());
         } catch (Exception e){
+            logger.error("Error while saving new warehouse: " + e.getMessage());
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
         }
 
@@ -62,9 +65,12 @@ public class WarehouseEndpoint {
         try {
             Warehouse currentWarehouse = warehouseService.findWarehouseById(Long.parseLong(warehouseId));
             patchedAddress = addressService.patchAddress(toBePatchedWarehouse.getAddress(), currentWarehouse.getAddress());
+            logger.info("Address updated with id: " + patchedAddress.getId());
             toBePatchedWarehouse.setAddress(patchedAddress);
             patchedWarehouse = warehouseService.patchWarehouse(toBePatchedWarehouse, currentWarehouse);
+            logger.info("Warehouse updated with id: " + patchedWarehouse.getId());
         } catch (Exception e){
+            logger.error("Error while updating warehouse: " + e.getMessage());
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
         }
         return ResponseEntity.accepted().body(patchedWarehouse);
@@ -104,7 +110,9 @@ public class WarehouseEndpoint {
     public ResponseEntity<Void> deleteWarehouse(@PathVariable(value = "warehouseId") String warehouseId) {
         try {
             warehouseService.deleteWarehouse(Long.parseLong(warehouseId));
+            logger.info("Warehouse deleted with id: " + warehouseId);
         } catch (Exception e) {
+            logger.error("Error while deleting warehouse: " + e.getMessage());
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
         }
         return ResponseEntity.accepted().build();
