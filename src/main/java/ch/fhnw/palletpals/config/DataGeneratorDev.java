@@ -49,8 +49,8 @@ public class DataGeneratorDev {
 
     @PostConstruct
     private void init() throws Exception {
-         /*demoUser();
-         demoWarehouse();
+         demoUser();
+         /*demoWarehouse();
          demoproducts();
          demoServiceProvider();
          testShippingCost();

@@ -35,6 +35,7 @@ public class ShoppingEndpoint {
     public ResponseEntity<CartItem> postCartItem(@RequestBody CartItem cartItem) {
         try {
             cartItem = shoppingService.saveCartItem(cartItem);
+            ShoppingSession shoppingSession = shoppingService.saveShoppingSessionWithCosts();
         } catch (ConstraintViolationException e) {
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getConstraintViolations().iterator().next().getMessage());
         } catch (Exception e) {
@@ -106,6 +107,7 @@ public class ShoppingEndpoint {
 
             //The current product is patched (updated) using the provided patch
             patchedCartItem = shoppingService.patchCartItem(toBePatchedCartItem, currentCartItem);
+            ShoppingSession shoppingSession = shoppingService.saveShoppingSessionWithCosts();
 
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
@@ -123,6 +125,7 @@ public class ShoppingEndpoint {
     public ResponseEntity<Void> deleteCartItem(@PathVariable(value = "cartItemId") String cartItemId) {
         try {
             shoppingService.deleteCartItemById(Long.parseLong(cartItemId));
+            ShoppingSession shoppingSession = shoppingService.saveShoppingSessionWithCosts();
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
         }
