@@ -1,5 +1,6 @@
 package ch.fhnw.palletpals.business.service;
 
+import ch.fhnw.palletpals.component.NullAwareBeanUtilsBean;
 import ch.fhnw.palletpals.data.domain.ShippingAddress;
 import ch.fhnw.palletpals.data.repository.AddressRepository;
 import org.asynchttpclient.*;
@@ -18,6 +19,8 @@ public class AddressService {
 
     @Autowired
     private AddressRepository addressRepository;
+    @Autowired
+    private NullAwareBeanUtilsBean beanUtils = new NullAwareBeanUtilsBean();
     @Autowired
     private UserService userService;
 
@@ -83,6 +86,30 @@ public class AddressService {
             client.close();
         } catch (Exception e) {
             throw new Exception("Setting Coordinates failed");
+        }
+        return address;
+    }
+
+    public ShippingAddress patchAddress(ShippingAddress toBePatchedAddress, ShippingAddress currentAddress) throws Exception{
+        //Check if address exists
+        if (!addressRepository.findById(currentAddress.getId()).isPresent()){
+            throw new Exception("No Addresse found with id: " + currentAddress.getId());
+        }
+
+        //Bean utils will copy non null values from toBePatchedProduct to currentProduct. Null values will be ignored.
+        //This effectively means that the existing product object will be patched (updated)
+        beanUtils.copyProperties(currentAddress, toBePatchedAddress);
+
+        //After properties were successfully copied, coordinates will be updated for the new address
+        currentAddress = setCoordinates(currentAddress);
+
+        return addressRepository.save(currentAddress);
+    }
+
+    public ShippingAddress findAddressById(Long addressId) throws Exception{
+        ShippingAddress address = addressRepository.findShippingAddressById(addressId);
+        if (address == null){
+            throw new Exception("No address found with id: " + addressId);
         }
         return address;
     }

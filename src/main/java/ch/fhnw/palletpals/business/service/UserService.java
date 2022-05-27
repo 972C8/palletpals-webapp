@@ -44,6 +44,8 @@ public class UserService {
             user.setRole(UserType.USER);
         } else if (user.getAccessCode().equals(AdminKey.adminKey)){
             user.setRole(UserType.Admin);
+        } else {
+            user.setRole(UserType.USER);
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));

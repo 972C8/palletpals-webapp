@@ -26,7 +26,6 @@ public class User {
 	private String email;
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY) // only create object property from JSON
 	private String password;
-	//@NotEmpty
 	@JsonIgnore
 	private UserType role;
 	@Transient // will not be stored in DB
@@ -34,7 +33,7 @@ public class User {
 	private Language language;
 	private Appearance appearance;
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "address_id", referencedColumnName = "id")
+	@JoinColumn(name = "userId", referencedColumnName = "id")
 	private ShippingAddress address;
 
 	//One user has many orders

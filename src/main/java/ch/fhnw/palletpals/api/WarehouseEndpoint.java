@@ -51,18 +51,18 @@ public class WarehouseEndpoint {
 
     /**
      * Cody written by Daniel Locher & copied form Tibor Haller
-     * @param warehousePatch
+     * @param
      * @param warehouseId
      * @return
      */
     @PatchMapping(path = "/{warehouseId}", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<Warehouse> patchWarehouse(@RequestBody Map<String, String> warehousePatch, @PathVariable(value = "warehouseId") String warehouseId){
+    public ResponseEntity<Warehouse> patchWarehouse(@RequestBody Warehouse toBePatchedWarehouse, @PathVariable(value = "warehouseId") String warehouseId){
         Warehouse patchedWarehouse;
+        ShippingAddress patchedAddress;
         try {
             Warehouse currentWarehouse = warehouseService.findWarehouseById(Long.parseLong(warehouseId));
-
-            Warehouse toBePatchedWarehouse = objectMapper.convertValue(warehousePatch, Warehouse.class);
-
+            patchedAddress = addressService.patchAddress(toBePatchedWarehouse.getAddress(), currentWarehouse.getAddress());
+            toBePatchedWarehouse.setAddress(patchedAddress);
             patchedWarehouse = warehouseService.patchWarehouse(toBePatchedWarehouse, currentWarehouse);
         } catch (Exception e){
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());

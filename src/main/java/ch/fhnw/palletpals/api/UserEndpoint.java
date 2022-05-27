@@ -34,7 +34,6 @@ public class UserEndpoint {
         User user;
         try {
             user = userService.getCurrentUser();
-            //user.setAddress(addressService.getAddressByUserId(user.getId()));
         } catch (Exception e){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
@@ -61,14 +60,17 @@ public class UserEndpoint {
 
     /**
      * Code written by Daniel Locher & copied from Tibor Haller
-     * @param userPatch
+     * @param
      * @return
      */
     @PatchMapping(path = "/profile", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<User> patchProfile(@RequestBody Map<String, String> userPatch){
+    public ResponseEntity<User> patchProfile(@RequestBody User toBePatchedUser){
         User patchedUser;
+        ShippingAddress patchedAddress;
         try {
-            User toBePatchedUser = objectMapper.convertValue(userPatch, User.class);
+            User currentUser = userService.getCurrentUser();
+            patchedAddress = addressService.patchAddress(toBePatchedUser.getAddress(), currentUser.getAddress());
+            toBePatchedUser.setAddress(patchedAddress);
             patchedUser = userService.patchUser(toBePatchedUser);
         } catch (Exception e){
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
