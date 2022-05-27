@@ -95,6 +95,11 @@ public class WarehouseEndpoint {
         return ResponseEntity.ok(warehouse);
     }
 
+    /**
+     * Code by Daniel Locher
+     * @param warehouseId
+     * @return
+     */
     @DeleteMapping(path = "/{warehouseId}")
     public ResponseEntity<Void> deleteWarehouse(@PathVariable(value = "warehouseId") String warehouseId) {
         try {

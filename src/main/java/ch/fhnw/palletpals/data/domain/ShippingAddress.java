@@ -5,6 +5,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+/**
+ * Code by Daniel Locher
+ * Either users or warehouses can have shipping addresses.
+ * The address includes coordinates because they will be used to place API calls to calculate distances between addresses.
+ */
 @Entity
 public class ShippingAddress {
 

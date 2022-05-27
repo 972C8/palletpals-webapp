@@ -9,6 +9,9 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
+/**
+ * Code by Daniel Locher
+ */
 @Entity
 public class User {
 
