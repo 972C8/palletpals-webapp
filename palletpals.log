@@ -1,0 +1,141 @@
+2022-05-27 20:33:01.622  INFO 7620 --- [main] c.f.palletpals.PalletPalsWebApplication  : Starting PalletPalsWebApplication using Java 14.0.2 on MacBook-Pro-85.local with PID 7620 (/Users/daniellocher/InteliJ Projects/palletpals-webapp/target/classes started by daniellocher in /Users/daniellocher/InteliJ Projects/palletpals-webapp)
+2022-05-27 20:33:01.623  INFO 7620 --- [main] c.f.palletpals.PalletPalsWebApplication  : The following profiles are active: dev
+2022-05-27 20:33:02.522  INFO 7620 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-05-27 20:33:02.597  INFO 7620 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 66 ms. Found 11 JPA repository interfaces.
+2022-05-27 20:33:03.107  INFO 7620 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-05-27 20:33:03.115  INFO 7620 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-05-27 20:33:03.115  INFO 7620 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.52]
+2022-05-27 20:33:03.178  INFO 7620 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-05-27 20:33:03.179  INFO 7620 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1528 ms
+2022-05-27 20:33:03.262  INFO 7620 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-05-27 20:33:03.360  INFO 7620 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-05-27 20:33:03.403  INFO 7620 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-05-27 20:33:03.449  INFO 7620 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.32.Final
+2022-05-27 20:33:03.565  INFO 7620 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-05-27 20:33:03.648  INFO 7620 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2022-05-27 20:33:04.279  INFO 7620 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-05-27 20:33:04.284  INFO 7620 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-05-27 20:33:07.795  INFO 7620 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-05-27 20:33:07.799  INFO 7620 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2022-05-27 20:33:07.812  INFO 7620 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-05-27 20:33:07.812  INFO 7620 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-05-27 20:33:08.173  INFO 7620 --- [main] o.s.s.w.a.c.ChannelProcessingFilter      : Validated configuration attributes
+2022-05-27 20:33:08.218  INFO 7620 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.access.channel.ChannelProcessingFilter@a9f7cf8, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@28c38eeb, org.springframework.security.web.context.SecurityContextPersistenceFilter@45ed58b, org.springframework.security.web.header.HeaderWriterFilter@33c91567, org.springframework.web.filter.CorsFilter@4ce9985f, org.springframework.security.web.authentication.logout.LogoutFilter@750448fb, onl.mrtn.security.web.TokenLoginFilter@4283f29b, onl.mrtn.security.web.TokenAuthenticationFilter@56d4481f, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7bfd8f92, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@72a45b71, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@625430f8, org.springframework.security.web.session.SessionManagementFilter@3d5009c0, org.springframework.security.web.access.ExceptionTranslationFilter@4c020e58, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@556a5e70]
+2022-05-27 20:33:08.398  INFO 7620 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-05-27 20:33:08.695  INFO 7620 --- [main] c.f.palletpals.PalletPalsWebApplication  : Started PalletPalsWebApplication in 7.376 seconds (JVM running for 7.818)
+2022-05-27 20:33:19.496  INFO 7620 --- [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-05-27 20:33:19.496  INFO 7620 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-05-27 20:33:19.498  INFO 7620 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2022-05-27 20:33:19.625 ERROR 7620 --- [http-nio-8080-exec-2] ch.fhnw.palletpals.api.ProductEndpoint   : Error while creating product: No product found.
+2022-05-27 20:33:29.099  INFO 7620 --- [http-nio-8080-exec-4] ch.fhnw.palletpals.api.ProductEndpoint   : Product was created with id: 4
+2022-05-27 20:34:31.960  INFO 7620 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-05-27 20:34:31.960  INFO 7620 --- [SpringApplicationShutdownHook] .SchemaDropperImpl$DelayedDropActionImpl : HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
+2022-05-27 20:34:31.975  INFO 7620 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2022-05-27 20:34:31.977  INFO 7620 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2022-05-27 20:36:00.069  INFO 7659 --- [main] c.f.palletpals.PalletPalsWebApplication  : Starting PalletPalsWebApplication using Java 14.0.2 on MacBook-Pro-85.local with PID 7659 (/Users/daniellocher/InteliJ Projects/palletpals-webapp/target/classes started by daniellocher in /Users/daniellocher/InteliJ Projects/palletpals-webapp)
+2022-05-27 20:36:00.071  INFO 7659 --- [main] c.f.palletpals.PalletPalsWebApplication  : The following profiles are active: dev
+2022-05-27 20:36:00.879  INFO 7659 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-05-27 20:36:00.953  INFO 7659 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 66 ms. Found 11 JPA repository interfaces.
+2022-05-27 20:36:01.463  INFO 7659 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-05-27 20:36:01.472  INFO 7659 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-05-27 20:36:01.472  INFO 7659 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.52]
+2022-05-27 20:36:01.555  INFO 7659 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-05-27 20:36:01.556  INFO 7659 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1450 ms
+2022-05-27 20:36:01.635  INFO 7659 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-05-27 20:36:01.754  INFO 7659 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-05-27 20:36:01.795  INFO 7659 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-05-27 20:36:01.839  INFO 7659 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.32.Final
+2022-05-27 20:36:01.948  INFO 7659 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-05-27 20:36:02.032  INFO 7659 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2022-05-27 20:36:02.659  INFO 7659 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-05-27 20:36:02.665  INFO 7659 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-05-27 20:36:04.634  INFO 7659 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-05-27 20:36:04.638  INFO 7659 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2022-05-27 20:36:04.651  INFO 7659 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-05-27 20:36:04.651  INFO 7659 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-05-27 20:36:04.999  INFO 7659 --- [main] o.s.s.w.a.c.ChannelProcessingFilter      : Validated configuration attributes
+2022-05-27 20:36:05.043  INFO 7659 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.access.channel.ChannelProcessingFilter@5a0c0680, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@73864c16, org.springframework.security.web.context.SecurityContextPersistenceFilter@35c95587, org.springframework.security.web.header.HeaderWriterFilter@4b60ff1c, org.springframework.web.filter.CorsFilter@5016934, org.springframework.security.web.authentication.logout.LogoutFilter@7aac6d13, onl.mrtn.security.web.TokenLoginFilter@e10809f, onl.mrtn.security.web.TokenAuthenticationFilter@470c2a7a, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@43e9eddf, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@5eba0cc5, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@62b3871, org.springframework.security.web.session.SessionManagementFilter@1aaa3406, org.springframework.security.web.access.ExceptionTranslationFilter@59cc46a4, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@6eac71db]
+2022-05-27 20:36:05.225  INFO 7659 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-05-27 20:36:05.519  INFO 7659 --- [main] c.f.palletpals.PalletPalsWebApplication  : Started PalletPalsWebApplication in 5.77 seconds (JVM running for 6.261)
+2022-05-27 20:36:15.625  INFO 7659 --- [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-05-27 20:36:15.625  INFO 7659 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-05-27 20:36:15.627  INFO 7659 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2022-05-27 20:36:18.332  INFO 7659 --- [http-nio-8080-exec-3] ch.fhnw.palletpals.api.ProductEndpoint   : Product was created with id: 4
+2022-05-27 20:36:33.624  INFO 7659 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-05-27 20:36:33.625  INFO 7659 --- [SpringApplicationShutdownHook] .SchemaDropperImpl$DelayedDropActionImpl : HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
+2022-05-27 20:36:33.642  INFO 7659 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2022-05-27 20:36:33.645  INFO 7659 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2022-05-27 20:38:23.410 ERROR 7711 --- [main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Failed to bind properties under 'logging.level' to java.util.Map<java.lang.String, org.springframework.boot.logging.LogLevel>:
+
+    Reason: org.springframework.core.convert.ConverterNotFoundException: No converter found capable of converting from type [java.lang.String] to type [java.util.Map<java.lang.String, org.springframework.boot.logging.LogLevel>]
+
+Action:
+
+Update your application's configuration
+
+2022-05-27 20:40:09.905 INFO 7730 --- [main] c.f.palletpals.PalletPalsWebApplication  : Starting PalletPalsWebApplication using Java 14.0.2 on MacBook-Pro-85.local with PID 7730 (/Users/daniellocher/InteliJ Projects/palletpals-webapp/target/classes started by daniellocher in /Users/daniellocher/InteliJ Projects/palletpals-webapp)
+2022-05-27 20:40:09.907 INFO 7730 --- [main] c.f.palletpals.PalletPalsWebApplication  : The following profiles are active: dev
+2022-05-27 20:40:10.682 INFO 7730 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-05-27 20:40:10.753 INFO 7730 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 63 ms. Found 11 JPA repository interfaces.
+2022-05-27 20:40:11.245 INFO 7730 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-05-27 20:40:11.253 INFO 7730 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-05-27 20:40:11.253 INFO 7730 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.52]
+2022-05-27 20:40:11.336 INFO 7730 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-05-27 20:40:11.336 INFO 7730 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1401 ms
+2022-05-27 20:40:11.414 INFO 7730 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-05-27 20:40:11.503 INFO 7730 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-05-27 20:40:11.534 INFO 7730 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-05-27 20:40:11.576 INFO 7730 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.32.Final
+2022-05-27 20:40:11.693 INFO 7730 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-05-27 20:40:11.779 INFO 7730 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2022-05-27 20:40:12.407 INFO 7730 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-05-27 20:40:12.414 INFO 7730 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-05-27 20:40:15.285 INFO 7730 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-05-27 20:40:15.289 INFO 7730 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2022-05-27 20:40:15.304 INFO 7730 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-05-27 20:40:15.305 INFO 7730 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-05-27 20:40:15.651 INFO 7730 --- [main] o.s.s.w.a.c.ChannelProcessingFilter      : Validated configuration attributes
+2022-05-27 20:40:15.701 INFO 7730 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.access.channel.ChannelProcessingFilter@772db1d8, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4945cd1f, org.springframework.security.web.context.SecurityContextPersistenceFilter@3793896e, org.springframework.security.web.header.HeaderWriterFilter@3d268a2c, org.springframework.web.filter.CorsFilter@2dbfcbe4, org.springframework.security.web.authentication.logout.LogoutFilter@4fc00158, onl.mrtn.security.web.TokenLoginFilter@6f13ed1, onl.mrtn.security.web.TokenAuthenticationFilter@44aaa987, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@17fbbf0a, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@1c74251b, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@23e0b938, org.springframework.security.web.session.SessionManagementFilter@72a45b71, org.springframework.security.web.access.ExceptionTranslationFilter@6f2e0945, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@3fb54673]
+2022-05-27 20:40:15.874 INFO 7730 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-05-27 20:40:16.149 INFO 7730 --- [main] c.f.palletpals.PalletPalsWebApplication  : Started PalletPalsWebApplication in 6.485 seconds (JVM running for 6.875)
+2022-05-27 20:40:26.492 INFO 7730 --- [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-05-27 20:40:26.493 INFO 7730 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-05-27 20:40:26.495 INFO 7730 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2022-05-27 20:40:29.809 INFO 7730 --- [http-nio-8080-exec-3] ch.fhnw.palletpals.api.ProductEndpoint   : Product was created with id: 4
+2022-05-27 20:40:53.364 INFO 7730 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-05-27 20:40:53.365 INFO 7730 --- [SpringApplicationShutdownHook] .SchemaDropperImpl$DelayedDropActionImpl : HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
+2022-05-27 20:40:53.379 INFO 7730 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2022-05-27 20:40:53.381 INFO 7730 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2022-05-29 15:08:15.795 INFO 22248 --- [main] c.f.palletpals.PalletPalsWebApplication  : Starting PalletPalsWebApplication using Java 14.0.2 on DESKTOP-SV7OQ0P with PID 22248 (C:\Users\tibor\Workspace\Development\School\BIT\palletpals-webapp\target\classes started by tibor in C:\Users\tibor\Workspace\Development\School\BIT\palletpals-webapp)
+2022-05-29 15:08:15.799 INFO 22248 --- [main] c.f.palletpals.PalletPalsWebApplication  : The following profiles are active: dev
+2022-05-29 15:08:17.746 INFO 22248 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-05-29 15:08:18.211 INFO 22248 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 445 ms. Found 11 JPA repository interfaces.
+2022-05-29 15:08:19.373 INFO 22248 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-05-29 15:08:19.417 INFO 22248 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-05-29 15:08:19.420 INFO 22248 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.52]
+2022-05-29 15:08:19.734 INFO 22248 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-05-29 15:08:19.735 INFO 22248 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3855 ms
+2022-05-29 15:08:19.910 INFO 22248 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-05-29 15:08:20.099 INFO 22248 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-05-29 15:08:20.174 INFO 22248 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-05-29 15:08:20.257 INFO 22248 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.32.Final
+2022-05-29 15:08:20.802 INFO 22248 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-05-29 15:08:21.104 INFO 22248 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2022-05-29 15:08:22.719 INFO 22248 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-05-29 15:08:22.736 INFO 22248 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-05-29 15:08:27.654 INFO 22248 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-05-29 15:08:27.664 INFO 22248 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2022-05-29 15:08:27.693 INFO 22248 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-05-29 15:08:27.693 INFO 22248 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-05-29 15:08:28.674 INFO 22248 --- [main] o.s.s.w.a.c.ChannelProcessingFilter      : Validated configuration attributes
+2022-05-29 15:08:28.745 INFO 22248 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.access.channel.ChannelProcessingFilter@4adb2b87, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@41dcfd0, org.springframework.security.web.context.SecurityContextPersistenceFilter@fcee97c, org.springframework.security.web.header.HeaderWriterFilter@564e0a6c, org.springframework.web.filter.CorsFilter@1fcb01f8, org.springframework.security.web.authentication.logout.LogoutFilter@64bb6ba7, onl.mrtn.security.web.TokenLoginFilter@59845cb3, onl.mrtn.security.web.TokenAuthenticationFilter@63ee2891, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@48682f91, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@2f349170, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@9670873, org.springframework.security.web.session.SessionManagementFilter@647468a7, org.springframework.security.web.access.ExceptionTranslationFilter@68e8bbab, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@1bb21ec1]
+2022-05-29 15:08:29.057 INFO 22248 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-05-29 15:08:29.784 INFO 22248 --- [main] c.f.palletpals.PalletPalsWebApplication  : Started PalletPalsWebApplication in 14.661 seconds (JVM running for 16.802)

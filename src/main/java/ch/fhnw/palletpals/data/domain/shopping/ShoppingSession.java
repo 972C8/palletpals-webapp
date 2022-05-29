@@ -1,7 +1,6 @@
 package ch.fhnw.palletpals.data.domain.shopping;
 
 import ch.fhnw.palletpals.data.domain.User;
-import ch.fhnw.palletpals.data.domain.Warehouse;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -22,7 +21,6 @@ public class ShoppingSession {
     @Column(name = "shoppingId", unique = true, nullable = false)
     private Long id;
 
-    //TODO: Should be updated automatically based on new shoppingCart
     private float shippingCost;
     private float totalCost;
     private float drivingDistance;
@@ -97,9 +95,7 @@ public class ShoppingSession {
         return shoppingCart;
     }
 
-    public void setShoppingCart(List<CartItem> shoppingCart) {
-        this.shoppingCart = shoppingCart;
-    }
+    public void setShoppingCart(List<CartItem> shoppingCart) throws Exception{this.shoppingCart = shoppingCart;}
 
     public float getDrivingDistance() {
         return drivingDistance;
@@ -132,5 +128,6 @@ public class ShoppingSession {
     public void setServiceProvider(Long serviceProvider) {
         this.serviceProvider = serviceProvider;
     }
+
 }
 

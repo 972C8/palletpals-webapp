@@ -1,10 +1,12 @@
 package ch.fhnw.palletpals.data.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
+/**
+ * Code by Daniel Locher
+ * Either users or warehouses can have shipping addresses.
+ * The address includes coordinates because they will be used to place API calls to calculate distances between addresses.
+ */
 @Entity
 public class ShippingAddress {
 
@@ -23,8 +25,8 @@ public class ShippingAddress {
     private String country;
     private String lat;
     private String lon;
-    @OneToOne
-    private User user;
+    @Column(name = "userId")
+    private Long userId;
     @OneToOne
     private Warehouse warehouse;
 
@@ -100,12 +102,12 @@ public class ShippingAddress {
         this.country = country;
     }
 
-    public User getUser() {
-        return user;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public Warehouse getWarehouse() {

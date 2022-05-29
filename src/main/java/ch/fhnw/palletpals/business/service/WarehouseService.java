@@ -27,7 +27,6 @@ public class WarehouseService {
      */
     //TODO check if warehouse/address already exists relevant?
     public Warehouse saveWarehouse(@Valid Warehouse warehouse) throws Exception{
-        //TODO save coordinates when address is changed
         try {
             warehouse = warehouseRepository.save(warehouse);
         } catch (Exception e){
@@ -44,14 +43,6 @@ public class WarehouseService {
         return warehouse;
     }
 
-    public Warehouse findWarehouseByAddress(Long id)throws Exception{
-        try{
-            return warehouseRepository.findWarehouseByAddressId(id);
-        } catch (Exception e){
-            throw new Exception("No warehouse found with address ID: " + id);
-        }
-    }
-
     public Warehouse patchWarehouse(Warehouse toBePatchedWarehouse, Warehouse currentWarehouse) throws Exception{
         beanUtils.copyProperties(currentWarehouse, toBePatchedWarehouse);
         return warehouseRepository.save(currentWarehouse);
@@ -60,4 +51,6 @@ public class WarehouseService {
     public List<Warehouse> findAllWarehouses(){
             return warehouseRepository.findAll();
     }
+
+    public void deleteWarehouse(Long warehouseId){warehouseRepository.deleteById(warehouseId);}
 }

@@ -44,6 +44,8 @@ public class UserService {
             user.setRole(UserType.USER);
         } else if (user.getAccessCode().equals(AdminKey.adminKey)){
             user.setRole(UserType.Admin);
+        } else {
+            user.setRole(UserType.USER);
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -64,7 +66,6 @@ public class UserService {
     }
 
     public User patchUser(User toBePatchedUser) throws Exception{
-        //TODO check if right user is used?
         User currentUser = getCurrentUser();
         beanUtils.copyProperties(currentUser, toBePatchedUser);
         return userRepository.save(currentUser);

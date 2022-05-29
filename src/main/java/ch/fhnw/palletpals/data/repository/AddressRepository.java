@@ -7,6 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AddressRepository extends JpaRepository<ShippingAddress, Long> {
-    ShippingAddress findByUser(User user);
-    ShippingAddress findByWarehouse (Warehouse warehouse);
+    ShippingAddress findShippingAddressById(Long id);
 }

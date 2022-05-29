@@ -14,6 +14,14 @@ public class ShippingCostService {
     @Autowired
     private PalletSpaceService palletSpaceService;
 
+    /**
+     * Code by Daniel Locher
+     * This method takes a shopping session, calculates the driving distance to the nearest warehouse, calculates the pallet space, and selects the service provider with the cheapest rate
+     * The returned object contains shipping information (costs, distance, pallet space) it is been linked to the nearest warehouse and the selected service provider
+     * @param shoppingSession
+     * @return shoppingSession
+     * @throws Exception
+     */
     public ShoppingSession getShippingCosts(ShoppingSession shoppingSession)throws Exception{
         try {
         //Find the nearest warehouse and get driving distance with address of current user
