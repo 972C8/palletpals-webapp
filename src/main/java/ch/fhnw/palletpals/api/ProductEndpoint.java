@@ -65,6 +65,7 @@ public class ProductEndpoint {
         try {
             product = productService.findProductById(Long.parseLong(productId));
         } catch (Exception e) {
+            logger.error("Error while getting product with id: " + productId + ": " + e.getMessage());
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
         return ResponseEntity.ok(product);
@@ -92,8 +93,9 @@ public class ProductEndpoint {
 
             //The current product is patched (updated) using the provided patch
             patchedProduct = productService.patchProduct(toBePatchedProduct, currentProduct);
-
+            logger.info("Product has been patched with id: " + patchedProduct.getId());
         } catch (Exception e) {
+            logger.error("Error while patching product with id: " + productId + ": " + e.getMessage());
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
         }
         return ResponseEntity.accepted().body(patchedProduct);
@@ -109,7 +111,9 @@ public class ProductEndpoint {
     public ResponseEntity<Void> deleteProduct(@PathVariable(value = "productId") String productId) {
         try {
             productService.deleteProduct(Long.parseLong(productId));
+            logger.info("Product deleted with id: " + productId);
         } catch (Exception e) {
+            logger.error("Error while deleting product with id: " + productId + ": " + e.getMessage());
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
         }
         return ResponseEntity.accepted().build();

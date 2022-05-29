@@ -4,6 +4,8 @@ import ch.fhnw.palletpals.business.service.shoppingServices.ServiceProviderServi
 import ch.fhnw.palletpals.data.domain.ServiceProvider;
 import ch.fhnw.palletpals.data.domain.Warehouse;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,8 @@ public class ServiceProviderEndpoint {
     @Autowired
     private final ObjectMapper objectMapper = new ObjectMapper();
 
+    Logger logger = LoggerFactory.getLogger(ServiceProviderEndpoint.class);
+
     /**
      * Code by Daniel Locher
      * @param serviceProviderString
@@ -34,7 +38,9 @@ public class ServiceProviderEndpoint {
         ServiceProvider serviceProvider;
         try {
             serviceProvider = serviceProviderService.saveServiceProvider(serviceProviderString);
+            logger.info("Service provider saved with id: " + serviceProvider.getId());
         }catch (Exception e){
+            logger.error("Error while saving service provider: " + e.getMessage());
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
         }
 
@@ -53,7 +59,9 @@ public class ServiceProviderEndpoint {
             ServiceProvider toBePatchedServiceProvider = objectMapper.convertValue(serviceProviderPatch, ServiceProvider.class);
 
             patchedServiceProvider = serviceProviderService.patchServiceProvider(toBePatchedServiceProvider, currentServiceProvider);
+            logger.info("Service provider patched with id: " + patchedServiceProvider.getId());
         } catch (Exception e){
+            logger.error("Error while patching service provider with id " + serviceProviderId + ": " + e.getMessage());
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
         }
         return ResponseEntity.accepted().body(patchedServiceProvider);
@@ -68,6 +76,7 @@ public class ServiceProviderEndpoint {
         try {
             serviceProvider = serviceProviderService.findServiceProviderById(Long.parseLong(serviceProviderId));
         } catch (Exception e) {
+            logger.error("Error while getting service provider with id: " + serviceProviderId + ": " + e.getMessage());
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
         return ResponseEntity.ok(serviceProvider);
@@ -77,7 +86,9 @@ public class ServiceProviderEndpoint {
     public ResponseEntity<Void> deleteServiceProvider(@PathVariable(value = "serviceProviderId") String serviceProviderId) {
         try {
             serviceProviderService.deleteServiceProvider(Long.parseLong(serviceProviderId));
+            logger.info("Service provider deleted with id: " + serviceProviderId);
         } catch (Exception e) {
+            logger.error("Error while deleting service provider with id " + serviceProviderId + ": " + e.getMessage());
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
         }
         return ResponseEntity.accepted().build();

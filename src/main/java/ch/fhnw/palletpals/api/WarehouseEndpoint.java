@@ -96,6 +96,7 @@ public class WarehouseEndpoint {
         try {
             warehouse = warehouseService.findWarehouseById(Long.parseLong(warehouseId));
         } catch (Exception e) {
+            logger.error("Error while getting warehouse with id " + warehouseId + ": " + e.getMessage());
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
         return ResponseEntity.ok(warehouse);
@@ -112,7 +113,7 @@ public class WarehouseEndpoint {
             warehouseService.deleteWarehouse(Long.parseLong(warehouseId));
             logger.info("Warehouse deleted with id: " + warehouseId);
         } catch (Exception e) {
-            logger.error("Error while deleting warehouse: " + e.getMessage());
+            logger.error("Error while deleting warehouse with id " + warehouseId + ": " + e.getMessage());
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
         }
         return ResponseEntity.accepted().build();

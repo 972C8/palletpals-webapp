@@ -63,6 +63,7 @@ public class OrderEndpoint {
         try {
             order = orderService.findOrderById(Long.parseLong(orderId));
         } catch (Exception e) {
+            logger.error("Error while getting order with id: " + orderId + ": " + e.getMessage());
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
         return ResponseEntity.ok(order);
