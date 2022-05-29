@@ -17,7 +17,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/warehouse")
+@RequestMapping("/api")
 public class WarehouseEndpoint {
     @Autowired
     private AddressService addressService;
@@ -31,7 +31,7 @@ public class WarehouseEndpoint {
      * @param warehouse
      * @return
      */
-    @PostMapping(consumes = "application/json", produces = "application/json")
+    @PostMapping(path = "/warehouses", consumes = "application/json", produces = "application/json")
     public ResponseEntity<Warehouse> postWarehouse(@RequestBody Warehouse warehouse){
         try {
             warehouse.setAddress(addressService.setCoordinates(warehouse.getAddress()));
@@ -58,7 +58,7 @@ public class WarehouseEndpoint {
      * @param warehouseId
      * @return
      */
-    @PatchMapping(path = "/{warehouseId}", consumes = "application/json", produces = "application/json")
+    @PatchMapping(path = "/warehouses/{warehouseId}", consumes = "application/json", produces = "application/json")
     public ResponseEntity<Warehouse> patchWarehouse(@RequestBody Warehouse toBePatchedWarehouse, @PathVariable(value = "warehouseId") String warehouseId){
         Warehouse patchedWarehouse;
         ShippingAddress patchedAddress;
@@ -80,7 +80,7 @@ public class WarehouseEndpoint {
      * Cody by Daniel Locher
      * @return
      */
-    @GetMapping(path = "/all", produces = "application/json")
+    @GetMapping(path = "/warehouses", produces = "application/json")
     public List<Warehouse> getAllWarehouses(){
         return warehouseService.findAllWarehouses();
     }
@@ -90,7 +90,7 @@ public class WarehouseEndpoint {
      * @param warehouseId
      * @return
      */
-    @GetMapping(path = "/{warehouseId}")
+    @GetMapping(path = "/warehouses/{warehouseId}")
     public ResponseEntity<Warehouse> getWarehouse(@PathVariable(value = "warehouseId")String warehouseId){
         Warehouse warehouse;
         try {
@@ -107,7 +107,7 @@ public class WarehouseEndpoint {
      * @param warehouseId
      * @return
      */
-    @DeleteMapping(path = "/{warehouseId}")
+    @DeleteMapping(path = "/warehouses/{warehouseId}")
     public ResponseEntity<Void> deleteWarehouse(@PathVariable(value = "warehouseId") String warehouseId) {
         try {
             warehouseService.deleteWarehouse(Long.parseLong(warehouseId));

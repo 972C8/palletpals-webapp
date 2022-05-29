@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/serviceprovider")
+@RequestMapping("/api")
 public class ServiceProviderEndpoint {
 
     @Autowired
@@ -33,7 +33,7 @@ public class ServiceProviderEndpoint {
      * @param serviceProviderString
      * @return
      */
-    @PostMapping(consumes = "application/json", produces = "application/json")
+    @PostMapping(path = "/serviceproviders", consumes = "application/json", produces = "application/json")
     public ResponseEntity<ServiceProvider> postServiceProvider(@RequestBody String serviceProviderString){
         ServiceProvider serviceProvider;
         try {
@@ -50,7 +50,7 @@ public class ServiceProviderEndpoint {
 
         return ResponseEntity.created(location).body(serviceProvider);
     }
-    @PatchMapping(path="/{serviceProviderId}", consumes = "application/json", produces = "application/json")
+    @PatchMapping(path="/serviceproviders/{serviceProviderId}", consumes = "application/json", produces = "application/json")
     public ResponseEntity<ServiceProvider> patchServiceProvider(@RequestBody Map<String, String> serviceProviderPatch, @PathVariable(value = "serviceProviderId") String serviceProviderId){
         ServiceProvider patchedServiceProvider;
         try{
@@ -67,10 +67,10 @@ public class ServiceProviderEndpoint {
         return ResponseEntity.accepted().body(patchedServiceProvider);
     }
 
-    @GetMapping(path = "/all", produces = "application/json")
+    @GetMapping(path = "/serviceproviders", produces = "application/json")
     public List<ServiceProvider> getAllServiceProviders(){return serviceProviderService.findAllServiceProviders();}
 
-    @GetMapping(path = "/{serviceProverId}")
+    @GetMapping(path = "/serviceproviders/{serviceProverId}")
     public ResponseEntity<ServiceProvider> getWarehouse(@PathVariable(value = "serviceProverId")String serviceProviderId){
         ServiceProvider serviceProvider;
         try {
@@ -82,7 +82,7 @@ public class ServiceProviderEndpoint {
         return ResponseEntity.ok(serviceProvider);
     }
 
-    @DeleteMapping(path = "/{serviceProviderId}")
+    @DeleteMapping(path = "/serviceproviders/{serviceProviderId}")
     public ResponseEntity<Void> deleteServiceProvider(@PathVariable(value = "serviceProviderId") String serviceProviderId) {
         try {
             serviceProviderService.deleteServiceProvider(Long.parseLong(serviceProviderId));
