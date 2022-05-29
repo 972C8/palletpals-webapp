@@ -1,5 +1,6 @@
 package ch.fhnw.palletpals.business.service.shoppingServices;
 
+import ch.fhnw.palletpals.component.NullAwareBeanUtilsBean;
 import ch.fhnw.palletpals.data.domain.ServiceProvider;
 import ch.fhnw.palletpals.data.domain.shopping.ShoppingSession;
 import ch.fhnw.palletpals.data.repository.ServiceProviderRepository;
@@ -18,9 +19,12 @@ public class ServiceProviderService {
 
     @Autowired
     private ServiceProviderRepository serviceProviderRepository;
+    @Autowired
+    private NullAwareBeanUtilsBean beanUtils = new NullAwareBeanUtilsBean();
 
     /**
      * Code by Daniel Locher
+     * This method creates a service provider object out of a json string
      * @param serviceProviderString
      * @return
      * @throws Exception
@@ -39,6 +43,38 @@ public class ServiceProviderService {
         return serviceProvider;
     }
 
+    /**
+     * Code by Daniel Locher
+     * This methods makes use of Tibor's method to patch objects
+     * @param toBePatchedServiceProvider
+     * @param currentServiceProvider
+     * @return
+     * @throws Exception
+     */
+    public ServiceProvider patchServiceProvider(ServiceProvider toBePatchedServiceProvider, ServiceProvider currentServiceProvider) throws Exception {
+        beanUtils.copyProperties(currentServiceProvider, toBePatchedServiceProvider);
+        return serviceProviderRepository.save(currentServiceProvider);
+    }
+
+    public ServiceProvider findServiceProviderById(Long id) throws Exception{
+        ServiceProvider serviceProvider = serviceProviderRepository.findServiceProviderById(id);
+        if (serviceProvider == null){
+            throw new Exception("No service provider found with ID : " + id);
+        }
+        return serviceProvider;
+    }
+
+    public List<ServiceProvider> findAllServiceProviders(){return serviceProviderRepository.findAll();}
+
+    public void deleteServiceProvider(Long serviceProviderId){serviceProviderRepository.deleteById(serviceProviderId);}
+
+    /**
+     * Code by Daniel Locher
+     * This methods calculates the shipping costs for all saved service providers and links the shopping session with the cheapest one
+     * @param shoppingSession
+     * @return
+     * @throws Exception
+     */
     public ShoppingSession setCheapestShipment(ShoppingSession shoppingSession) throws Exception {
         List<ServiceProvider> allServiceProviders;
         Float shippingCost = null;
@@ -95,7 +131,7 @@ public class ServiceProviderService {
 
     /**
      * Code by Daniel Locher
-     * Because spring entities can't hold containers the table is saved as a json string
+     * Because spring jpa can't save objects with arrays the table is saved as a json string
      * This methods builds the table out of the json string
      * @param serviceProvider
      * @return
@@ -118,7 +154,7 @@ public class ServiceProviderService {
 
     /**
      * Code by Daniel Locher
-     * Because spring entities can't hold containers the table is saved as a json string
+     * Because spring jpa can't save objects with arrays the table is saved as a json string
      * This methods builds the table out of the json string
      * @param serviceProvider
      * @return
@@ -141,7 +177,7 @@ public class ServiceProviderService {
 
     /**
      * Code by Daniel Locher
-     * Because spring entities can't hold containers the table is saved as a json string
+     * Because spring jpa can't save objects with arrays the table is saved as a json string
      * This methods builds the table out of the json string
      * @param serviceProvider
      * @return

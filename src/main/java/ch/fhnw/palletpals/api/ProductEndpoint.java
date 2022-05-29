@@ -3,6 +3,8 @@ package ch.fhnw.palletpals.api;
 import ch.fhnw.palletpals.business.service.ProductService;
 import ch.fhnw.palletpals.data.domain.Product;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,8 @@ public class ProductEndpoint {
     @Autowired
     private ProductService productService;
 
+    Logger logger = LoggerFactory.getLogger(ProductEndpoint.class);
+
     //Used by patchProduct method to map objects
     @Autowired
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -34,9 +38,12 @@ public class ProductEndpoint {
     public ResponseEntity<Product> postProduct(@RequestBody Product product) {
         try {
             product = productService.saveProduct(product);
+            logger.info("Product was created with id: " + product.getId());
         } catch (ConstraintViolationException e) {
+            logger.error("Error while creating product: " + e.getMessage());
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getConstraintViolations().iterator().next().getMessage());
         } catch (Exception e) {
+            logger.error("Error while creating product: " + e.getMessage());
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }
 
@@ -58,6 +65,7 @@ public class ProductEndpoint {
         try {
             product = productService.findProductById(Long.parseLong(productId));
         } catch (Exception e) {
+            logger.error("Error while getting product with id: " + productId + ": " + e.getMessage());
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
         return ResponseEntity.ok(product);
@@ -85,8 +93,9 @@ public class ProductEndpoint {
 
             //The current product is patched (updated) using the provided patch
             patchedProduct = productService.patchProduct(toBePatchedProduct, currentProduct);
-
+            logger.info("Product has been patched with id: " + patchedProduct.getId());
         } catch (Exception e) {
+            logger.error("Error while patching product with id: " + productId + ": " + e.getMessage());
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
         }
         return ResponseEntity.accepted().body(patchedProduct);
@@ -102,7 +111,9 @@ public class ProductEndpoint {
     public ResponseEntity<Void> deleteProduct(@PathVariable(value = "productId") String productId) {
         try {
             productService.deleteProduct(Long.parseLong(productId));
+            logger.info("Product deleted with id: " + productId);
         } catch (Exception e) {
+            logger.error("Error while deleting product with id: " + productId + ": " + e.getMessage());
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
         }
         return ResponseEntity.accepted().build();

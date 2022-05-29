@@ -1,8 +1,7 @@
 package ch.fhnw.palletpals.business.service;
 
+import ch.fhnw.palletpals.component.NullAwareBeanUtilsBean;
 import ch.fhnw.palletpals.data.domain.ShippingAddress;
-import ch.fhnw.palletpals.data.domain.User;
-import ch.fhnw.palletpals.data.domain.Warehouse;
 import ch.fhnw.palletpals.data.repository.AddressRepository;
 import org.asynchttpclient.*;
 import org.asynchttpclient.util.HttpConstants;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Service
 @Validated
@@ -21,6 +19,8 @@ public class AddressService {
 
     @Autowired
     private AddressRepository addressRepository;
+    @Autowired
+    private NullAwareBeanUtilsBean beanUtils = new NullAwareBeanUtilsBean();
     @Autowired
     private UserService userService;
 
@@ -58,33 +58,6 @@ public class AddressService {
 
     /**
      * Code by Daniel Locher
-     * @param userId
-     * @return
-     * @throws Exception
-     */
-    public ShippingAddress getAddressByUserId(Long userId) throws Exception{
-        try {
-            return addressRepository.findByUser(userService.getUserById(userId));
-        } catch (Exception e){
-            throw new Exception("Address not found");
-        }
-    }
-
-    /**
-     * Daniel Locher
-     * @param user
-     * @throws Exception
-     */
-    public void deleteAddressByUser(User user) throws Exception{
-        try {
-            addressRepository.deleteById(addressRepository.findByUser(user).getId());
-        } catch (Exception e){
-            throw new Exception("User address can't be deleted");
-        }
-    }
-
-    /**
-     * Code by Daniel Locher
      * Method to get coordinates out of full text addresses
      * Resources:
      * https://www.baeldung.com/async-http-client
@@ -113,6 +86,30 @@ public class AddressService {
             client.close();
         } catch (Exception e) {
             throw new Exception("Setting Coordinates failed");
+        }
+        return address;
+    }
+
+    public ShippingAddress patchAddress(ShippingAddress toBePatchedAddress, ShippingAddress currentAddress) throws Exception{
+        //Check if address exists
+        if (!addressRepository.findById(currentAddress.getId()).isPresent()){
+            throw new Exception("No Addresse found with id: " + currentAddress.getId());
+        }
+
+        //Bean utils will copy non null values from toBePatchedProduct to currentProduct. Null values will be ignored.
+        //This effectively means that the existing product object will be patched (updated)
+        beanUtils.copyProperties(currentAddress, toBePatchedAddress);
+
+        //After properties were successfully copied, coordinates will be updated for the new address
+        currentAddress = setCoordinates(currentAddress);
+
+        return addressRepository.save(currentAddress);
+    }
+
+    public ShippingAddress findAddressById(Long addressId) throws Exception{
+        ShippingAddress address = addressRepository.findShippingAddressById(addressId);
+        if (address == null){
+            throw new Exception("No address found with id: " + addressId);
         }
         return address;
     }

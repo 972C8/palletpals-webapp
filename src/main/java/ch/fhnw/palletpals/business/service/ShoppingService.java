@@ -1,5 +1,6 @@
 package ch.fhnw.palletpals.business.service;
 
+import ch.fhnw.palletpals.business.service.shoppingServices.ShippingCostService;
 import ch.fhnw.palletpals.component.NullAwareBeanUtilsBean;
 import ch.fhnw.palletpals.data.domain.Product;
 import ch.fhnw.palletpals.data.domain.User;
@@ -30,6 +31,9 @@ public class ShoppingService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ShippingCostService shippingCostService;
 
     @Autowired
     private NullAwareBeanUtilsBean beanUtils = new NullAwareBeanUtilsBean();
@@ -234,5 +238,10 @@ public class ShoppingService {
         } catch (Exception e) {
             throw new Exception("Could not reorder past order");
         }
+    }
+
+    public ShoppingSession saveShoppingSessionWithCosts() throws Exception{
+        ShoppingSession shoppingSession = getShoppingSessionOfCurrentUser();
+        return shoppingSessionRepository.save(shippingCostService.getShippingCosts(shoppingSession));
     }
 }

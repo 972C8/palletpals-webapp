@@ -7,6 +7,8 @@ package ch.fhnw.palletpals.api;
 
 import ch.fhnw.palletpals.business.service.ImageService;
 import ch.fhnw.palletpals.data.domain.image.ProductImage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -23,6 +25,8 @@ public class ProductImagesEndpoint {
     @Autowired
     private ImageService imageService;
 
+    Logger logger = LoggerFactory.getLogger(ProductImagesEndpoint.class);
+
     /**
      * Code by: Tibor Haller
      *
@@ -32,9 +36,10 @@ public class ProductImagesEndpoint {
     public ResponseEntity<ProductImage> postProductImage(@RequestParam(value = "image") MultipartFile image) {
         try {
             ProductImage item = imageService.saveProductImage(image);
-
+            logger.info("Product image saved with id: " + item.getId());
             return ResponseEntity.accepted().body(item);
         } catch (Exception e) {
+            logger.error("Error while saving product image: " + e.getMessage());
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
         }
     }
@@ -59,6 +64,7 @@ public class ProductImagesEndpoint {
                     .body(resource);
 
         } catch (Exception e) {
+            logger.error("Error while getting product image with id " + imageId + ": " + e.getMessage());
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
@@ -73,7 +79,9 @@ public class ProductImagesEndpoint {
     public ResponseEntity<Void> deleteProductImage(@PathVariable(value = "imageId") String imageId) {
         try {
             imageService.deleteImageById(Long.parseLong(imageId));
+            logger.info("Product image delted with id: " + imageId);
         } catch (Exception e) {
+            logger.error("Error while deleting product image with id " + imageId + ": " + e.getMessage());
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
         }
         return ResponseEntity.accepted().build();

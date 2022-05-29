@@ -5,6 +5,15 @@ import ch.fhnw.palletpals.data.domain.shopping.ShoppingSession;
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * Code by Daniel Locher
+ * A service provider delivers the order to the customer. In our scenario we expect multiple service providers with different price plans.
+ * Service provider has an id, a name, and a price table
+ * Because arrays can't be saved to relational databases (https://sebhastian.com/mysql-array/) the price plan table is saved as a json string
+ * The idea behind this is to offer a method to upload a csv file of a new or updated price plan in the front
+ * Out of this json string two arrays and one 2d array are built to get the price for a delivery
+ * (more detailed explained in the class ServiceProviderService)
+ */
 @Entity
 public class ServiceProvider {
 
