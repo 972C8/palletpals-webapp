@@ -13,7 +13,6 @@ import javax.persistence.Embeddable;
  */
 @Embeddable
 public class AddressItem {
-    //TODO: Handle empty variables
     private String firstName;
     private String lastName;
     private String organisationName;

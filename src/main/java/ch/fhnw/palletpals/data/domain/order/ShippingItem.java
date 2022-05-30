@@ -3,6 +3,7 @@ package ch.fhnw.palletpals.data.domain.order;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.Positive;
 
 /**
  * Code by: Tibor Haller
@@ -11,8 +12,7 @@ import javax.persistence.*;
 @DiscriminatorValue("SHIPPINGITEM")
 public class ShippingItem extends OrderItem {
 
-    //TODO: ShippingCost should be positive
-    //@Positive(message = "Please provide shipping costs")
+    @Positive(message = "Please provide shipping costs")
     private float shippingCost;
 
     @OneToOne(mappedBy = "shippingItem")

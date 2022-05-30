@@ -114,7 +114,7 @@ public class OrderService {
                 productItem.setQuantity(cartItem.getQuantity());
                 productItem.setPricePerUnit(cartItem.getPricePerUnit());
                 productItem.setProduct(cartItem.getProduct());
-                //TODO: setPalletSpace()
+                productItem.setPalletSpace(cartItem.getProduct().getMinPalletSpace());
 
                 if (productItem.getQuantity() == 0.0 || productItem.getPricePerUnit() == 0.0) {
                     throw new Exception("ProductItems cannot be empty");
@@ -139,7 +139,6 @@ public class OrderService {
         try {
             ShippingItem shippingItem = new ShippingItem();
 
-            //TODO: Define another name?
             shippingItem.setName("Shipping Cost");
             shippingItem.setShippingCost(shoppingSession.getShippingCost());
 

@@ -14,7 +14,6 @@ public class ShippingAddress {
     @GeneratedValue
     private Long id;
 
-    //TODO: Add NotEmpty tags for required information when creating the object
     private String firstName;
     private String lastName;
     private String organisationName;
