@@ -4,6 +4,7 @@ import ch.fhnw.palletpals.business.service.AddressService;
 import ch.fhnw.palletpals.business.service.UserService;
 import ch.fhnw.palletpals.data.domain.ShippingAddress;
 import ch.fhnw.palletpals.data.domain.User;
+import ch.fhnw.palletpals.data.domain.UserType;
 import ch.fhnw.palletpals.data.repository.AddressRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
@@ -111,5 +112,20 @@ public class UserEndpoint {
     @RequestMapping(value = "/validate", method = {RequestMethod.GET, RequestMethod.HEAD})
     public ResponseEntity<Void> init() {
         return ResponseEntity.ok().build();
+    }
+
+    /**
+     * Code by Daniel Locher
+     * To enable/disable admin functionalities in the front end
+     * @return
+     */
+    @GetMapping(value = "/validateAdmin")
+    public ResponseEntity<Void> adminCheck(){
+        User currentUser = userService.getCurrentUser();
+        if (currentUser.getRole()== UserType.Admin){
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
     }
 }
