@@ -2,74 +2,58 @@
   <img src="./images/bucket_logo.svg" width="600" />
 </p>
 <p align="center">  
-  Manage your bucket list in a modern web experience.<br>
-  <a href="#introduction">Introduction</a> | <a href="https://github.com/mahgoh/bucket-frontend">Frontend Development</a> | <a href="https://bucket-webapp.herokuapp.com">Demo</a>
+  PLACEHOLDER.<br>
+  <a href="#introduction">Introduction</a> | <a href="https://github.com/mahgoh/palletpals-client">Frontend Development</a>
 </p>
 
 # PalletPals Webapp
 
 The PalletPals webapp was developed as a part of the IT-Project module of the Business Information Technology study programme at FHNW by Daniel Locher ([@dantheman625](https://github.com/dantheman625)) Tibor Haller ([@972C8](https://github.com/972C8)), and Marco Kaufmann ([@mahgoh](https://github.com/mahgoh)). The app XXXX
 
-The project was developed in two repositories: [bucket-webapp](https://github.com/972C8/bucket-webapp) and [bucket-frontend](https://github.com/mahgoh/bucket-frontend). `bucket-webapp` contains the main application and the final web application. The frontend was developed in the repository `bucket-frontend`, using a custom HTML bundler - more information about the bundler can be found in the repository.
+The project was developed in two repositories: [palletpals-webapp](https://github.com/972C8/palletpals-webapp) and [palletpals-client](https://github.com/mahgoh/palletpals-client). `bucket-webapp` contains the main application and the final web application. The frontend was developed in the repository `palletpals-client` - more information can be found in the repository.
 
 ## Introduction
+TEXT?
 
 #### Contents:
 
-- [Analysis](#analysis)
-  - [Scenario](#scenario)
-  - [Requirements](#requirements)
-  - [User Stories](#user-stories)
+- [Requirements](#requirements)
   - [Use Case](#use-case)
+  - [Non-Functional Requirements](#non-functional-requirements)
+  - [Mockups](#mockups)
 - [Design](#design)
-  - [Prototype Design](#prototype-design)
-  - [Domain Design](#domain-design)
+  - [Class Diagram](#class-diagram)
+  - [Database Design](#database-design)
+  - [Sequence Diagram](#sequence-diagram)
   - [Endpoint Design](#endpoint-design)
 - [Implementation](#implementation)
   - [Backend Technology](#backend-technology)
   - [Frontend Technology](#frontend-technology)
-- [Deployment](#deployment)
 - [User Guide](#user-guide)
 - [Project Management](#project-management)
   - [Roles](#roles)
   - [Milestones](#milestones)
 
-## Analysis
-
-### Scenario
-
-### Requirements
-
-**Functional Requirements**
-
-**Non-Functional Requirements**
-
-- example
-
-### User Stories
-
-1. As a [user], I want to have a web app so that I can use it on different mobile devices and on desktop computers.
-
-In addition to the minimal generic user stories, the following user stories were defined:
-
-1. As a [user], I want to view a timeline of achieved BLI so that I can get an overview of my past achievements.
+## Requirements
 
 ### Use Case
 
-<img src="images/Use-case_BucketWebapp.PNG" width="800">
+The detailed requirements are found in PalletPals_Phase1_Requirements.pdf at XY.
 
-- UC-1 [Login on bucket-webapp]: Customers can log-in by entering an email address and password. As an extension, new customers may register first.
-- UC-2 [Register on bucket-webapp]: Customers can register to get an account (profile) to access the bucket-webapp.
+ADD THE USE CASE OVERVIEWS HERE, BUT NOT THE DETAILED USE CASES TABLES
 
-UPDATE!!!
+### Non-Functional Requirements
+
+### Mockups
 
 ## Design
 
-### Prototype Design
-Mockups
-
-### Domain design
+### Class Diagram
 Class Diagram, etc.
+
+### Database Design
+
+### Sequence Diagram
 
 ### Endpoint Design
 
@@ -90,7 +74,7 @@ Give an overview of the webapp
 
 ### Roles
 
-- Backend: Daniel Locher & Tibor Haller 
+- Backend: Daniel Locher & Tibor Haller
 - Frontend: Marco Kaufmann
 - Conceptual: All
 
