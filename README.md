@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./images/bucket_logo.svg" width="600" />
+  <img src="./documents/bucket_logo.svg" width="600" />
 </p>
 <p align="center">  
   PLACEHOLDER.<br>
@@ -49,7 +49,6 @@ ADD THE USE CASE OVERVIEWS HERE, BUT NOT THE DETAILED USE CASES TABLES
 ## Design
 
 ### Class Diagram
-Class Diagram, etc.
 
 ### Database Design
 
