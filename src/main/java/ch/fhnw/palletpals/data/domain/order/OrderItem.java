@@ -27,7 +27,6 @@ public abstract class OrderItem {
     @GeneratedValue
     private Long id;
 
-    //TODO: What is the purpose of name?
     private String name;
 
     public OrderItem() {
