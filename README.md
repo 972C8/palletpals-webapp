@@ -78,6 +78,10 @@ The Postman API Platform was used for the endpoint design and during the impleme
 
 Please check out our endpoint design at https://documenter.getpostman.com/view/17679206/Uz5AseV9 for a user-friendly web-view of the API.
 
+In addition, the overview of the available api requests is attached below as an image to ensure availability of the resource in the future.
+
+![Postman Endpoint Design](documents/PalletPals_Postman_RequestsOverview.png)
+
 ## Implementation
 
 ### Backend
