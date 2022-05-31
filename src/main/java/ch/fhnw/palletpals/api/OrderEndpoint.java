@@ -84,6 +84,6 @@ public class OrderEndpoint {
      */
     @GetMapping(path = "/orders", produces = "application/json")
     public List<UserOrder> getUserOrders() {
-        return orderService.findAllUserOrders();
+        return orderService.findAllUserOrdersNewestFirst();
     }
 }
