@@ -1,5 +1,6 @@
 package ch.fhnw.palletpals.business.service.shoppingServices;
 
+import ch.fhnw.palletpals.data.domain.shopping.CartItem;
 import ch.fhnw.palletpals.data.domain.shopping.ShoppingSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,11 +31,23 @@ public class ShippingCostService {
         shoppingSession = palletSpaceService.setPalletSpace(shoppingSession);
         //Calculate shipping costs
         shoppingSession = serviceProviderService.setCheapestShipment(shoppingSession);
+        //Calculate total cost
+        shoppingSession = calculateTotalCost(shoppingSession);
 
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
 
+        return shoppingSession;
+    }
+
+    private ShoppingSession calculateTotalCost(ShoppingSession shoppingSession) {
+        float totalCost = shoppingSession.getTotalCost();
+        for (CartItem cartItem: shoppingSession.getShoppingCart()){
+            totalCost+=cartItem.getQuantity()*cartItem.getPricePerUnit();
+        }
+        totalCost+=shoppingSession.getShippingCost();
+        shoppingSession.setTotalCost(totalCost);
         return shoppingSession;
     }
 

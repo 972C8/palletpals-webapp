@@ -118,12 +118,17 @@ public class ServiceProviderService {
         } catch (Exception e){
             throw new Exception(e.getMessage());
         }
-        //TODO out of bound exception
         //get index of km of pallet
         while (km>kmArray.get(kmIndex)){
+            //Handling out of bound error
+            if (kmIndex==kmArray.size()-1)
+                break;
             kmIndex++;
         }
         while (palletSpace>palletArray.get(palletIndex)){
+            //Handling out of bound error
+            if (palletIndex==palletArray.size()-1)
+                break;
             palletIndex++;
         }
         return priceMatrix.get(kmIndex).get(palletIndex);
