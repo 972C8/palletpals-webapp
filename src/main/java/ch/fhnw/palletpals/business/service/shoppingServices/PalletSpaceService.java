@@ -26,7 +26,14 @@ public class PalletSpaceService {
         double usedPallets = 0;
         int index;
 
-        List<CartItem> cartItems = shoppingSession.getShoppingCart();
+        //Copy the cartitems of shopping cart into a new array because else we get an error while committing the transaction
+        List<CartItem> cartItems = new ArrayList<>();
+        for (CartItem cartItem:shoppingSession.getShoppingCart()){
+            CartItem copyOfCartItem = new CartItem();
+            copyOfCartItem.setQuantity(cartItem.getQuantity());
+            copyOfCartItem.setProduct(cartItem.getProduct());
+            cartItems.add(copyOfCartItem);
+        }
 
         try {
             //Sort out full pallet spaces

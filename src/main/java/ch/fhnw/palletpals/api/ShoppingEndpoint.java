@@ -42,6 +42,7 @@ public class ShoppingEndpoint {
     @PostMapping(path = "/shopping", consumes = "application/json", produces = "application/json")
     public ResponseEntity<CartItem> postCartItem(@RequestBody CartItem cartItem) {
         try {
+            shoppingService.shoppingCheck();
             cartItem = shoppingService.saveCartItem(cartItem);
             logger.info("Cart item saved with id: " + cartItem.getId());
             ShoppingSession shoppingSession = shoppingService.saveShoppingSessionWithCosts();

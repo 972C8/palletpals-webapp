@@ -118,6 +118,7 @@ public class ServiceProviderService {
         } catch (Exception e){
             throw new Exception(e.getMessage());
         }
+        //TODO out of bound exception
         //get index of km of pallet
         while (km>kmArray.get(kmIndex)){
             kmIndex++;
