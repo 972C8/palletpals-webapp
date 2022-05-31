@@ -169,12 +169,12 @@ public class OrderService {
     /**
      * Code by: Tibor Haller
      * <p>
-     * Return list of all orders of the current user.
+     * Return list of all orders of the current user, ordered by the id DESC, meaning that the newest orders are returned first.
      *
      * @return
      */
-    public List<UserOrder> findAllUserOrders() {
-        return orderRepository.findAll();
+    public List<UserOrder> findAllUserOrdersNewestFirst() {
+        return orderRepository.findAllByOrderByIdDesc();
     }
 
 }
