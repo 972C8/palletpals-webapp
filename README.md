@@ -86,11 +86,42 @@ In addition, the overview of the available api requests is found in the [documen
 
 ## Implementation
 
-### Backend
+### Backend Technology
 
-The following documentation shall highlight certain key functionalities.
+The backend was initially based on a fork of https://github.com/DigiPR/acrm-webapp. The following excerpt is copied from acrm-webapp and explains the main project dependencies:
 
-#### Product
+#### Dependencies according to the ACRM fork:
+
+This Web application is relying on [Spring Boot](https://projects.spring.io/spring-boot) and the following dependencies:
+
+- [Spring Boot](https://projects.spring.io/spring-boot)
+- [Spring Web](https://docs.spring.io/spring/docs/current/spring-framework-reference/web.html)
+- [Spring Data](https://projects.spring.io/spring-data)
+- [Java Persistence API (JPA)](http://www.oracle.com/technetwork/java/javaee/tech/persistence-jsp-140049.html)
+- [H2 Database Engine](https://www.h2database.com)
+- [PostgreSQL](https://www.postgresql.org)
+
+To bootstrap the application, the [Spring Initializr](https://start.spring.io/) has been used.
+
+### Backend Implementation
+
+The following documentation shall highlight certain key functionalities implemented in the backend.
+
+#### Support of Product Images (using Inheritance)
+
+To improve the user's experience, product images can be created and added to products. One product can have zero or multiple product images.
+
+The class ProductImage extends AbstractImage, which holds the main attributes relevant to images (such as fileName, fileType and fileUrl). Using this approach, future extension of the webapp to support other image types is easily supported.
+
+##### Single table inheritance and discriminator
+The image implementation uses single table inheritance and a discriminator column.
+This effectively means that only a single table is created in the database (although there are more classes) and that the discriminator is used to determine which class the particular row belongs to.
+More information is found at https://en.wikibooks.org/wiki/Java_Persistence/Inheritance#Single_Table_Inheritance
+
+##### Storing of Images
+Images are stored in the directory "/uploads" and a database entry is created for the ProductImage, which holds the relevant information (fileName, fileType, fileUrl). When a GET request is sent, the entry is retrieved from the database and the image is taken from the file system using this information.
+
+In a real world, the service could be further improved by storing images directly in an external cloud storage instead of in the project directory.
 
 #### ShoppingSession
 
