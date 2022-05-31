@@ -42,7 +42,7 @@ public class ShippingCostService {
     }
 
     private ShoppingSession calculateTotalCost(ShoppingSession shoppingSession) {
-        float totalCost = shoppingSession.getTotalCost();
+        float totalCost = 0;
         for (CartItem cartItem: shoppingSession.getShoppingCart()){
             totalCost+=cartItem.getQuantity()*cartItem.getPricePerUnit();
         }
