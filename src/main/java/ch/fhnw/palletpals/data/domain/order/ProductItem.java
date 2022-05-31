@@ -21,7 +21,7 @@ public class ProductItem extends OrderItem {
     private float pricePerUnit;
     @Positive(message = "Please provide a quantity")
     private int quantity;
-    //TODO: Add minimum requirement?
+    @Positive(message = "Please provide minPalletSpace for the product.")
     private float palletSpace;
 
     /**
