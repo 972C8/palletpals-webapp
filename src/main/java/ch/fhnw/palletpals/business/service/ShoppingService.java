@@ -9,6 +9,8 @@ import ch.fhnw.palletpals.data.domain.order.UserOrder;
 import ch.fhnw.palletpals.data.domain.shopping.CartItem;
 import ch.fhnw.palletpals.data.domain.shopping.ShoppingSession;
 import ch.fhnw.palletpals.data.repository.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -41,6 +43,8 @@ public class ShoppingService {
 
     @Autowired
     private NullAwareBeanUtilsBean beanUtils = new NullAwareBeanUtilsBean();
+
+    Logger logger = LoggerFactory.getLogger(ShoppingService.class);
 
     /**
      * Code by: Tibor Haller
@@ -202,6 +206,7 @@ public class ShoppingService {
     public void resetShoppingSessionOfCurrentUser() {
         User currentUser = userService.getCurrentUser();
         shoppingSessionRepository.delete(currentUser.getShoppingSession());
+        logger.info("Shopping session deleted of user: " + currentUser.getId());
     }
 
 
@@ -227,7 +232,7 @@ public class ShoppingService {
                 saveCartItem(cartItem);
             }
 
-            return getDistinctShoppingSessionOfCurrentUser();
+            return saveShoppingSessionWithCosts();
         } catch (Exception e) {
             throw new Exception("Could not reorder past order");
         }

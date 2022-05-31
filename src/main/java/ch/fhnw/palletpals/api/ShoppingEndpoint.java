@@ -71,11 +71,12 @@ public class ShoppingEndpoint {
     public ResponseEntity<ShoppingSession> addPastOrderToShoppingSession(@PathVariable(value = "orderId") String orderId) {
         try {
             UserOrder pastOrder = orderService.findOrderById(Long.parseLong(orderId));
-
+            logger.info("Reorder intialized of order with id: " + pastOrder.getId());
             ShoppingSession shoppingSession = shoppingService.addPastOrderToShoppingSession(pastOrder);
-
+            logger.info("Products from order " + pastOrder.getId() + " added to shopping session with id: " + shoppingSession.getId());
             return ResponseEntity.ok(shoppingSession);
         } catch (Exception e) {
+            logger.error("Error while reordering: " + e.getMessage());
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }

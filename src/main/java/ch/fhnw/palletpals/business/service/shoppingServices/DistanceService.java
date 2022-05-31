@@ -35,7 +35,7 @@ public class DistanceService {
             shoppingSession = getDistancesInKm(shoppingSession);
         } catch (Exception e){
             //Permit server to continue running if DistanceService experiences an issue while calculating the distance
-            System.out.println("DistanceService.java experienced an issue:" + e.getMessage());
+            throw new Exception("DistanceService.java experienced an issue:" + e.getMessage());
         }
         return shoppingSession;
     }
