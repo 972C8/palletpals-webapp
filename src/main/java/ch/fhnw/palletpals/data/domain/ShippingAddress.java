@@ -1,6 +1,7 @@
 package ch.fhnw.palletpals.data.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 
 /**
  * Code by Daniel Locher
@@ -17,9 +18,12 @@ public class ShippingAddress {
     private String firstName;
     private String lastName;
     private String organisationName;
-    private String street;
     private String premise;
+    @NotEmpty(message = "Please provide a street for the shipping address")
+    private String street;
+    @NotEmpty(message = "Please provide a city for the shipping address")
     private String city;
+    @NotEmpty(message = "Please provide a postal code for the shipping address")
     private String postalCode;
     private String country;
     private String lat;
