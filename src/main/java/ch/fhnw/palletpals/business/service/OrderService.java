@@ -50,7 +50,7 @@ public class OrderService {
      */
     public UserOrder createOrderFromShoppingSession() throws Exception {
         try {
-            ShoppingSession shoppingSession = shoppingService.getShoppingSessionOfCurrentUser();
+            ShoppingSession shoppingSession = shoppingService.getDistinctShoppingSessionOfCurrentUser();
 
             if (shoppingSession == null || shoppingSession.getShoppingCart().isEmpty()) {
                 throw new Exception("Current user has no valid shopping session.");

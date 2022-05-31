@@ -73,6 +73,7 @@ public class DataGeneratorDev {
         userUser.setEmail("user@user.com");
         userUser.setPassword("password");
         userUser.setUserName("user");
+        userUser.setAccessCode("testKey69");
         ShippingAddress demoUserAddress = new ShippingAddress();
         demoUserAddress.setFirstName("Hans");
         demoUserAddress.setLastName("Peter");

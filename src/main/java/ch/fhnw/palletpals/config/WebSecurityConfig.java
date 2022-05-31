@@ -5,6 +5,7 @@
 
 package ch.fhnw.palletpals.config;
 
+import ch.fhnw.palletpals.data.domain.UserType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -51,7 +52,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .disable()
             .authorizeRequests()
                 .antMatchers("/", "/assets/**", LOGIN_URL, LOGOUT_URL, "/api/user/register").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/products/**", "/api/product-images/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/products/**", "/api/product-images/**", "/api/validateAdmin", "/api/validate").permitAll()
+                .antMatchers("/api/profile", "/api/orders/**", "/api/shopping/**").hasRole(UserType.USER.toString())
+                .antMatchers("/api/profile", "/api/orders/**", "/api/shopping/**").hasRole(UserType.Admin.toString())
+                .antMatchers("/api/products/**", "/api/product-images/**", "/api/serviceproviders/**", "/api/warehouses/**").hasRole(UserType.Admin.toString())
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(new TokenLoginFilter(authenticationManagerBean(), tokenService, LOGIN_URL))

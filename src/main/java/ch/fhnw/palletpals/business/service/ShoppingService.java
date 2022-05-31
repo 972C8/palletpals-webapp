@@ -8,9 +8,7 @@ import ch.fhnw.palletpals.data.domain.order.ProductItem;
 import ch.fhnw.palletpals.data.domain.order.UserOrder;
 import ch.fhnw.palletpals.data.domain.shopping.CartItem;
 import ch.fhnw.palletpals.data.domain.shopping.ShoppingSession;
-import ch.fhnw.palletpals.data.repository.CartItemRepository;
-import ch.fhnw.palletpals.data.repository.ProductRepository;
-import ch.fhnw.palletpals.data.repository.ShoppingSessionRepository;
+import ch.fhnw.palletpals.data.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -30,6 +28,12 @@ public class ShoppingService {
     private ShoppingSessionRepository shoppingSessionRepository;
 
     @Autowired
+    private WarehouseRepository warehouseRepository;
+
+    @Autowired
+    private ServiceProviderRepository serviceProviderRepository;
+
+    @Autowired
     private UserService userService;
 
     @Autowired
@@ -45,6 +49,7 @@ public class ShoppingService {
      * @return the saved CartItem
      * @throws Exception
      */
+
     public CartItem saveCartItem(@Valid CartItem cartItem) throws Exception {
         try {
             if (cartItem.getProduct() == null) {
@@ -192,18 +197,6 @@ public class ShoppingService {
     /**
      * Code by: Tibor Haller
      * <p>
-     * Returns the current user's shopping session
-     *
-     * @return ShoppingSession or null if no shopping session exists yet.
-     */
-    public ShoppingSession getShoppingSessionOfCurrentUser() {
-        User currentUser = userService.getCurrentUser();
-        return shoppingSessionRepository.findByUserId(currentUser.getId());
-    }
-
-    /**
-     * Code by: Tibor Haller
-     * <p>
      * Reset the current user's shopping session. Used after successful order submission
      */
     public void resetShoppingSessionOfCurrentUser() {
@@ -241,7 +234,14 @@ public class ShoppingService {
     }
 
     public ShoppingSession saveShoppingSessionWithCosts() throws Exception{
-        ShoppingSession shoppingSession = getShoppingSessionOfCurrentUser();
+        ShoppingSession shoppingSession = getDistinctShoppingSessionOfCurrentUser();
         return shoppingSessionRepository.save(shippingCostService.getShippingCosts(shoppingSession));
+    }
+
+    public void shoppingCheck() throws Exception{
+        if (serviceProviderRepository.findAll().size()==0)
+            throw new Exception("No active service provider");
+        if (warehouseRepository.findAll().size()==0)
+            throw new Exception("No active warehouse");
     }
 }

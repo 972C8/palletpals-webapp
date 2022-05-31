@@ -68,7 +68,7 @@ public class UserService {
     public User patchUser(User toBePatchedUser) throws Exception{
         User currentUser = getCurrentUser();
         beanUtils.copyProperties(currentUser, toBePatchedUser);
-        return userRepository.save(currentUser);
+        return saveUser(currentUser);
     }
 
     public void deleteUser(Long userId){
