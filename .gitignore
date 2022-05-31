@@ -34,3 +34,6 @@ export/
 
 ### Folder for uploaded images
 /uploads
+
+### log file ###
+palletpals.log
