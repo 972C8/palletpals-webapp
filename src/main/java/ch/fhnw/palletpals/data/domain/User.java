@@ -18,7 +18,6 @@ public class User {
 	@Id
 	@GeneratedValue
 	private Long id;
-	@JsonIgnore
 	private String accessCode;
 	@NotEmpty(message = "Please provide a name.")
 	private String userName;
