@@ -124,8 +124,26 @@ Images are stored in the directory "/uploads" and a database entry is created fo
 In a real world, the service could be further improved by storing images directly in an external cloud storage instead of in the project directory.
 
 #### ShoppingSession
+The shopping session provides a user with a shopping cart that includes the individual products to be ordered and the calculated costs, such as shipping costs. It is preserved for users even if they log out.
+
+The shopping session holds a shopping cart consisting of CartItems. CartItems represent the ordered Product, thus having a reference to the product with quantity specified by the user.
+
+When users submit an order, the shopping session is used as the basis to create the order based on the ordered products and quantities.
 
 #### UserOrder
+Orders are central to the webapp and represent a snapshot of the user's order of products and quantities.
+
+A UserOrder represents a finalized submitted order by a user that takes the shopping session to calculate (shipping) costs based on the ordered products and quantities, using ServiceProvider and Warehouse.
+
+A UserOrder references other classes to represent a complete user order.
+
+##### OrderItem
+An abstract class OrderItem is used to represent the data relevant for orders. Both ProductItem and ShippingItem extend the abstract class OrderItem. An abstract class is used to support further extension of the functionality to hold different data relevant for orders.
+First off, one UserOrder can hold one or multiple ProductItems that each represent one ordered product together with the specified ordered quantitiy. Furthermore, one UserOrder references one ShippingItem, which holds the calculated shipping costs.
+
+##### AddressItem
+In addition to this reference, an order must also hold the current address of the user that the shipment is sent to. In order to ensure that the address is correct, it is not possible to use a simple reference, because if a user changed his address at a later point, the shipment would reference the new, possibly wrong address.
+Therefore, the class AddressItem is used and referenced by UserOrder to represent a snapshot of the address that the shipment should be sent to.
 
 #### DAN -> Warehouse/serviceprovider/calculation?
 
