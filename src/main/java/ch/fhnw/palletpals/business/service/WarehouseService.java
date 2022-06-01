@@ -25,7 +25,6 @@ public class WarehouseService {
      * @param warehouse
      * @return
      */
-    //TODO check if warehouse/address already exists relevant?
     public Warehouse saveWarehouse(@Valid Warehouse warehouse) throws Exception{
         try {
             warehouse = warehouseRepository.save(warehouse);
