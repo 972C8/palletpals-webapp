@@ -37,3 +37,4 @@ export/
 
 ### log file ###
 palletpals.log
+palletpals.log.*
