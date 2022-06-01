@@ -10,11 +10,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.configurationprocessor.json.JSONArray;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -63,6 +66,20 @@ public class UserEndpoint {
         } catch (Exception e) {
             logger.error("Error while saving new user: " + e.getMessage());
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
+        }
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping(value = "/newPassword", consumes = "application/json")
+    public ResponseEntity<Void> postPassword(@RequestBody String passwords) {
+        try {
+            JSONObject jsonObject = new JSONObject(passwords);
+            JSONArray passwordArray = jsonObject.getJSONArray("passwords");
+            User user = userService.patchPassword(passwordArray.getString(1), passwordArray.getString(0));
+            logger.info("User changed password with id: " + user.getId());
+        } catch (Exception e){
+            logger.error("Error while changing password: " + e.getMessage());
+            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }
         return ResponseEntity.ok().build();
     }

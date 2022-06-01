@@ -40,12 +40,14 @@ public class UserService {
         } else if (userRepository.findByEmailAndIdNot(user.getEmail(), user.getId()) != null) {
             throw new Exception("Email address " + user.getEmail() + " already assigned another user.");
         }
-        if (user.getAccessCode()==null){
-            user.setRole(UserType.USER);
-        } else if (user.getAccessCode().equals(AdminKey.adminKey)){
-            user.setRole(UserType.Admin);
-        } else {
-            user.setRole(UserType.USER);
+        if (user.getRole()==null){
+            if (user.getAccessCode()==null){
+                user.setRole(UserType.USER);
+            } else if (user.getAccessCode().equals(AdminKey.adminKey)){
+                user.setRole(UserType.Admin);
+            } else {
+                user.setRole(UserType.USER);
+            }
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -68,7 +70,17 @@ public class UserService {
     public User patchUser(User toBePatchedUser) throws Exception{
         User currentUser = getCurrentUser();
         beanUtils.copyProperties(currentUser, toBePatchedUser);
-        return saveUser(currentUser);
+        return userRepository.save(currentUser);
+    }
+
+    public User patchPassword(String newPassword, String oldPassword) throws Exception{
+        User currenUser = getCurrentUser();
+        if (passwordEncoder.matches(oldPassword, currenUser.getPassword())){
+            currenUser.setPassword(newPassword);
+            return saveUser(currenUser);
+        } else {
+            throw new Exception("Password does not match");
+        }
     }
 
     public void deleteUser(Long userId){
