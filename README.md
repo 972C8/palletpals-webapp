@@ -135,7 +135,7 @@ Orders are central to the webapp and represent a snapshot of the user's order of
 
 A UserOrder represents a finalized submitted order by a user that takes the shopping session to calculate (shipping) costs based on the ordered products and quantities, using ServiceProvider and Warehouse.
 
-A UserOrder references other classes to represent a complete user order.
+A UserOrder references other classes to represent a complete user order. When a user submits a new order, the current shopping session with references is translated into a snapshot, represented by a UserOrder, that includes all relevant classes, such as ProductItem, ShippingItem, and AddressItem. Users can view their orders using the provided order history, with all details.
 
 ##### OrderItem
 An abstract class OrderItem is used to represent the data relevant for orders. Both ProductItem and ShippingItem extend the abstract class OrderItem. An abstract class is used to support further extension of the functionality to hold different data relevant for orders.
