@@ -14,6 +14,7 @@ The project was developed in two repositories: [palletpals-webapp](https://githu
 The api endpoints were designed with the help of Postman. The API design can be found at: https://documenter.getpostman.com/view/17679206/Uz5AseV9.
 
 ## Introduction
+
 TEXT?
 
 The content is structured based on the project milestones, more concretely the three main phases of "defining and documenting the requirements", "technical design", and "implementation".
@@ -48,7 +49,12 @@ ADD THE USE CASE OVERVIEWS HERE, BUT NOT THE DETAILED USE CASES TABLES
 ### Non-Functional Requirements
 
 ### Mockups
-Mockups was part of phase 1 requirements
+
+For each use case, a mockup was created in phase 1. In phase 3, these mockups served as guidance for creating the visual appearance of the frontend. Furthermore, they helped to make sure that the defined requirements for the backend and the communication protocol were sufficient to achieve the desired user interface. Below, the mockup for the use case `104 - View user data` shows the general layout that the profile page shall have.
+
+![UC104 - Mockup](./documents/mockups/Mockup-104.png)
+
+Mockups for all use cases can be found in [`documents/mockups`](./documents/mockups/).
 
 ## Design
 
@@ -75,6 +81,14 @@ As our goal is to exceed the basic requirements, we plan to develop a more holis
 ### Database Design
 
 ### Sequence Diagram
+
+Sequence diagrams were created to provide information about the communication between the frontend and the backend. Interaction happens via HTTP requests made by the frontend. The backend only responds to request and never makes a request to the frontend by itself (Client-Server Architecture).
+
+For each use case, a sequence diagram was created in phase 2 of the project. These diagrams served as guidance during phase 3 for both the frontend and the backend. For example, in the use case of `304 - Edit shopping cart`, communication happens as follows:
+
+![UC304 - Sequence Diagram](./documents/sequence-diagrams/304.png)
+
+Sequence diagrams for all other use cases can be found in the directory [`documents/sequence-diagrams`](./documents/sequence-diagrams/).
 
 ### Endpoint Design
 
@@ -114,16 +128,19 @@ To improve the user's experience, product images can be created and added to pro
 The class ProductImage extends AbstractImage, which holds the main attributes relevant to images (such as fileName, fileType and fileUrl). Using this approach, future extension of the webapp to support other image types is easily supported.
 
 ##### Single table inheritance and discriminator
+
 The image implementation uses single table inheritance and a discriminator column.
 This effectively means that only a single table is created in the database (although there are more classes) and that the discriminator is used to determine which class the particular row belongs to.
 More information is found at https://en.wikibooks.org/wiki/Java_Persistence/Inheritance#Single_Table_Inheritance
 
 ##### Storing of Images
+
 Images are stored in the directory "/uploads" and a database entry is created for the ProductImage, which holds the relevant information (fileName, fileType, fileUrl). When a GET request is sent, the entry is retrieved from the database and the image is taken from the file system using this information.
 
 In a real world, the service could be further improved by storing images directly in an external cloud storage instead of in the project directory.
 
 #### ShoppingSession
+
 The shopping session provides a user with a shopping cart that includes the individual products to be ordered and the calculated costs, such as shipping costs. It is preserved for users even if they log out.
 
 The shopping session holds a shopping cart consisting of CartItems. CartItems represent the ordered Product, thus having a reference to the product with quantity specified by the user.
@@ -131,6 +148,7 @@ The shopping session holds a shopping cart consisting of CartItems. CartItems re
 When users submit an order, the shopping session is used as the basis to create the order based on the ordered products and quantities.
 
 #### UserOrder
+
 Orders are central to the webapp and represent a snapshot of the user's order of products and quantities.
 
 A UserOrder represents a finalized submitted order by a user that takes the shopping session to calculate (shipping) costs based on the ordered products and quantities, using ServiceProvider and Warehouse.
@@ -138,10 +156,12 @@ A UserOrder represents a finalized submitted order by a user that takes the shop
 A UserOrder references other classes to represent a complete user order. When a user submits a new order, the current shopping session with references is translated into a snapshot, represented by a UserOrder, that includes all relevant classes, such as ProductItem, ShippingItem, and AddressItem. Users can view their orders using the provided order history, with all details.
 
 ##### OrderItem
+
 An abstract class OrderItem is used to represent the data relevant for orders. Both ProductItem and ShippingItem extend the abstract class OrderItem. An abstract class is used to support further extension of the functionality to hold different data relevant for orders.
 First off, one UserOrder can hold one or multiple ProductItems that each represent one ordered product together with the specified ordered quantitiy. Furthermore, one UserOrder references one ShippingItem, which holds the calculated shipping costs.
 
 ##### AddressItem
+
 In addition to this reference, an order must also hold the current address of the user that the shipment is sent to. In order to ensure that the address is correct, it is not possible to use a simple reference, because if a user changed his address at a later point, the shipment would reference the new, possibly wrong address.
 Therefore, the class AddressItem is used and referenced by UserOrder to represent a snapshot of the address that the shipment should be sent to.
 
@@ -149,7 +169,43 @@ Therefore, the class AddressItem is used and referenced by UserOrder to represen
 
 ### Frontend
 
+The frontend was developed in a separate [repository](https://github.com/mahgoh/palletpals-client) using [React](https://reactjs.org) as a framework, [Tailwind CSS](https://tailwindcss.com) for styling, [Vite](https://vitejs.dev) for frontend tooling, and [Vitest](https://vitest.dev) as testing framework. Instructions on how to develop, build, and test the frontend can be found in the separate repository. During development, a reverse-proxy is required to simulate an environment with one domain to fully support the usage of authentication Cookies. As a result, a basic reverse-proxy **p3** was setup using [Go](https://go.dev) and is part of the frontend repository as well.
+
+#### Main Dependencies
+
+- **[React](https://reactjs.org)**: Framework
+- **[React Router](https://reactrouter.com)**: Client-side routing
+- **[Tailwind CSS](https://tailwindcss.com)**: Appearance
+- **[Vite](https://vitejs.dev)**: Frontend tooling
+- **[Vitest](https://vitest.dev)**: Test framework
+- **[i18next](https://www.i18next.com)**: Internationalisation
+
+The full list of all dependencies can be found by looking at the `package.json` file.
+
+### Frontend Implementation
+
+The application is built using React and React Router. This enables a component-based approach that allows a fast and great developer experience, and improves to extendability in comparison to static HTML files. Furthermore, the backend and frontend operate independently and are interchangebly.
+
+- **React** makes interacting and manipulating DOM elements easy. _Hooks_ provide an easy way to manage state and events during the application lifecycle. _Contexts_ provide a simple way to share state across the application (e.g. authentication state).
+- **React Router** enables client-side routing without hard page reloads, resulting in a better user experience.
+- **Component-based approach** allows reusing components at different locations in the application.
+- Browser **built-in APIs** like Fetch allow to easily make request to the backend.
+- **i18next** enables a simple-to-curate translation service that is easily extendible.
+
+#### Visual Appearance
+
+The power of utility classes in CSS, especially, when working in a team is incredible. We use [Tailwind CSS](https://tailwindcss.com) to make use of this and ensure a great collaboration and maintainability in the future. This means that we did not write a single line of CSS but used utility classes instead. This promises to lead to a more consistent visual appearance and easier collaboration and maintenance. To learn more about this approach and it's benefits read the [article](https://adamwathan.me/css-utility-classes-and-separation-of-concerns/) by Adam Wathan the creator of Tailwind CSS.
+
+Thanks to the component-based approach, the use of utility classes makes even more sense. Otherwise, there would be the chance that we'd had to rewrite the same elements over and over. If they have many utility classes, this can result in a loss of clarity. With the use of components, the readability is improved a lot and the utility classes describe precisely the appearance of the element.
+
+Thanks to the Tailwind CSS JIT compiler and the frontend tooling of Vite, all used classes are generated just-in-time during development. Finally, when the project is built, a CSS bundle with only the used classes is created.
+
+#### Bundling
+
+During development, Vite performs Hot Module Replacement (HMR) and loads the individual modules directly, for a fast developer experience. Finally, when building for deployment, Vite (or rather Rollup) bundles the code into static assets. By default, this results in a single HTML file along with a JS bundle, a CSS bundle, and potential assets. The JS, CSS, and asset files are hashed to overcome Browser caching when something as changed. These static files are then served by the backend.
+
 ## User Guide
+
 Give an overview of the webapp
 
 ## Project Management
