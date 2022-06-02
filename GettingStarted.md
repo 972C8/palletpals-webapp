@@ -42,11 +42,11 @@ password: **password**
 To register as an administrator an access key is needed. The key is: **testKey69**  
 The access code should be entered on the registration page  
 
-![AccesCode](documents/AccessCodeAdmin.png)
+![AccesCode](documents/images/AccessCodeAdmin.png)
 ###Admin dashboard
 In order to manage all related content in the online shop, admins have access to a dedicated dashboard that can be found on top in the 
 menu bar. This is the starting point for all admin-related functions.
-![AdminDashboard](documents/MenuBarAdmin.png)
+![AdminDashboard](documents/images/MenuBarAdmin.png)
 ###Warehouses
 The admin has the possibility to create, update, and delete warehouses and their addresses. When the system calculates the shipping
 costs, it will calculate the distance from all warehouses to the address of the client, in regard to find the nearest
@@ -58,7 +58,7 @@ languages.
 The same priciple follows for service providers, that can be created, updated, and deleted. One functionality that 
 needs further explanation, is the upload of a price plan form a service provider. When existing service providers issue new 
 price plans, or a new service provider is registered to PalletPals, their price plan can be uploaded as a csv file. Please find our
-[CSV](documents/AlternativePricePlan.csv) file with an alternative price plan, and feel free to create a second service provider. Our system will always 
+[CSV](documents/priceplan/AlternativePricePlan.csv) file with an alternative price plan, and feel free to create a second service provider. Our system will always 
 choose the cheaper service provider when assigning orders.
 
 
