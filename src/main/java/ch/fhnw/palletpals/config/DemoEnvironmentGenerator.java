@@ -130,7 +130,7 @@ public class DemoEnvironmentGenerator {
         product3.setDescription_fr("Le produit 3 est notre produit le plus réussi et les clients du monde entier obtiennent des résultats parfaits avec le produit 3.");
         product3.setDetails("Height: 50, Width: 90, Lenght: 50, Power: 200W");
         product3.setDetails_de("Höhe: 50, Breite: 90, Länge: 50, Leistung: 200W");
-        product3.setDescription_fr("Hauteur: 50, Largeur: 90, Longueur: 50, Puissance: 200W");
+        product3.setDetails_fr("Hauteur: 50, Largeur: 90, Longueur: 50, Puissance: 200W");
         product3.setPrice((float) 84.95);
         product3.setMaxProducts(15);
         product3.setMinPalletSpace((float) 2.5);
