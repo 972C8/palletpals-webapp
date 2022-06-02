@@ -8,14 +8,12 @@
 
 # PalletPals Webapp
 
-The PalletPals webapp was developed as a part of the IT-Project module of the Business Information Technology study programme at FHNW by Daniel Locher ([@dantheman625](https://github.com/dantheman625)) Tibor Haller ([@972C8](https://github.com/972C8)), and Marco Kaufmann ([@mahgoh](https://github.com/mahgoh)). The app XXXX
+The PalletPals webapp was developed as a part of the IT-Project module of the Business Information Technology study programme at FHNW by Daniel Locher ([@dantheman625](https://github.com/dantheman625)) Tibor Haller ([@972C8](https://github.com/972C8)), and Marco Kaufmann ([@mahgoh](https://github.com/mahgoh)).
 
 The project was developed in two repositories: [palletpals-webapp](https://github.com/972C8/palletpals-webapp) and [palletpals-client](https://github.com/mahgoh/palletpals-client). `palletpals-webapp` contains the main application and the final web application. The frontend was developed in the repository `palletpals-client` - more information can be found in the repository.
 The api endpoints were designed with the help of Postman. The API design can be found at: https://documenter.getpostman.com/view/17679206/Uz5AseV9.
 
 ## Introduction
-
-TEXT?
 
 The content is structured based on the project milestones, more concretely the three main phases of "defining and documenting the requirements", "technical design", and "implementation".
 
@@ -32,6 +30,7 @@ The content is structured based on the project milestones, more concretely the t
   - [Endpoint Design](#endpoint-design)
 - [Implementation](#implementation)
   - [Backend Technology](#backend-technology)
+  - [Backend Implementation](#backend-implementation)
   - [Frontend Technology](#frontend-technology)
 - [User Guide](#user-guide)
 - [Project Management](#project-management)
@@ -42,11 +41,11 @@ The content is structured based on the project milestones, more concretely the t
 
 ### Use Case
 
-The detailed requirements are found in PalletPals_Phase1_Requirements.pdf at XY.
+In phase 1 requirements, the necessary use cases were created as a basis for the implementation. As an example serves the overview of the use cases relevant to the shopping cart, which is one of the key functionalities.
 
-ADD THE USE CASE OVERVIEWS HERE, BUT NOT THE DETAILED USE CASES TABLES
+![UC 300 - Shopping Cart](./documents/images/Usecase_300_ShoppingCart_Overview.png)
 
-### Non-Functional Requirements
+All use cases can be found in [`/documents/deliverables/PalletPals_Phase1_Requirements.pdf`](documents/deliverables/PalletPals_Phase1_Requirements.pdf).
 
 ### Mockups
 
