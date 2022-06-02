@@ -174,7 +174,7 @@ public class OrderService {
      * @return
      */
     public List<UserOrder> findAllUserOrdersNewestFirst() {
-        return orderRepository.findAllByOrderByIdDesc();
+        return orderRepository.findAllByUserIdOrderByIdDesc(userService.getCurrentUser().getId());
     }
 
 }

@@ -1,5 +1,6 @@
 spring:
   profiles:
+    #use demo as the active profile to generate demo data (DemoEnvironmentGenerator.java)
     active: demo
   jpa:
     open-in-view: false
