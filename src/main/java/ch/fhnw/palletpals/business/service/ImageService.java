@@ -29,7 +29,6 @@ import org.springframework.web.multipart.MultipartFile;
 public class ImageService {
     @Autowired
     private ProductImageRepository productImageRepository;
-    //TODO logger
 
     public final static Path root = Paths.get("uploads");
 
