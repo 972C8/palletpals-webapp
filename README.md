@@ -50,7 +50,11 @@ ADD THE USE CASE OVERVIEWS HERE, BUT NOT THE DETAILED USE CASES TABLES
 
 ### Mockups
 
-Mockups was part of phase 1 requirements
+For each use case, a mockup was created in phase 1. In phase 3, these mockups served as guidance for creating the visual appearance of the frontend. Furthermore, they helped to make sure that the defined requirements for the backend and the communication protocol were sufficient to achieve the desired user interface. Below, the mockup for the use case `104 - View user data` shows the general layout that the profile page shall have.
+
+![UC104 - Mockup](./documents/mockups/Mockup-104.png)
+
+Mockups for all use cases can be found in [`documents/mockups`](./documents/mockups/).
 
 ## Design
 
@@ -84,7 +88,7 @@ For each use case, a sequence diagram was created in phase 2 of the project. The
 
 ![UC304 - Sequence Diagram](./documents/sequence-diagrams/304.png)
 
-Sequence diagrams for all other use cases can be found in the directory `documents/sequence-diagrams`.
+Sequence diagrams for all other use cases can be found in the directory [`documents/sequence-diagrams`](./documents/sequence-diagrams/).
 
 ### Endpoint Design
 
