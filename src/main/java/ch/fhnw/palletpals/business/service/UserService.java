@@ -73,6 +73,15 @@ public class UserService {
         return userRepository.save(currentUser);
     }
 
+    /**
+     * Code by Daniel Locher
+     * To change the password a user needs to provide the current password and the new password.
+     * If the provided current password matches the current saved password, the new password is saved.
+     * @param newPassword
+     * @param oldPassword
+     * @return
+     * @throws Exception
+     */
     public User patchPassword(String newPassword, String oldPassword) throws Exception{
         User currenUser = getCurrentUser();
         if (passwordEncoder.matches(oldPassword, currenUser.getPassword())){
