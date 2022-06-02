@@ -1,16 +1,22 @@
 package ch.fhnw.palletpals.config;
 
-import ch.fhnw.palletpals.business.service.AddressService;
-import ch.fhnw.palletpals.business.service.ProductService;
-import ch.fhnw.palletpals.business.service.UserService;
-import ch.fhnw.palletpals.business.service.WarehouseService;
+import ch.fhnw.palletpals.business.service.*;
 import ch.fhnw.palletpals.business.service.shoppingServices.ServiceProviderService;
 import ch.fhnw.palletpals.data.domain.*;
+import ch.fhnw.palletpals.data.domain.image.ProductImage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.List;
 
 @Profile("demo")
 @Configuration
@@ -26,6 +32,8 @@ public class DemoEnvironmentGenerator {
     private WarehouseService warehouseService;
     @Autowired
     private ProductService productService;
+    @Autowired
+    private ImageService imageService;
 
     User demoAdmin;
     Warehouse demoWarehouse;
@@ -35,12 +43,20 @@ public class DemoEnvironmentGenerator {
     Product product2;
     Product product3;
     Product product4;
+    ProductImage im1p1;
+    ProductImage im1p2;
+    ProductImage im2p2;
+    ProductImage im1p3;
+    ProductImage im2p3;
+    ProductImage im3p3;
+    ProductImage im1p4;
 
     @PostConstruct
     private void init() throws Exception{
         demoUser();
         demoWarehouse();
         demoServiceProvider();
+        demoImages();
         demoproducts();
     }
 
@@ -96,6 +112,37 @@ public class DemoEnvironmentGenerator {
 
     }
 
+    private void demoImages() throws Exception{
+        im1p1 = createFile("documents/images/product1/sufyan-RzAzxkHFy1s-unsplash.jpg");
+        im1p2 = createFile("documents/images/product2/generator-g8d4bcd07a_1920.png");
+        im2p2 = createFile("documents/images/product2/generator-g1458534b9_1920.png");
+        im1p3 = createFile("documents/images/product3/jackery-power-station-czFRckykwYc-unsplash.jpg");
+        im2p3 = createFile("documents/images/product3/jackery-power-station-YWwdljlQfUM-unsplash.jpg");
+        im3p3 = createFile("documents/images/product3/jackery-power-station-zkHTPAFt5-k-unsplash.jpg");
+        im1p4 = createFile("documents/images/product4/raychan-KGqif07slUY-unsplash.jpg");
+    }
+
+    private ProductImage createFile(String resourcePath) throws Exception{
+        ProductImage savedImage = null;
+        try {
+            Path path = Paths.get(resourcePath);
+            String name = "file.txt";
+            String originalFileName = "file.txt";
+            String contentType = "text/plain";
+            byte[] content = null;
+            try {
+                content = Files.readAllBytes(path);
+            } catch (final IOException e) {
+            }
+            MultipartFile result = new MockMultipartFile(name,
+                    originalFileName, contentType, content);
+            savedImage = imageService.saveProductImage(result);
+        } catch (Exception e){
+            throw new Exception("Failed to save: " + resourcePath);
+        }
+        return savedImage;
+    }
+
     private void demoproducts() throws Exception{
         product1 = new Product();
         product1.setName("Product 1");
@@ -108,6 +155,8 @@ public class DemoEnvironmentGenerator {
         product1.setPrice((float) 149.95);
         product1.setMaxProducts(25);
         product1.setMinPalletSpace((float) 1.2);
+        List<ProductImage> p1images = Arrays.asList(im1p1);
+        product1.setProductImages(p1images);
         product1 = productService.saveProduct(product1);
 
         product2 = new Product();
@@ -121,6 +170,8 @@ public class DemoEnvironmentGenerator {
         product2.setPrice((float) 249.95);
         product2.setMaxProducts(10);
         product2.setMinPalletSpace((float) 2);
+        List<ProductImage> p2images = Arrays.asList(im1p2, im2p2);
+        product2.setProductImages(p2images);
         product2 = productService.saveProduct(product2);
 
         product3 = new Product();
@@ -134,6 +185,8 @@ public class DemoEnvironmentGenerator {
         product3.setPrice((float) 84.95);
         product3.setMaxProducts(15);
         product3.setMinPalletSpace((float) 2.5);
+        List<ProductImage> p3images = Arrays.asList(im1p3,im2p3,im3p3);
+        product3.setProductImages(p3images);
         product3 = productService.saveProduct(product3);
 
         product4 = new Product();
@@ -147,6 +200,8 @@ public class DemoEnvironmentGenerator {
         product4.setPrice((float) 199.95);
         product4.setMaxProducts(100);
         product4.setMinPalletSpace((float) 0.8);
+        List<ProductImage> p4images = Arrays.asList(im1p4);
+        product4.setProductImages(p4images);
         product4 = productService.saveProduct(product4);
     }
 }

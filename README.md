@@ -1,8 +1,7 @@
 <p align="center">
-  <img src="./documents/bucket_logo.svg" width="600" />
+  <img src="documents/images/Logo.png" width="200" />
 </p>
-<p align="center">  
-  PLACEHOLDER.<br>
+<p align="center">
   <a href="#introduction">Introduction</a> | <a href="https://github.com/mahgoh/palletpals-client">Frontend Development</a>
 </p>
 
@@ -164,7 +163,9 @@ First off, one UserOrder can hold one or multiple ProductItems that each represe
 In addition to this reference, an order must also hold the current address of the user that the shipment is sent to. In order to ensure that the address is correct, it is not possible to use a simple reference, because if a user changed his address at a later point, the shipment would reference the new, possibly wrong address.
 Therefore, the class AddressItem is used and referenced by UserOrder to represent a snapshot of the address that the shipment should be sent to.
 
-#### DAN -> Warehouse/serviceprovider/calculation?
+#### Shipping cost calculation
+
+
 
 ### Frontend
 
