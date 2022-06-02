@@ -149,8 +149,10 @@ public class ServiceProviderService {
             JSONObject jsonObject = new JSONObject(serviceProvider.getJSONString());
             JSONArray jsonArray = new JSONArray(jsonObject.getString("kmArray"));
             for(int i = 0; i<jsonArray.length(); i++){
-                String string = jsonArray.getString(i);
-                kmArray.add(Integer.parseInt(string));
+                if (!jsonArray.getString(i).equals("null")){
+                    String string = jsonArray.getString(i);
+                    kmArray.add(Integer.parseInt(string));
+                }
             }
         } catch (Exception e){
             throw new Exception("Can't build KM array");
@@ -172,8 +174,10 @@ public class ServiceProviderService {
             JSONObject jsonObject = new JSONObject(serviceProvider.getJSONString());
             JSONArray jsonArray = new JSONArray(jsonObject.getString("palletArray"));
             for(int i = 0; i<jsonArray.length(); i++){
-                String string = jsonArray.getString(i);
-                palletArray.add(Integer.parseInt(string));
+                if (!jsonArray.getString(i).equals("null")) {
+                    String string = jsonArray.getString(i);
+                    palletArray.add(Integer.parseInt(string));
+                }
             }
         } catch (Exception e){
             throw new Exception("Can't build Pallet array");
@@ -195,16 +199,20 @@ public class ServiceProviderService {
             JSONObject jsonObject = new JSONObject(serviceProvider.getJSONString());
             JSONArray jsonArray = new JSONArray(jsonObject.getString("priceMatrix"));
             for(int i = 0; i<jsonArray.length(); i++){
-                JSONArray priceArray = jsonArray.getJSONArray(i);
-                ArrayList<Float> prices = new ArrayList<>();
-                for(int index = 0; index<priceArray.length(); index++){
-                    String string = priceArray.getString(index);
-                    prices.add(Float.parseFloat(string));
+                if (!jsonArray.getString(i).equals("null")){
+                    JSONArray priceArray = jsonArray.getJSONArray(i);
+                    ArrayList<Float> prices = new ArrayList<>();
+                    for(int index = 0; index<priceArray.length(); index++){
+                        if (!priceArray.getString(index).equals("null")){
+                            String string = priceArray.getString(index);
+                            prices.add(Float.parseFloat(string));
+                        }
+                    }
+                    priceMatrix.add(prices);
                 }
-                priceMatrix.add(prices);
             }
         } catch (Exception e){
-            throw new Exception("Can't build Pallet array");
+            throw new Exception("Can't build price matrix");
         }
         return priceMatrix;
     }
