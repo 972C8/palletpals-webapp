@@ -78,6 +78,14 @@ As our goal is to exceed the basic requirements, we plan to develop a more holis
 
 ### Sequence Diagram
 
+Sequence diagrams were created to provide information about the communication between the frontend and the backend. Interaction happens via HTTP requests made by the frontend. The backend only responds to request and never makes a request to the frontend by itself (Client-Server Architecture).
+
+For each use case, a sequence diagram was created in phase 2 of the project. These diagrams served as guidance during phase 3 for both the frontend and the backend. For example, in the use case of `304 - Edit shopping cart`, communication happens as follows:
+
+![UC304 - Sequence Diagram](./documents/sequence-diagrams/304.png)
+
+Sequence diagrams for all other use cases can be found in the directory `documents/sequence-diagrams`.
+
 ### Endpoint Design
 
 The Postman API Platform was used for the endpoint design and during the implementation of the backend. Using Postman allowed us to create the API collaboratively and efficiently thanks to a synchronized workflow. Furthermore, Postman also allowed us to create the API documentation through an out-of-the-box, user-friendly, web-view of the API.
