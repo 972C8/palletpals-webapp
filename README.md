@@ -12,6 +12,10 @@ The PalletPals webapp was developed as a part of the IT-Project module of the Bu
 The project was developed in two repositories: [palletpals-webapp](https://github.com/972C8/palletpals-webapp) and [palletpals-client](https://github.com/mahgoh/palletpals-client). `palletpals-webapp` contains the main application and the final web application. The frontend was developed in the repository `palletpals-client` - more information can be found in the repository.
 The api endpoints were designed with the help of Postman. The API design can be found at: https://documenter.getpostman.com/view/17679206/Uz5AseV9.
 
+The purpose of this README file is to provide a thorough description of the system with all its components. 
+If you seek to receive information about how to use the system or need help with certain functionalities, please conduct
+the [Getting Started Guide](/GettingStarted.md).
+
 ## Introduction
 
 The content is structured based on the project milestones, more concretely the three main phases of "defining and documenting the requirements", "technical design", and "implementation".
@@ -163,7 +167,35 @@ First off, one UserOrder can hold one or multiple ProductItems that each represe
 In addition to this reference, an order must also hold the current address of the user that the shipment is sent to. In order to ensure that the address is correct, it is not possible to use a simple reference, because if a user changed his address at a later point, the shipment would reference the new, possibly wrong address.
 Therefore, the class AddressItem is used and referenced by UserOrder to represent a snapshot of the address that the shipment should be sent to.
 
-#### Shipping cost calculation
+#### Service Provider
+
+In a real application, service providers would pick the order and deliver it. Our idea was that in a real life scenario, these
+service providers would have Excel sheets for their price plans. Therefore, we implemented an easy way to implement these price plans,
+without much manual work. Now, an admin is able to upload a .csv file through the front end. The system will save it as a json String,
+and whenever the price plan needs to be accessed, the system will build arrays out of the string. 
+
+#### Rapid API
+
+The system calls external API's during two use cases. First, whenever a new address is saved, or an 
+existing one is updated, Our system calls [TrueWay Geocoding API](https://rapidapi.com/trueway/api/trueway-geocoding/) 
+to get exact coordinates of the address. These coordinates will be used later on, when the distance 
+between warehouses and the client address is calculated. To get the distances, our system calls [TrueWay Matrix API](https://rapidapi.com/trueway/api/trueway-matrix/).
+
+#### Shipping Cost Calculation
+
+Whenever a shopping session is saved, shipping costs are always calculated. This calculation is executed 
+in three steps.  
+First, the system retrieves distances from all warehouses to the client address. The warehouse
+with the shortest distance will be linked to the shopping session and the distance is saved.  
+Afterward, the required pallet space is 
+calculated. Whatever number of pallet is required is rounded up to the next full integer and is saved in the shopping session. 
+Last but no least, with the distance and pallets required our system retrieves shipping costs form all service providers according to 
+their price plain.  
+Eventually, the service provider with the cheapest rate will be linked to the shopping session and the shipping
+costs are saved. 
+
+
+
 
 
 

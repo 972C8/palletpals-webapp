@@ -5,7 +5,9 @@ This getting started guide outlines the most important features for normal users
 [README](README.md) file. This deployed version automatically 
 creates a demo environment that contains four products, two warehouses, and one service provider. The four demo products share 
 exactly the same attributes as the four products from the requirements presentation. Same goes for the demo service provider
-that shares the same price plan as the one provided via moodle. Therefore, you can register and start shopping right away!
+that shares the same price plan as the one provided via moodle. If this is not the case, please make sure 
+that the demo profile is selected in the [configuration](src/main/resources/application.yml) file.  
+Therefore, you can register and start shopping right away!
 
 For more detailed information on functionalities the following two section will go through the most important use cases for
 users and admins.
