@@ -122,6 +122,13 @@ public class DemoEnvironmentGenerator {
         im1p4 = createFile("documents/images/product4/raychan-KGqif07slUY-unsplash.jpg");
     }
 
+    /**
+     * Code by Daniel Locher
+     * https://stackoverflow.com/questions/16648549/converting-file-to-multipartfile
+     * @param resourcePath
+     * @return
+     * @throws Exception
+     */
     private ProductImage createFile(String resourcePath) throws Exception{
         ProductImage savedImage = null;
         try {
