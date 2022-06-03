@@ -2,7 +2,7 @@
   <img src="documents/images/Logo.png" width="200" />
 </p>
 <p align="center">
-  <a href="#introduction">Introduction</a> | <a href="./GettingStarted.md">Getting Started Guide</a> | <a href="https://github.com/mahgoh/palletpals-client">Frontend Development</a>
+  <a href="#introduction">Introduction</a> | <a href="./GettingStarted.md">Getting Started Guide</a> | <a href="#feature-list">Feature List</a> | <a href="https://github.com/mahgoh/palletpals-client">Frontend Development</a>
 </p>
 
 # PalletPals Webapp
@@ -39,6 +39,37 @@ The content is structured based on the project milestones, more concretely the t
 - [Project Management](#project-management)
   - [Roles](#roles)
   - [Milestones](#milestones)
+
+## Feature List
+In addition to the **minimal requirements**, the following features were implemented
+
+* Good user interface with client-side validation, attractive appearance, and responsive design
+  
+* Multilingual support for 3 languages (english, german, french)
+
+* Appearance of web app can be changed (light, dark, system)
+
+* Multiple warehouse locations
+
+* Multiple shipping service providers
+
+* Administrator role
+
+* Admin dashboard to create, update or delete warehouses, service providers and products (e.g. edit description, prices, etc.)
+
+* Shopping cart for users with overview of products to be ordered and shipping costs
+
+* Users can submit orders through the shopping cart
+
+* Order history provides users with an overview of the past orders
+
+* Product images can be uploaded for products to further improve the web shop appearance to users
+
+* Users can edit their profile (e.g. change their shipping address, e-mail, or password)
+
+* Interaction with external API to calculate shipping distance from warehouse to user's shipping address to calculate the shipping costs.
+
+* Server logging
 
 ## Requirements
 
