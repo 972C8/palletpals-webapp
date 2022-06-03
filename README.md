@@ -2,7 +2,7 @@
   <img src="documents/images/Logo.png" width="200" />
 </p>
 <p align="center">
-  <a href="#introduction">Introduction</a> | <a href="https://github.com/mahgoh/palletpals-client">Frontend Development</a>
+  <a href="#introduction">Introduction</a> | <a href="./GettingStarted.md">Getting Started Guide</a> | <a href="https://github.com/mahgoh/palletpals-client">Frontend Development</a>
 </p>
 
 # PalletPals Webapp
