@@ -1,7 +1,7 @@
 # Getting started with PalletPals
 
 This getting started guide outlines the most important features for normal users and admins. For more detailed and technical description, please see our
-[README](README.md) file. This deployed version automatically
+[README](README.md) file. The homepage of PalletPals can be accessed through the browser under: **localhost:8080**. This deployed version automatically
 creates a demo environment that contains four products, two warehouses, and one service provider. The four demo products share
 exactly the same attributes as the four products from the requirements presentation. Same goes for the demo service provider
 that shares the same price plan as the one provided via moodle. If this is not the case, please make sure
