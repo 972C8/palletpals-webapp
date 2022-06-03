@@ -194,7 +194,11 @@ their price plain.
 Eventually, the service provider with the cheapest rate will be linked to the shopping session and the shipping
 costs are saved. 
 
-
+#### Logger
+This application uses the embedded SLF4J logger from Spring Boot. Throughout all Endpoints the system logs
+activities when data is saved or altered. Also error messages are logged. Log messages are displayed in the 
+console and additionally they are saved in a [log file](palletpals.log). Info, Warning, and Error messages are
+considered. The rest will not be saved to the log file.
 
 
 
